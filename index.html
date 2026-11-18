@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>English with Anya — interactive textbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#2D3A33;--muted:#5E6E65;--line:#E4EEE8}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--ink);background:#FBFAF6;
+  background-image:radial-gradient(rgba(120,140,130,.14) 1.2px,transparent 1.2px);background-size:22px 22px}
+h1,h2,h3{font-family:'Fredoka',system-ui,sans-serif;font-weight:600;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 18px 60px}
+.cover{background:linear-gradient(135deg,#FBE1E9 0%,#D7F0E1 100%);border-radius:28px;padding:30px 28px;display:flex;gap:22px;align-items:center;flex-wrap:wrap;box-shadow:0 6px 0 #CDE5D6}
+.cover .book{font-size:84px;line-height:1}
+.cover h1{font-size:40px;color:#2E7D57}
+.cover p{margin:6px 0 0;font-size:18px;color:var(--muted)}
+.progress{margin-top:12px;display:flex;align-items:center;gap:10px;font-weight:800;color:#B44A70}
+.bar{flex:1;min-width:160px;max-width:320px;height:14px;border-radius:999px;background:#fff;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#F4BCCD,#B4E0C6)}
+h2.sec{margin:30px 4px 12px;font-size:24px;color:#B44A70}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.lesson{display:flex;gap:14px;align-items:center;background:#fff;border:2px solid var(--line);border-radius:22px;padding:16px;text-decoration:none;color:inherit;position:relative;transition:transform .15s,box-shadow .15s}
+a.lesson:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(0,0,0,.08)}
+.lesson .ic{flex:none;width:70px;height:70px;border-radius:20px;display:grid;place-items:center;font-size:38px;background:var(--c)}
+.lesson .num{font-size:13px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.lesson h3{font-size:20px;line-height:1.2;margin:2px 0 4px}
+.lesson .gr{font-size:15px;color:var(--muted)}
+.tag{position:absolute;top:12px;right:12px;font-size:12px;font-weight:800;border-radius:999px;padding:2px 10px}
+.tag.open{background:#2E7D57;color:#fff}
+.tag.soon{background:#F1F1EE;color:#8A8F8C}
+.lesson.locked{opacity:.62}
+.lesson.locked .ic{filter:grayscale(.5)}
+.note{margin-top:30px;background:#fff;border:2px dashed #F4BCCD;border-radius:20px;padding:16px 20px;color:var(--muted);font-size:16px}
+.note b{color:var(--ink)}
+footer{margin-top:24px;text-align:center;color:var(--muted);font-size:14px}
+@media (max-width:560px){.cover h1{font-size:30px}.cover .book{font-size:60px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="cover">
+    <div class="book">📚</div>
+    <div>
+      <h1>English with Anya</h1>
+      <p>Interactive textbook · 5th grade · A1–A2</p>
+      <p>Інтерактивний підручник: 9 занять з граматики 4 класу. Обирай урок і натискай!</p>
+      <div class="progress"><span id="pText"></span><div class="bar"><i id="pBar"></i></div></div>
+    </div>
+  </div>
+
+  <h2 class="sec">🌱 Lessons / Уроки</h2>
+  <div class="grid" id="grid"></div>
+
+  <div class="note">💡 <b>Як працювати:</b> відкрий урок, гортай сторінки кнопкою <b>Next ▶</b> або номерами вгорі. Озвучення 🔊 працює в будь-якому браузері — Chrome, Safari, Edge. Найзручніше на комп'ютері або планшеті.</div>
+  <footer>🌸 Made with love for my students</footer>
+</div>
+<script>
+/* Щоб відкрити новий урок: завантаж його файл у репозиторій і впиши назву файлу в поле file. */
+const LESSONS=[
+ {n:1,icon:'🌳',c:'#D7F0E1',title:'What are you doing now?',gr:'Present Continuous',file:'lesson-01-present-continuous.html'},
+ {n:2,icon:'⏰',c:'#FFF1C9',title:'Every day or right now?',gr:'Present Simple vs Present Continuous',file:''},
+ {n:3,icon:'🛏️',c:'#DCEFFB',title:"There's a cat under my bed",gr:'there is / there are, some / any',file:''},
+ {n:4,icon:'🏊',c:'#EAE2F8',title:"I can swim, but I mustn't run here",gr:"can / can't, must / mustn't",file:''},
+ {n:5,icon:'🐘',c:'#FBE1E9',title:'Bigger, faster, better',gr:'Comparatives',file:''},
+ {n:6,icon:'🐋',c:'#D7F0E1',title:'The biggest animal in the world',gr:'Superlatives',file:''},
+ {n:7,icon:'🕵️',c:'#FFF1C9',title:'Where were you yesterday?',gr:'Past Simple: was / were',file:''},
+ {n:8,icon:'⚽',c:'#DCEFFB',title:'I played football and went to the park',gr:'Past Simple: -ed + irregular verbs',file:''},
+ {n:9,icon:'🗝️',c:'#EAE2F8',title:'Grammar Quest',gr:'Review of all topics',file:''}];
+const open=LESSONS.filter(l=>l.file).length;
+document.getElementById('pText').textContent=`${open} / ${LESSONS.length} lessons open`;
+document.getElementById('pBar').style.width=Math.round(open/LESSONS.length*100)+'%';
+document.getElementById('grid').innerHTML=LESSONS.map(l=>{
+  const inner=`<span class="ic" style="--c:${l.c}">${l.icon}</span><span><span class="num">Lesson ${l.n}</span><h3>${l.title}</h3><span class="gr">${l.gr}</span></span><span class="tag ${l.file?'open':'soon'}">${l.file?'Open ▶':'Soon'}</span>`;
+  return l.file?`<a class="lesson" href="${l.file}">${inner}</a>`:`<div class="lesson locked">${inner}</div>`}).join('');
+</script>
+</body>
+</html>
