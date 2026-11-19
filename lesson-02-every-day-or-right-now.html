@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Every day or right now?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Lexend:wght@400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFF8EA; --card:#FFFFFF; --ink:#22313F; --muted:#5F6B76;
+  --sun:#FFE7A8; --sun2:#F7C95C; --orange:#F08A3E; --orange2:#C9611B;
+  --teal:#1F7A8C; --teal2:#2E95A8; --tealL:#D5EFF3; --tealL2:#A9DCE5;
+  --berry:#9C3D6E; --berryL:#F6DCE8; --lilac:#ECE5FB; --line:#F1E3C4;
+  --ok:#1F7A5A; --bad:#C2453B;
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Lexend',system-ui,sans-serif;font-size:18px;line-height:1.5;background-color:var(--bg);
+  background-image:radial-gradient(rgba(240,138,62,.16) 1.6px,transparent 1.6px);background-size:24px 24px}
+h1,h2,h3{font-family:'Baloo 2',system-ui,sans-serif;margin:0;font-weight:700}
+button,select,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+/* header */
+header{position:sticky;top:0;z-index:20;background:var(--teal);padding:10px 16px;border-bottom:5px solid var(--sun2)}
+.bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;max-width:1120px;margin:0 auto}
+.bar h1{font-size:27px;flex:1;min-width:220px;color:#fff;letter-spacing:.01em}
+.hb{border:0;border-radius:12px;padding:7px 14px;background:#fff;color:var(--teal);font-weight:600;font-size:15px;box-shadow:0 3px 0 #135866;text-decoration:none}
+.hb:hover{background:var(--sun)}
+#sunBox{background:var(--sun2);color:#5B3A00;box-shadow:0 3px 0 var(--orange2)}
+#sunBox.bump{animation:bump .4s}
+@keyframes bump{50%{transform:scale(1.22) rotate(6deg)}}
+nav#pills{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;max-width:1120px;margin:10px auto 0}
+nav#pills button{min-width:40px;height:40px;border-radius:12px;border:2px solid rgba(255,255,255,.5);background:transparent;color:#fff;font-weight:700;font-size:15px}
+nav#pills button.done{background:var(--tealL2);color:var(--teal);border-color:var(--tealL2)}
+nav#pills button.on{background:var(--sun2);color:#5B3A00;border-color:var(--sun2);transform:translateY(-2px)}
+/* main */
+main{max-width:1120px;margin:0 auto;padding:18px 16px 120px}
+.page{display:none;animation:fade .35s}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:16px 20px;margin-bottom:16px;box-shadow:0 5px 0 #F3DDB0}
+.head{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(120deg,#fff 55%,var(--sun) 100%)}
+.pnum{flex:none;width:56px;height:56px;border-radius:16px;background:var(--orange);color:#fff;display:grid;place-items:center;font-family:'Baloo 2';font-size:30px;font-weight:800;transform:rotate(-6deg);box-shadow:3px 3px 0 var(--orange2)}
+.head h2{font-size:28px;line-height:1.2;color:var(--teal)}
+.uk{color:var(--muted);font-size:16px;margin:4px 0 0}
+.uk::before{content:'🇺🇦 '}
+.ukx{color:var(--muted);font-size:16px}
+.skills{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+.skills span{font-size:13px;background:var(--tealL);color:var(--teal);border-radius:8px;padding:3px 10px;font-weight:600}
+.fact{background:#fff;border:3px solid var(--sun2);border-radius:20px;padding:12px 16px;margin:14px 0;display:flex;gap:12px;align-items:center;box-shadow:5px 5px 0 var(--sun)}
+.fact b.t{font-family:'Baloo 2';font-weight:800;color:var(--orange2);font-size:20px}
+.say{border:0;background:var(--tealL);border-radius:50%;width:38px;height:38px;font-size:17px;flex:none;vertical-align:middle}
+.say:hover{background:var(--tealL2)}
+.btn{border:0;border-radius:14px;padding:10px 18px;font-weight:700;background:var(--teal);color:#fff;box-shadow:0 4px 0 #135866}
+.btn:active{transform:translateY(2px);box-shadow:none}
+.btn.alt{background:var(--tealL);color:var(--teal);box-shadow:0 4px 0 var(--tealL2)}
+.btn.or{background:var(--orange);box-shadow:0 4px 0 var(--orange2)}
+.btn.berry{background:var(--berry);box-shadow:0 4px 0 #6B2349}
+.btn.small{padding:5px 12px;font-size:15px}
+.btn[disabled]{opacity:.45;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row.c{justify-content:center}
+.big{font-size:22px}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.counter{font-family:'Baloo 2';font-size:19px;font-weight:700;background:var(--orange);color:#fff;border-radius:10px;padding:3px 14px;display:inline-block}
+.foot{position:fixed;left:0;right:0;bottom:0;background:rgba(255,248,234,.97);border-top:4px solid var(--sun2);padding:10px 16px;z-index:15}
+.foot .in{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.foot .btn{font-size:20px;padding:12px 26px}
+#pageLabel{font-weight:600;color:var(--teal);text-align:center;font-size:15px}
+h3.t{color:var(--orange2);margin-bottom:6px;font-size:22px}
+.cando{list-style:none;padding:0;margin:0}
+.cando li{margin:8px 0}
+.cando li::before{content:'☀️ '}
+.frames{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.frames span{background:var(--tealL);border-radius:10px;padding:5px 12px;font-weight:600;color:var(--teal);font-size:16px}
+.frames span.o{background:var(--sun);color:#7A4A00}
+.hand{font-family:'Patrick Hand',cursive;font-size:24px}
+/* ===== mood corkboard ===== */
+.cork{border-radius:22px;padding:20px 16px 24px;border:12px solid #9A6A3A;box-shadow:inset 0 0 0 3px #7A4F25,0 5px 0 #F3DDB0;
+  background-color:#D8A86E;background-image:radial-gradient(rgba(120,70,20,.25) 1.5px,transparent 1.6px),radial-gradient(rgba(255,240,210,.35) 1px,transparent 1.2px);background-size:13px 13px,17px 17px;background-position:0 0,6px 8px}
+.sticky{width:min(400px,92%);margin:0 auto 22px;background:#FFE680;padding:14px 18px;text-align:center;font-family:'Patrick Hand',cursive;font-size:32px;color:#3A2E10;transform:rotate(-2deg);box-shadow:3px 6px 10px rgba(0,0,0,.25);position:relative}
+.sticky::before,.polaroid::before{content:'';position:absolute;top:-9px;left:50%;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FF8A80,#C62828);box-shadow:1px 2px 2px rgba(0,0,0,.35)}
+.mboard{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:24px 16px}
+.polaroid{position:relative;border:0;background:#fff;padding:10px 10px 6px;display:flex;flex-direction:column;align-items:center;transform:rotate(var(--r));box-shadow:2px 5px 10px rgba(0,0,0,.28);transition:transform .2s}
+.polaroid:hover{transform:rotate(0) scale(1.06);z-index:2}
+.polaroid .ph{width:118px;height:104px;background:var(--bgc);display:grid;place-items:center;position:relative}
+.polaroid .e{font-size:66px;line-height:1}
+.polaroid .pr{position:absolute;right:4px;bottom:2px;font-size:30px}
+.polaroid .cap{font-family:'Patrick Hand',cursive;font-size:23px;line-height:1.1;margin-top:6px;min-height:26px;color:#2B2B2B}
+.polaroid .ukm{font-size:14px;color:var(--berry);font-weight:600;visibility:hidden;min-height:20px}
+.polaroid.open .ukm{visibility:visible}
+.polaroid.chosen{box-shadow:0 0 0 5px var(--orange),2px 5px 10px rgba(0,0,0,.28)}
+.polaroid.chosen::after{content:'⭐';position:absolute;top:-16px;right:-10px;font-size:30px}
+.polaroid.hit{box-shadow:0 0 0 5px var(--ok),2px 5px 10px rgba(0,0,0,.28)}
+.mbtn{border:2px solid var(--tealL2);background:#fff;color:var(--teal);border-radius:12px;padding:7px 14px;font-weight:700}
+.mbtn.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.task{background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px 14px;margin:8px 0}
+.task b.n{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;background:var(--sun2);color:#5B3A00;margin-right:6px}
+.mymood{font-size:22px;background:var(--sun);border-radius:14px;padding:10px 14px;margin-top:8px}
+.hl{background:#fff;border-radius:8px;padding:0 8px;color:var(--orange2);font-weight:700}
+/* ===== tile game ===== */
+.decks{display:flex;gap:8px;flex-wrap:wrap}
+.deck{border:2px solid var(--tealL2);background:#fff;color:var(--teal);border-radius:14px;padding:8px 14px;font-weight:700}
+.deck.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.deck[disabled]{opacity:.4;cursor:default}
+.tg{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:18px;align-items:start}
+.tilebox{position:relative;width:100%;aspect-ratio:1;border-radius:26px;overflow:hidden;background:radial-gradient(circle,#fff 0%,#FFF3CF 55%,var(--sun2) 100%);border:6px solid var(--teal);box-shadow:8px 8px 0 var(--sun2)}
+.tilebox .pic{position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(150px,30vw,260px);line-height:1}
+.tiles{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:5px;padding:5px}
+.tile{border:0;border-radius:12px;font-family:'Baloo 2';font-size:32px;font-weight:800;color:#fff;background:var(--c);box-shadow:inset 0 -6px 0 rgba(0,0,0,.18);transition:transform .45s,opacity .45s}
+.tile:hover{filter:brightness(1.1)}
+.tile.open{transform:rotateY(90deg) scale(.6);opacity:0;pointer-events:none}
+.teams{display:flex;gap:10px}
+.team{flex:1;border-radius:18px;padding:8px 10px;text-align:center;border:3px solid transparent;background:var(--sun)}
+.team:nth-child(2){background:var(--lilac)}
+.team.on{border-color:var(--orange);box-shadow:0 0 0 4px #FFD9B8}
+.team .nm{font-weight:700}
+.team b{display:block;font-family:'Baloo 2';font-size:36px;line-height:1.1}
+.status{background:#fff;border:2px dashed var(--orange);border-radius:14px;padding:8px 12px;margin:10px 0;font-weight:600}
+.letters{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.lt{width:36px;height:46px;border-radius:10px;background:var(--teal);color:#fff;display:grid;place-items:center;font-family:'Baloo 2';font-size:26px;font-weight:700}
+.lt.hid{background:var(--tealL);color:transparent}
+.lt.gap{background:none;width:12px}
+.guess{display:flex;gap:8px;flex-wrap:wrap}
+.guess input{flex:1;min-width:160px;border:3px solid var(--tealL2);border-radius:12px;padding:8px 12px;font-weight:600}
+.ansbox{background:var(--tealL);border-radius:18px;padding:12px 16px;margin-top:10px;text-align:center}
+.ansbox .w{font-family:'Baloo 2';font-size:30px;font-weight:800;color:var(--teal)}
+/* options */
+.opt{border:2px solid var(--tealL2);background:#F5FBFC;border-radius:12px;padding:6px 14px;font-weight:600;font-size:18px;margin:3px}
+.opt:hover{background:var(--tealL)}
+.opt.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.no{background:#FDE5E2;border-color:var(--bad)}
+.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.opts.done .opt:not(.ok){opacity:.3}
+select.gap{border:2px dashed var(--orange);border-radius:10px;padding:4px 8px;background:#FFF6EE;font-weight:600;font-size:18px;max-width:100%}
+select.gap.ok{border:2px solid var(--ok);background:#E3F4EC;color:#135A40}
+select.gap.bad{border-color:var(--bad);background:#FFF0EE}
+ol.items{padding:0;margin:0;counter-reset:it}
+ol.items>li{list-style:none;counter-increment:it;background:#fff;border:2px solid var(--line);border-radius:16px;padding:12px 14px 12px 56px;margin:10px 0;position:relative;font-size:20px}
+ol.items>li::before{content:counter(it);position:absolute;left:12px;top:12px;width:32px;height:32px;border-radius:10px;background:var(--sun2);color:#5B3A00;display:grid;place-items:center;font-size:16px;font-weight:700}
+ol.items>li.solved{border-color:var(--tealL2);background:#F2FAFB}
+/* detective */
+.comic{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.panel{border-radius:22px;padding:14px 18px;border:3px solid var(--ink);position:relative;font-size:21px;line-height:1.9}
+.panel.p1{background:#FFF3CF}
+.panel.p2{background:#E2F3F6}
+.panel .tag{display:inline-block;font-family:'Baloo 2';font-weight:800;font-size:20px;background:var(--ink);color:#fff;border-radius:10px;padding:0 12px;margin-bottom:6px}
+.panel .art{font-size:48px;line-height:1.1}
+.tk{border-radius:7px;padding:1px 4px;cursor:pointer;transition:background .2s}
+.tk:hover{background:rgba(255,255,255,.9)}
+.tk.f-sig{background:var(--orange);color:#fff;font-weight:700}
+.tk.f-ps{background:var(--sun2);color:#4A2E00;font-weight:700;box-shadow:0 0 0 2px var(--orange2)}
+.tk.f-pc{background:var(--teal);color:#fff;font-weight:700}
+.miss{animation:shake .35s}
+.rulecard{background:#fff;border:3px solid var(--teal);border-radius:20px;padding:16px 18px;box-shadow:7px 7px 0 var(--sun2)}
+.rulecard h3{font-size:23px;margin-bottom:8px;color:var(--teal)}
+.rulecard p{margin:8px 0;font-size:19px}
+.rc2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rc2>div{border-radius:16px;padding:10px 14px}
+.rc2 .a{background:#FFF3CF}.rc2 .b{background:#E2F3F6}
+.saved{color:var(--ok);font-weight:700;margin-top:8px}
+/* flip */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.flip{perspective:900px;height:180px;cursor:pointer;outline:none}
+.flip-in{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
+.flip.flipped .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;text-align:center;border:3px solid var(--sun2);background:#fff}
+.front .emo{font-size:54px;line-height:1.1}
+.front b{font-size:18px}
+.back{transform:rotateY(180deg);background:var(--tealL);border-color:var(--tealL2)}
+.ukb{font-size:17px;font-weight:700;color:var(--berry)}
+.ex{font-size:14px;color:var(--teal);font-weight:600}
+.add{border:0;border-radius:10px;background:var(--orange);color:#fff;padding:5px 10px;font-size:13px;font-weight:700}
+.add.added{background:var(--ok)}
+.flip .say{position:absolute;top:6px;right:6px;width:30px;height:30px;font-size:14px}
+.labgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.lab{background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px;text-align:center}
+.lab .e{font-size:54px;display:block}
+.lab select{width:100%}
+/* sort */
+.bank{display:flex;flex-wrap:wrap;gap:8px;min-height:58px;padding:12px;border:3px dashed var(--orange);border-radius:16px;background:#fff}
+.chip{border:2px solid var(--tealL2);background:#fff;border-radius:12px;padding:6px 14px;font-weight:600;font-size:18px;user-select:none;cursor:pointer}
+.chip.sel{outline:4px solid var(--orange);transform:scale(1.06)}
+.chip.placed{border-color:var(--ok);background:#F2FAF6;cursor:default}
+.baskets{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+.basket{border-radius:18px;padding:12px;min-height:150px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;cursor:pointer;border:3px solid transparent}
+.basket h3{font-size:22px;width:100%}
+.basket h3 small{font-family:'Lexend';font-size:14px;color:var(--muted);display:block;font-weight:400}
+.basket.over{border-color:var(--teal)}
+.b1{background:#FFF3CF}.b2{background:#E2F3F6}.b3{background:var(--lilac)}
+/* clue race */
+.race{text-align:center}
+.race .sent{font-size:28px;font-weight:600;margin:14px 0;min-height:44px}
+.race .sent u{text-decoration:none;border-bottom:4px solid var(--orange);padding:0 18px}
+.race .clue{background:var(--orange);color:#fff;border-radius:8px;padding:0 6px}
+.race .done{color:var(--ok)}
+.bigchoice{font-size:24px;padding:14px 26px}
+/* reading */
+.reading{display:grid;grid-template-columns:1.15fr 1fr;gap:16px;align-items:start}
+.reading .stick{position:sticky;top:170px}
+.lvl{border:2px solid var(--orange);background:#fff;color:var(--orange2);border-radius:12px;padding:5px 14px;font-weight:700}
+.lvl.on{background:var(--orange);color:#fff}
+#story{font-size:21px;line-height:2.05}
+#story .sl{color:var(--orange);font-weight:800;margin:0 2px}
+#story .emo{font-size:18px;margin-left:1px}
+.sent6{border-radius:8px;padding:2px 1px;transition:background .2s}
+#story.hunting .sent6{cursor:pointer;background:var(--sun)}
+#story.hunting .sent6:hover{background:var(--sun2)}
+.sent6.proof{background:var(--tealL2)!important;box-shadow:0 0 0 2px var(--teal)}
+.w{border-radius:7px;padding:1px 3px;cursor:pointer}
+.w:hover{background:var(--sun)}
+.w.found{background:var(--berryL);color:var(--berry);font-weight:700}
+.qcard{background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px 14px;margin:8px 0}
+.qcard.solved{border-color:var(--tealL2);background:#F2FAFB}
+.qcard.active{outline:4px solid var(--orange)}
+.qcard b.q{font-size:19px}
+/* phonics & record */
+.clock{font-family:'Baloo 2';font-size:46px;font-weight:800;color:var(--orange2);min-width:90px;text-align:center}
+#rtext{font-size:22px;line-height:2}
+.rw{border-radius:6px;padding:1px 2px}
+#rtext.picking .rw{cursor:pointer;background:var(--sun)}
+#rtext.picking .rw:hover{background:var(--sun2)}
+.rw.read{background:var(--tealL2)}
+.try{border:2px solid var(--tealL2);background:#fff;border-radius:14px;padding:6px 12px;font-weight:700;color:var(--teal)}
+.try.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.bars{display:flex;gap:18px;align-items:flex-end;height:190px;padding:10px;background:#fff;border-radius:16px;border:2px solid var(--line)}
+.barc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px}
+.rbar{width:60%;background:linear-gradient(var(--sun2),var(--orange));border-radius:10px 10px 4px 4px;min-height:4px;transition:height .6s}
+.rbar.prev{background:linear-gradient(#DDD,#BBB)}
+.barc b{font-family:'Baloo 2';font-size:22px;color:var(--orange2)}
+.barc span{font-size:13px;color:var(--muted);text-align:center}
+.errbox{display:flex;align-items:center;gap:8px;background:var(--sun);border-radius:14px;padding:6px 12px;font-weight:700}
+.twister{background:var(--lilac);border-radius:16px;padding:10px 14px;margin-top:12px;font-size:20px}
+/* unscramble */
+.uns{background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px 12px;margin:10px 0}
+.uns.solved{border-color:var(--tealL2);background:#F2FAFB}
+.uline{min-height:48px;border-bottom:3px solid var(--orange);display:flex;gap:6px;flex-wrap:wrap;padding:6px 0;margin-bottom:8px}
+.ubank{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.word{border:2px solid var(--tealL2);background:#F5FBFC;border-radius:10px;padding:5px 12px;font-weight:600;font-size:19px}
+/* family info gap */
+.fam{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;border-radius:20px;padding:12px;border:3px solid var(--ink)}
+.fam.A{background:#FFF3CF}.fam.B{background:#E2F3F6}
+.fcell{background:rgba(255,255,255,.85);border-radius:14px;padding:8px 6px;text-align:center;position:relative}
+.fcell .e{font-size:40px}.fcell .e2{font-size:34px}
+.fcell .who{display:block;font-weight:700;font-size:15px}
+.fam.sb .fcell{cursor:pointer}
+.fcell.diff{background:var(--berryL);box-shadow:0 0 0 3px var(--berry)}
+.role{border:2px solid var(--orange);background:#fff;color:var(--orange2);border-radius:12px;padding:8px 16px;font-weight:700}
+.role.on{background:var(--orange);color:#fff}
+.sdlist li{margin:6px 0}
+/* board game */
+.gboard{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;padding:12px;background:#fff;border-radius:22px;border:4px solid var(--teal)}
+.sq{min-height:88px;border-radius:14px;padding:5px 7px;display:flex;flex-direction:column;justify-content:space-between;border:2px solid rgba(0,0,0,.06)}
+.sq .num{font-weight:700;font-size:13px;color:var(--muted)}
+.sq .ico{font-size:21px;line-height:1.1}
+.sq .jmp{font-size:13px;font-weight:700}
+.toks{display:flex;flex-wrap:wrap;gap:1px;min-height:26px}
+.tok{font-size:24px;line-height:1}
+.tok.me{animation:hop 1s infinite}
+@keyframes hop{50%{transform:translateY(-5px)}}
+.t-start,.t-finish{background:var(--teal)}.t-start .num,.t-finish .num{color:#fff}
+.t-pic{background:#FFF3CF}.t-ask{background:#E2F3F6}.t-not{background:var(--berryL)}.t-spell{background:#FFE3CC}.t-mime{background:var(--lilac)}.t-talk{background:#DFF3E4}.t-chance{background:repeating-linear-gradient(45deg,#FFF3CF 0 9px,#fff 9px 18px)}
+.t-up{background:linear-gradient(#E3F4EC,#BFE6D2)}.t-down{background:linear-gradient(#FDE5E2,#F6C2BB)}
+.cnt{border:2px solid var(--tealL2);background:#fff;color:var(--teal);border-radius:12px;padding:6px 14px;font-weight:700}
+.cnt.on{background:var(--teal);color:#fff}
+.pname input{border:2px solid var(--line);border-radius:10px;padding:5px 8px;width:150px;font-weight:600}
+.turn{font-size:20px;background:var(--sun);border-radius:14px;padding:6px 16px}
+.dice{font-size:54px;line-height:1;color:var(--orange2)}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;font-size:14px}
+.legend span{border-radius:10px;padding:3px 10px;font-weight:600;border:1px solid rgba(0,0,0,.08)}
+.gm{position:fixed;inset:0;background:rgba(34,49,63,.5);display:none;z-index:55}
+.gm.open{display:grid;place-items:center}
+.gcard{background:#fff;border-radius:24px;padding:22px;width:min(540px,92%);text-align:center;border:6px solid var(--c,#1F7A8C)}
+.gtype{display:inline-block;border-radius:12px;padding:5px 16px;font-family:'Baloo 2';font-size:22px;font-weight:700}
+.gemo{font-size:62px;margin-top:8px}
+.gq{font-size:24px;font-weight:700;margin:10px 0}
+.gans{font-size:21px;color:var(--teal);font-weight:700;background:var(--tealL);border-radius:12px;padding:6px 10px;margin:8px 0}
+/* final */
+.badge{text-align:center;padding:16px;border:6px dashed var(--sun2);border-radius:50%;width:220px;height:220px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#FFF3CF}
+.badge .e{font-size:62px}
+.badge b{font-family:'Baloo 2';font-size:22px;color:var(--orange2)}
+.light{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;padding:8px 0;border-bottom:2px dashed var(--line)}
+.light .lb button{border:0;background:none;font-size:28px;opacity:.3}
+.light .lb button.on{opacity:1;transform:scale(1.15)}
+textarea#copyArea{width:100%;min-height:150px;margin-top:10px;border-radius:12px;border:2px solid var(--line);padding:10px;font-size:15px}
+.video{border:3px dashed var(--teal2);border-radius:16px;padding:12px;background:#F5FBFC;margin-top:14px}
+.video iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;margin-top:10px}
+.video input{flex:1;min-width:200px;padding:8px 12px;border-radius:10px;border:2px solid var(--line);font-size:16px}
+.expert{background:var(--lilac);border-radius:16px;padding:12px 16px}
+/* drawers */
+.drawer,.modal{position:fixed;inset:0;background:rgba(34,49,63,.5);z-index:50;display:none}
+.drawer.open,.modal.open{display:block}
+.sheet{position:absolute;right:0;top:0;bottom:0;width:min(420px,100%);background:#fff;padding:20px;overflow:auto}
+.modal .sheet{left:50%;right:auto;top:4vh;bottom:4vh;transform:translateX(-50%);width:min(800px,94%);border-radius:20px}
+.sheet h3{margin:14px 0 6px;color:var(--orange2)}
+.sheet .close{float:right}
+#listItems li{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)}
+.tn p,.tn li{font-size:16px}
+.time{display:inline-block;background:var(--sun2);color:#5B3A00;border-radius:8px;padding:1px 10px;font-weight:700;font-size:14px;font-family:'Lexend'}
+details{border:2px solid var(--line);border-radius:12px;padding:8px 12px;margin:8px 0;background:#fff}
+summary{font-weight:700;cursor:pointer;color:var(--teal)}
+#toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(30px);background:var(--teal);color:#fff;padding:10px 20px;border-radius:14px;opacity:0;transition:.3s;z-index:60;font-weight:700;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%)}
+@media (max-width:760px){
+  body{font-size:16px}
+  header{position:static}
+  .head h2{font-size:22px}
+  .twocol,.reading,.tg,.comic,.rc2{grid-template-columns:1fr}
+  .reading .stick{position:static}
+  #story,#rtext{font-size:18px}
+  ol.items>li{font-size:17px}
+  .foot .btn{font-size:16px;padding:10px 16px}
+  .gboard{grid-template-columns:repeat(3,1fr)}
+  .fam{grid-template-columns:repeat(2,1fr)}
+  .race .sent{font-size:22px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1>⏰ Every day or right now?</h1>
+    <a class="hb" href="index.html">📚 Зміст</a>
+    <button class="hb" id="sunBox" title="Suns">☀️ <span id="suns">0</span></button>
+    <button class="hb" id="openNote">📝 My Rule Card</button>
+    <button class="hb" id="openList">📒 My List (<span id="listCount">0</span>)</button>
+    <button class="hb" id="openTeacher">🍎 Для вчителя</button>
+  </div>
+  <nav id="pills"></nav>
+</header>
+
+<main>
+<!-- 0 MOOD BOARD -->
+<section class="page" data-title="Warm-up: How are you feeling?">
+  <div class="card head"><div class="pnum">1</div><div>
+    <h2>Warm-up: How are you feeling today? 📌</h2>
+    <p class="uk">Розминка. Подивись на фото на дошці, послухай, обери свій настрій і вгадай настрій друзів.</p>
+    <div class="skills"><span>👂 Listening</span><span>🗣 Speaking</span><span>📚 Vocabulary</span></div></div></div>
+  <div class="cork">
+    <div class="sticky">How are you feeling today?</div>
+    <div class="mboard" id="mboard"></div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3 class="t">Tasks / Завдання</h3>
+    <div class="row" style="margin-bottom:6px">
+      <button class="mbtn on" data-m="look">1 👀 Look &amp; listen</button>
+      <button class="mbtn" data-m="find">2 🎯 Listen &amp; find</button>
+      <button class="mbtn" data-m="choose">3 ⭐ This is me!</button>
+    </div>
+    <div class="task" id="lookBar"><b class="n">1</b><b>Click a photo. Listen and guess the meaning.</b> <span class="ukx">Натисни фото, послухай. Спершу вгадай значення, потім побачиш переклад.</span></div>
+    <div class="task hidden" id="findBar"><b class="n">2</b><b>Listen and click the right photo!</b> <span class="ukx">Послухай і знайди фото. 5 раундів.</span>
+      <div class="row" style="margin-top:6px"><button class="btn small alt" id="mAgain">🔊 Again</button><button class="btn small" id="mRestart">↺ New game</button><span id="findMsg" class="counter"></span></div></div>
+    <div class="task hidden" id="chooseBar"><b class="n">3</b><b>Choose YOUR mood today. Write in the chat: «Today I'm feeling … because …»</b>
+      <span class="ukx">Обери свій настрій і напиши в чат, чому так.</span>
+      <div class="mymood" id="myMood">👈 Click a photo / Натисни фото</div></div>
+    <div class="task"><b class="n">4</b><b>🕵️ Guess my mood!</b> <span class="ukx">Один загадує фото, інші питають. Хто вгадав, той загадує наступним.</span>
+      <div class="frames"><span>❓ Are you feeling sleepy?</span><span>❓ Are you hungry?</span><span class="o">✅ Yes, I am!</span><span class="o">❌ No, I'm not.</span></div></div>
+    <div class="task"><b class="n">⭐</b><b>Star task:</b> <i>I usually feel happy on Fridays, but today I'm feeling sleepy.</i> <span class="ukx">Для сильніших: що ти відчуваєш зазвичай, а що зараз.</span></div>
+  </div>
+  <div class="fact"><span style="font-size:38px">🦥</span><div><b class="t">Fun fact!</b> Sloths move so slowly that tiny green plants (algae) grow on their fur! <br><span class="ukx">Лінивці рухаються так повільно, що на їхній шерсті ростуть крихітні зелені водорості!</span></div></div>
+</section>
+
+<!-- 2 MISSION -->
+<section class="page" data-title="Today's mission">
+  <div class="card head"><div class="pnum">2</div><div>
+    <h2>Today's mission: every day 📅 or right now 📸?</h2>
+    <p class="uk">Сьогодні вчимося розрізняти, що ми робимо ЗАВЖДИ, і що відбувається ЗАРАЗ.</p>
+    <div class="skills"><span>🧠 Learning to learn</span><span>📖 Reading</span></div></div></div>
+  <div class="twocol">
+    <div class="card">
+      <h3 class="t">Today I can… / Сьогодні я зможу…</h3>
+      <ul class="cando">
+        <li>say what I do every day and what I am doing now — <b>I play chess every Friday. Now I am reading.</b></li>
+        <li>find clue words — <b>usually, every day, now, Look!</b> <span class="ukx">знаходити слова-підказки</span></li>
+        <li>ask — <b>Do you…? / Are you…?</b></li>
+        <li>read <b>sh / ch</b> words and find the proof in a text <span class="ukx">читати слова з sh / ch і знаходити доказ у тексті</span></li>
+      </ul>
+    </div>
+    <div class="card expert">
+      <h3 class="t">👑 Experts' cards</h3>
+      <p class="uk">Експерт не каже відповідь, а ставить питання-підказку:</p>
+      <div class="frames"><span>Is there a clue word?</span><span>Is it every day or now?</span><span>Where is am / is / are?</span><span class="o">Look at your Rule Card!</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3 class="t">🤔 What do you think? Choose the picture's sentence</h3>
+    <p class="uk">Ще без правила — просто відчуй! Подивись на картинку й обери речення.</p>
+    <ol class="items" id="miss2"></ol>
+    <div class="light" id="diag2" style="border:0"><span>How well can I tell «every day» from «now»?</span><span class="lb"><button>🔴</button><button>🟡</button><button>🟢</button></span></div>
+  </div>
+</section>
+
+<!-- 1 TILE GAME -->
+<section class="page" data-title="Word Bank: Under the tiles">
+  <div class="card head"><div class="pnum">1</div><div>
+    <h2>What's under the tiles? 🧩 Word Bank game</h2>
+    <p class="uk">Повторюємо слова з уроку 1. Команди по черзі називають номер плашки англійською — плашка відкривається. Вгадай, що під нею! Чим менше плашок відкрито, тим більше сонечок ☀️.</p>
+    <div class="skills"><span>📚 Vocabulary</span><span>🗣 Speaking</span><span>🤝 Teamwork</span></div></div></div>
+  <div class="card">
+    <h3 class="t">1️⃣ Choose the words / Обери слова</h3>
+    <div class="decks" id="decks">
+      <button class="deck on" data-d="act">🌳 Park actions</button>
+      <button class="deck" data-d="mood">😺 Moods</button>
+      <button class="deck" data-d="list">📒 My List (Lesson 1)</button>
+      <button class="deck" data-d="mix">🔀 Mix</button>
+    </div>
+  </div>
+  <div class="tg">
+    <div>
+      <div class="tilebox"><div class="pic" id="tgPic"></div><div class="tiles" id="tgTiles"></div></div>
+      <div class="row c" style="margin-top:12px"><span class="counter" id="tgRound"></span></div>
+    </div>
+    <div>
+      <div class="teams" id="tgTeams"></div>
+      <div class="status" id="tgStatus"></div>
+      <div class="letters" id="tgLetters"></div>
+      <div class="row c"><button class="btn alt small" id="tgHint">💡 Open a letter (−2 ☀️)</button></div>
+      <div class="guess" style="margin-top:10px"><input id="tgInput" placeholder="Type your guess… / Впиши відповідь" autocomplete="off" spellcheck="false"><button class="btn" id="tgCheck">✔</button></div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn" id="tgRight">✅ Right! (teacher)</button>
+        <button class="btn berry" id="tgPass">❌ Wrong / Pass</button>
+        <button class="btn alt small" id="tgShow">👀 Show</button>
+      </div>
+      <div class="ansbox hidden" id="tgAns"></div>
+      <div class="frames" style="margin-top:12px"><span>🔢 Number seven, please!</span><span>🤔 Is it «swim»?</span><span>💡 I think it's…</span><span class="o">🗣 He is swimming!</span></div>
+    </div>
+  </div>
+  <div class="fact"><span style="font-size:38px">🐨</span><div><b class="t">Fun fact!</b> Koalas sleep about 18–20 hours every day. Maybe a koala <b>is sleeping</b> right now! 😴<br><span class="ukx">Коали сплять близько 18–20 годин щодня. Можливо, якась коала саме зараз спить!</span></div></div>
+</section>
+
+<!-- 7a SH/CH SORT -->
+<section class="page" data-title="sh or ch?">
+  <div class="card head"><div class="pnum">7</div><div>
+    <h2>🤫 sh or 🚂 ch? Listen and sort!</h2>
+    <p class="uk">Натисни слово — послухай. Потім поклади його в правильний кошик: звук sh чи ch?</p>
+    <div class="skills"><span>🗣 Phonics</span><span>👂 Listening</span></div></div></div>
+  <div class="bank" id="bank7"></div>
+  <div class="baskets" id="baskets7"></div>
+</section>
+
+<!-- 3 DETECTIVE -->
+<section class="page" data-title="Grammar detective">
+  <div class="card head"><div class="pnum">3</div><div>
+    <h2>Grammar detective: two Saturdays of Mia 🕵️</h2>
+    <p class="uk">Крок 1: знайди слова-підказки часу (коли?). Крок 2: знайди всі дієслова. Подивись, які вони різні!</p>
+    <div class="skills"><span>🔍 Noticing</span><span>🧠 Grammar</span></div></div></div>
+  <div class="row" style="margin-bottom:10px"><span id="dTask" class="big"></span><span class="counter" id="dc"></span></div>
+  <div class="comic" id="comic"></div>
+  <div id="dThink" class="hidden" style="margin-top:16px">
+    <div class="card">
+      <h3 class="t">🧠 THINK: Which verbs tell us what is happening NOW?</h3>
+      <p class="uk">Які дієслова розповідають, що відбувається ЗАРАЗ?</p>
+      <div class="opts" data-ans="is sleeping, is reading"><button class="opt">gets up, plays</button><button class="opt">is sleeping, is reading</button><button class="opt">has, watches</button></div>
+    </div>
+    <div class="rulecard">
+      <h3>📝 My Rule Card — every day or now?</h3>
+      <p class="uk">Заповни картку — вона збережеться (кнопка 📝 вгорі).</p>
+      <div class="rc2">
+        <div class="a"><b>📅 Every day / usually</b>
+          <p>I play. She play<select class="gap rc" data-ans="-s"><option value="">…</option><option>-s</option><option>-ing</option><option>—</option></select></p>
+          <p>❌ She <select class="gap rc" data-ans="doesn't"><option value="">…</option><option>doesn't</option><option>isn't</option><option>don't</option></select> watch TV.</p>
+          <p>❓ <select class="gap rc" data-ans="Does"><option value="">…</option><option>Does</option><option>Is</option><option>Are</option></select> she play tennis?</p>
+        </div>
+        <div class="b"><b>📸 Now / Look!</b>
+          <p>She <select class="gap rc" data-ans="is"><option value="">…</option><option>is</option><option>does</option><option>are</option></select> play<select class="gap rc" data-ans="-ing"><option value="">…</option><option>-s</option><option>-ing</option><option>-ed</option></select></p>
+          <p>❌ She <select class="gap rc" data-ans="isn't"><option value="">…</option><option>doesn't</option><option>isn't</option><option>not</option></select> watching TV.</p>
+          <p>❓ <select class="gap rc" data-ans="Is"><option value="">…</option><option>Does</option><option>Is</option><option>Do</option></select> she playing tennis?</p>
+        </div>
+      </div>
+      <p>🔑 <b>every day, usually, never</b> → <select class="gap rc" data-ans="📅 She plays"><option value="">…</option><option>📅 She plays</option><option>📸 She is playing</option></select> · <b>now, Look!, today</b> → <select class="gap rc" data-ans="📸 She is playing"><option value="">…</option><option>📅 She plays</option><option>📸 She is playing</option></select></p>
+      <div class="saved hidden" id="rcSaved">✅ Saved to My Rule Card! / Збережено!</div>
+    </div>
+    <div class="video"><b>🎬 Video slot</b> <span class="ukx">— встав посилання на відео з YouTube (за бажанням)</span>
+      <div class="row" style="margin-top:8px"><input type="url" class="vurl" placeholder="https://www.youtube.com/watch?v=..."><button class="btn vgo">Show</button></div><div class="vbox"></div></div>
+  </div>
+  <div class="fact"><span style="font-size:38px">❤️</span><div><b class="t">Fun fact!</b> Your heart beats about 100,000 times every day. And it <b>is beating</b> right now! <br><span class="ukx">Твоє серце б'ється приблизно 100 000 разів щодня. І зараз воно теж б'ється!</span></div></div>
+</section>
+
+<!-- 4 ROUTINE WORDS -->
+<section class="page" data-title="My day: words">
+  <div class="card head"><div class="pnum">4</div><div>
+    <h2>My day ⏰ Daily routine words</h2>
+    <p class="uk">Переверни картки, послухай. Нові слова додай у My List 📒. Потім підпиши картинки.</p>
+    <div class="skills"><span>📚 Vocabulary</span><span>👂 Listening</span></div></div></div>
+  <div class="cards" id="routCards"></div>
+  <div class="card" style="margin-top:16px">
+    <h3 class="t">🏷 Label the pictures / Підпиши картинки</h3>
+    <div class="labgrid" id="labels4"></div>
+  </div>
+</section>
+
+<!-- 5 CLUE WORDS -->
+<section class="page" data-title="Clue words">
+  <div class="card head"><div class="pnum">5</div><div>
+    <h2>Clue words 🔑 Every day or right now?</h2>
+    <p class="uk">Стратегія дня: спершу знайди слово-підказку — і ти знатимеш, яку форму обрати! Розклади слова в кошики, потім зіграй у Clue race.</p>
+    <div class="skills"><span>🧠 Learning to learn</span><span>🔍 Noticing</span></div></div></div>
+  <div class="bank" id="bank5"></div>
+  <div class="baskets" id="baskets5"></div>
+  <div class="card race" style="margin-top:16px">
+    <h3 class="t">🏁 Clue race! Find the clue — choose 📅 or 📸</h3>
+    <p class="uk">Дієслово сховане. Знайди підказку і швидко вибери!</p>
+    <div class="row c"><span class="counter" id="raceN"></span></div>
+    <div class="sent" id="raceS"></div>
+    <div class="row c">
+      <button class="btn or bigchoice" data-r="every">📅 Every day</button>
+      <button class="btn bigchoice" data-r="now">📸 Right now</button>
+    </div>
+    <p id="raceMsg" class="big" style="min-height:34px;margin:10px 0 0"></p>
+    <button class="btn alt small" id="raceRestart">↺ Again</button>
+  </div>
+</section>
+
+<!-- 6 READING -->
+<section class="page" data-title="Reading: Sam's Saturday">
+  <div class="card head"><div class="pnum">6</div><div>
+    <h2>Sam's special Saturday 🎂 Find the proof!</h2>
+    <p class="uk">1) Обери рівень. 2) Знайди в тексті всі слова з <b>sh</b> або <b>ch</b>. 3) Відповідай на питання і знаходь речення-доказ 🔍.</p>
+    <div class="skills"><span>📖 Reading</span><span>🔍 Scanning</span><span>🗣 Phonics</span></div></div></div>
+  <div class="reading">
+    <div class="card stick">
+      <div class="row" style="margin-bottom:8px">
+        <button class="lvl on" data-l="1">⭐ With help</button><button class="lvl" data-l="2">⭐⭐ No help</button>
+        <button class="say" id="sayStory">🔊</button>
+        <span class="counter">sh / ch: <span id="shN">0</span> / <span id="shT">0</span></span>
+      </div>
+      <div id="story"></div>
+      <p class="ukx" style="margin-top:6px">⭐ — з картинками й поділом на фрази ( / ). Читай фразами, а не по слову!</p>
+    </div>
+    <div id="qs6"></div>
+  </div>
+</section>
+
+<!-- 8a READING RECORD -->
+<section class="page" data-title="My reading record">
+  <div class="card head"><div class="pnum">8</div><div>
+    <h2>Read faster! My reading record ⏱</h2>
+    <p class="uk">Спершу скоромовка. Потім читай текст про Сема 1 хвилину — тричі. Змагаєшся лише з собою!</p>
+    <div class="skills"><span>📖 Reading</span><span>🗣 Phonics</span><span>🧠 Learning to learn</span></div></div></div>
+  <div class="twister" style="margin-top:0">👅 <b>Tongue twister:</b> <span class="hand">Shy Sheila shares cheese and chips with Charlie.</span> <button class="say" data-say="Shy Sheila shares cheese and chips with Charlie.">🔊</button> <span class="ukx">Скажи 3 рази швидко!</span></div>
+  <div class="twocol" style="margin-top:16px">
+    <div class="card">
+      <h3 class="t">📊 My 3 tries</h3>
+      <div class="row" style="margin-bottom:8px">
+        <button class="try on" data-t="0">1 👩‍🏫 with teacher</button><button class="try" data-t="1">2 👫 with a buddy</button><button class="try" data-t="2">3 🦸 alone</button>
+      </div>
+      <div class="bars" id="bars"></div>
+      <p id="growth" class="big" style="margin:8px 0 0"></p>
+    </div>
+    <div class="card">
+      <div class="row"><span class="clock" id="rClock">60</span><button class="btn or" id="rStart">▶ Start (1 min)</button><button class="btn alt" id="rDone">🏁 I finished!</button></div>
+      <div class="errbox" style="margin-top:10px">Buddy: mistakes <button class="btn small alt" id="errMinus">−</button><span id="rErr">0</span><button class="btn small alt" id="errPlus">+</button></div>
+      <p id="rMsg" style="margin:8px 0 0">Press Start and read aloud. / Натисни Start і читай уголос.</p>
+    </div>
+  </div>
+  <div class="card"><div id="rtext"></div></div>
+</section>
+
+<!-- 8 PRACTICE -->
+<section class="page" data-title="Practice">
+  <div class="card head"><div class="pnum">8</div><div>
+    <h2>Find the clue — choose the verb. Then build sentences!</h2>
+    <p class="uk">Спершу знайди слово-підказку, потім обери форму. Сумніваєшся — відкрий картку правил 📝.</p>
+    <div class="skills"><span>🧠 Grammar</span><span>✍️ Writing</span></div></div></div>
+  <ol class="items" id="g8"></ol>
+  <div id="uns8"></div>
+</section>
+
+<!-- 9 INFO GAP -->
+<section class="page" data-title="Spot the difference: Sunday">
+  <div class="card head"><div class="pnum">9</div><div>
+    <h2>Spot the difference: a usual Sunday 📅 or this Sunday 📸?</h2>
+    <p class="uk">Пари. Student A бачить, що родина Мії робить ЗАЗВИЧАЙ у неділю. Student B — що вони роблять ЗАРАЗ, цієї неділі. Не дивись на картинку партнера! Питайте одне одного й знайдіть 5 відмінностей.</p>
+    <div class="skills"><span>🗣 Speaking</span><span>👂 Listening</span><span>🤝 Teamwork</span></div></div></div>
+  <div class="card">
+    <div class="row"><button class="role" data-r="A">📅 I'm Student A</button><button class="role" data-r="B">📸 I'm Student B</button><button class="role" data-r="both">👀 Show both (check)</button></div>
+    <div class="frames" style="margin-top:10px"><span>A: Every Sunday Dad cooks pancakes. What is Dad doing now?</span><span class="o">B: He is washing the car!</span><span>B: What does Grandpa usually do?</span><span class="o">A: He usually reads the newspaper.</span><span>Same! / Different!</span></div>
+  </div>
+  <div id="sdBox" class="card"><p class="big" style="margin:0">👆 Choose your role / Обери свою роль</p></div>
+</section>
+
+<!-- 10 BOARD GAME -->
+<section class="page" data-title="Board game: Ladders & Snakes">
+  <div class="card head"><div class="pnum">10</div><div>
+    <h2>Board game: Ladders &amp; Snakes 🪜🐍 Present Continuous</h2>
+    <p class="uk">Кидай кубик і виконуй завдання клітинки. Драбина 🪜 веде вгору, змія 🐍 — вниз. Відповідь оцінює група: 👍 чи 👎? Неправильно — назад на 1.</p>
+    <div class="skills"><span>🗣 Speaking</span><span>🧠 Grammar</span><span>🤝 Teamwork</span></div></div></div>
+  <div class="card" id="gSetup">
+    <h3 class="t">Who is playing? / Хто грає?</h3>
+    <div class="row" id="gCount"></div>
+    <div class="row" id="gNames" style="margin:12px 0"></div>
+    <button class="btn or" id="gStart">▶ Start the game</button>
+  </div>
+  <div id="gPlay" class="hidden">
+    <div class="card row" style="justify-content:space-between">
+      <div id="gTurn" class="turn"></div>
+      <div class="row"><span class="dice" id="dice">🎲</span><button class="btn or" id="gRoll" style="font-size:22px">🎲 Roll</button><button class="btn alt small" id="gReset">↺ New game</button></div>
+    </div>
+    <div class="gboard" id="gboard"></div>
+    <div class="legend"><span class="t-pic">🖼 Look &amp; say</span><span class="t-ask">❓ Ask it</span><span class="t-not">❌ Negative</span><span class="t-spell">✍️ Spell it</span><span class="t-mime">🎭 Mime it</span><span class="t-talk">🎤 Talk</span><span class="t-chance">🃏 Chance</span><span class="t-up">🪜 Ladder</span><span class="t-down">🐍 Snake</span></div>
+  </div>
+</section>
+
+<!-- 11 FINAL -->
+<section class="page" data-title="Well done!">
+  <div class="card head"><div class="pnum">11</div><div>
+    <h2>Well done! How do I feel now?</h2>
+    <p class="uk">Оціни себе: 🔴 ще важко, 🟡 майже, 🟢 можу пояснити іншим.</p>
+    <div class="skills"><span>🪞 Reflection</span><span>🗣 Speaking</span></div></div></div>
+  <div class="twocol">
+    <div class="card" id="lights"></div>
+    <div class="card"><div class="badge" id="badge"></div><p id="readSum" class="big" style="text-align:center;margin:12px 0 0"></p></div>
+  </div>
+  <div class="card">
+    <h3 class="t">🎟 Exit ticket</h3>
+    <p class="big" style="margin:4px 0">Say 2 sentences: what do you <b>usually</b> do on Saturdays? What are you doing <b>now</b>? 🗣</p>
+    <p class="uk">Два речення: що ти зазвичай робиш у суботу, і що робиш зараз.</p>
+  </div>
+  <div class="card">
+    <h3 class="t">🏠 Homework / Домашнє завдання (10–15 хв)</h3>
+    <ol>
+      <li><b>Mini-diary «Usually &amp; Now».</b> Write 5 pairs: <i>I usually have breakfast at 8. Now I am doing my homework.</i> Add a drawing or photo. <span class="ukx">5 пар речень: що ти зазвичай робиш і що робиш зараз + малюнок або фото.</span><br>✅ <b>Check yourself:</b> <span class="ukx">підкресли слово-підказку в кожному реченні й звір форму з карткою правил.</span></li>
+      <li><b>📖 Reading:</b> <span class="ukx">щодня 5 хв читай уголос «Sam's special Saturday» — 3 рази поспіль. Раз на тиждень надішли вчительці голосове з 3-го прочитання.</span></li>
+      <li><b>⭐ Star task (A2):</b> write 8–10 sentences: <i>On Saturdays I usually…, but today…</i> with <b>and, but, because</b>. <span class="ukx">Завдання із зірочкою.</span></li>
+    </ol>
+    <div class="row"><button class="btn" id="copyBtn">📋 Copy my Rule Card &amp; List</button><button class="btn alt" id="dlBtn">📥 Download</button></div>
+    <textarea id="copyArea" class="hidden" readonly></textarea>
+  </div>
+</section>
+</main>
+
+<div class="foot"><div class="in">
+  <button class="btn alt" id="prev">◀ Back</button>
+  <div id="pageLabel"></div>
+  <button class="btn or" id="next">Next ▶</button>
+</div></div>
+
+<div class="gm" id="gm"><div class="gcard" id="gcard"></div></div>
+
+<div class="drawer" id="drawer"><div class="sheet">
+  <button class="btn alt close" data-close>✕</button>
+  <h2>📒 My List</h2>
+  <p class="uk">Твої слова цього уроку. Збережи їх: кнопка Copy на останній сторінці.</p>
+  <ul id="listItems" style="padding:0;list-style:none"></ul>
+</div></div>
+<div class="drawer" id="noteDrawer"><div class="sheet">
+  <button class="btn alt close" data-close>✕</button>
+  <h2>📝 My Rule Card</h2>
+  <div id="noteBody"></div>
+</div></div>
+
+<div class="modal" id="teacher"><div class="sheet tn">
+  <button class="btn alt close" data-close>✕</button>
+  <h2>🍎 Для вчителя</h2>
+  <div id="tnPage"></div>
+  <h3>🎯 Ідея уроку</h3>
+  <p>Заняття 2 з 9: <b>Present Simple vs Present Continuous</b>. Обидві форми діти вже бачили окремо, тепер вчаться їх розрізняти за <b>словами-підказками</b> (стратегія дня). Хід: <b>мудборд настроїв → «відчуй» без правила → гра з плашками на слова уроку 1 → сортування sh / ch → детектив і картка правил → лексика розпорядку дня → слова-підказки → читання з доказом → замір темпу → практика → інформаційний розрив → настільна гра на Present Continuous</b>.</p>
+  <h3>👥 Ролі в групі</h3>
+  <ul>
+    <li><b>👑 Експерти:</b> ті двоє, хто впевнено знає тему, ставлять питання-підказки з картки на с. 2, а не дають відповідей.</li>
+    <li><b>📖 Reading buddies:</b> пари з уроку 1 лишаються, щоб діти бачили свій прогрес. На с. 9 є сірий стовпчик з найкращим результатом уроку 1 (якщо дитина працює в тому самому браузері).</li>
+    <li><b>🔁 Ролі в командах ротуються:</b> caller (називає номер плашки), guesser, checker, reporter.</li>
+  </ul>
+  <h3>🎲 Ігри для онлайн-групи</h3>
+  <details><summary>Mood board (с. 1) + Under the tiles (с. 3)</summary><p>Дві команди. Команда називає номер англійською («Number seven, please!») — ти або дитина з Remote control відкриваєте плашку. Після кожної плашки команда може вгадати (усно або в полі). Неправильно чи пас — хід іншої команди. Бали = кількість закритих плашок. Бонус: після відповіді команда каже речення в Present Continuous: «They are flying a kite!» Колода «My List» підтягує слова, які дитина додала на уроці 1, якщо урок відкрито з того самого сайту й браузера.</p></details>
+  <details><summary>Body clock (с. 5)</summary><p>Жест для «every day»: рука малює коло (як стрілка годинника). Жест для «now»: палець униз «тут і зараз». Учитель читає речення — діти показують жест у камеру.</p></details>
+  <details><summary>Routine charades (с. 6)</summary><p>Дитина показує дію з розпорядку, інші питають: «Do you brush your teeth every morning?» / «Are you brushing your teeth now?» — помічаємо різницю.</p></details>
+  <details><summary>Clue race (с. 7)</summary><p>Можна грати командами: хто перший напише в чат «📅» чи «📸» і назве слово-підказку.</p></details>
+  <details><summary>Spot the difference (с. 11)</summary><p>Інформаційний розрив у breakout rooms. A має «usual Sunday», B — «this Sunday». Тренуємо обидва типи питань: What does … usually do? / What is … doing now?</p></details>
+  <details><summary>Ladders &amp; Snakes (с. 12)</summary><p>Повторення Present Continuous: речення за картинкою, питання, заперечення, правопис -ing, пантоміма, інтерв'ю, картки «Chance». Щоб піднятися драбиною, треба сказати речення «I'm climbing!»; на змії — «I'm falling!».</p></details>
+  <details><summary>Freeze frame (запасна)</summary><p>Учитель: «What do you usually do at 8 in the morning? Show me!» — діти показують. «Freeze! What are you doing now?» — «I'm having breakfast!»</p></details>
+  <h3>📌 Методичні рекомендації</h3>
+  <ul>
+    <li><b>Спершу значення, потім форма.</b> На с. 2 діти «відчувають» різницю за картинками (📅 календар чи 📸 фото), без термінів.</li>
+    <li><b>Concept-checking questions замість «Зрозуміло?»:</b> «Is Mia sleeping now? — Yes. Does Mia sleep at 10 every Saturday? — No!»</li>
+    <li><b>Таймлайн на дошці / в чаті:</b> ряд хрестиків ✖✖✖✖ (every day) і одна стрілка ⬇ (now).</li>
+    <li><b>Правило формулюють діти.</b> Після THINK 5–10 секунд тиші; якщо мовчать — питання-підказка, а не відповідь.</li>
+    <li><b>3-2-1-Send!</b> Відповіді в чат надсилаємо одночасно — так відповідають усі.</li>
+    <li><b>Типова помилка «I am go to school every day».</b> Не виправляй одразу: збери 2–3 приклади й наприкінці запитай «Is there a clue word? Every day or now?».</li>
+    <li><b>Читання фразами.</b> Рівень ⭐ — той самий текст з опорами, а не простіший. Замір темпу порівнює дитину лише з нею самою.</li>
+    <li><b>Remote control у Zoom</b> на с. 1, 3, 7, 12: діти самі відкривають плашки, обирають 📅/📸, кидають кубик.</li>
+    <li><b>Рефлексія:</b> «Яка підказка допомогла тобі найбільше?» — щоб діти усвідомили стратегію.</li>
+  </ul>
+</div></div>
+<div id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const cap=s=>s[0].toUpperCase()+s.slice(1);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+/* speech */
+function speak(t){try{if(!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.85;const vs=speechSynthesis.getVoices();const v=vs.find(v=>v.lang==='en-GB')||vs.find(v=>/^en/.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(b){e.stopPropagation();speak(b.dataset.say)}},true);
+
+/* suns & toast */
+let suns=0;
+function reward(n=1){suns+=n;$('#suns').textContent=suns;const s=$('#sunBox');s.classList.remove('bump');void s.offsetWidth;s.classList.add('bump');renderBadge()}
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1900)}
+const praise=['Great job! ☀️','Super! ⭐','Well done! 🌻','Brilliant! 💛','Yes! 🎉'];
+const yay=()=>toast(praise[Math.floor(Math.random()*praise.length)]);
+const oops=m=>toast(m||'Try again! 🌱 Спробуй ще раз!');
+function shake(el){el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')}
+
+/* nav */
+const pages=$$('.page');let cur=0;const pills=$('#pills');
+pages.forEach((p,i)=>{const n=p.querySelector('.pnum');if(n)n.textContent=i+1});
+pages.forEach((p,i)=>{const b=document.createElement('button');b.textContent=i+1;b.title=p.dataset.title;b.onclick=()=>go(i);pills.appendChild(b)});
+function go(i){cur=Math.max(0,Math.min(pages.length-1,i));pages.forEach((p,k)=>p.classList.toggle('active',k===cur));
+  [...pills.children].forEach((b,k)=>{b.classList.toggle('on',k===cur);if(k<cur)b.classList.add('done')});
+  $('#pageLabel').textContent=`${cur+1} / ${pages.length} · ${pages[cur].dataset.title}`;
+  $('#prev').style.visibility=cur?'visible':'hidden';$('#next').textContent=cur===pages.length-1?'☀️ Finish':'Next ▶';
+  if(cur===pages.length-1){renderBadge();renderReadSum()}
+  window.scrollTo({top:0,behavior:'smooth'});renderTeacher()}
+$('#prev').onclick=()=>go(cur-1);
+$('#next').onclick=()=>{if(cur===pages.length-1)toast('☀️ See you next time! Goodbye!');else go(cur+1)};
+document.addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;if($('#gm').classList.contains('open'))return;if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
+
+/* drawers */
+$$('.drawer,.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m||e.target.closest('[data-close]'))m.classList.remove('open')}));
+$('#openTeacher').onclick=()=>{renderTeacher();$('#teacher').classList.add('open')};
+$('#openList').onclick=()=>{refreshList();$('#drawer').classList.add('open')};
+$('#openNote').onclick=()=>{$('#noteBody').innerHTML=ruleHTML();$('#noteDrawer').classList.add('open')};
+
+/* My List (this lesson) */
+const myList=new Map(store.get('pc2_list',[]));
+function addWord(en,uk){if(!myList.has(en)){myList.set(en,uk);store.set('pc2_list',[...myList]);toast('📒 Added to My List!')}refreshList()}
+function refreshList(){$('#listCount').textContent=myList.size;
+  $('#listItems').innerHTML=myList.size?[...myList].map(([en,uk])=>`<li><span><b>${esc(en)}</b> — ${esc(uk)}</span><button class="say" data-say="${esc(en)}">🔊</button></li>`).join(''):'<li>Поки порожньо. Натисни «➕ Add to My List» на картці.</li>'}
+
+/* Rule card */
+let ruleDone=false;
+const RULE_TXT="📅 EVERY DAY / usually / never: I play. She plays. ❌ She doesn't watch TV. ❓ Does she play tennis?\n📸 NOW / Look! / today: She is playing. ❌ She isn't watching TV. ❓ Is she playing tennis?\n🔑 Find the clue word first!";
+function ruleHTML(){return ruleDone?`<div class="rc2"><div class="a"><b>📅 Every day / usually / never</b><p>I play. She play<b>s</b>.</p><p>❌ She <b>doesn't</b> watch TV.</p><p>❓ <b>Does</b> she play tennis?</p></div>
+  <div class="b"><b>📸 Now / Look! / today</b><p>She <b>is</b> play<b>ing</b>.</p><p>❌ She <b>isn't</b> watching TV.</p><p>❓ <b>Is</b> she playing tennis?</p></div></div><p>🔑 <b>Find the clue word first!</b> / Спершу знайди слово-підказку!</p>`:'<p class="ukx">Картка ще порожня — заповни її на сторінці 5 (Grammar detective).</p>'}
+
+/* generic options & gaps */
+document.addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b||b.classList.contains('wm'))return;const g=b.closest('.opts');if(!g||g.classList.contains('done'))return;
+  if(b.textContent===g.dataset.ans){b.classList.add('ok');g.classList.add('done');reward();yay();const li=b.closest('li');if(li)checkLi(li);g.dispatchEvent(new CustomEvent('solved',{bubbles:true}))}
+  else{b.classList.add('no');shake(b);setTimeout(()=>b.classList.remove('no'),600);oops()}});
+document.addEventListener('change',e=>{const s=e.target;if(!s.matches('select.gap'))return;
+  if(s.value===s.dataset.ans){s.classList.remove('bad');s.classList.add('ok');s.disabled=true;reward();yay();const li=s.closest('li');if(li&&li.dataset.full)checkLi(li);
+    if(s.classList.contains('rc')&&$$('select.rc').every(x=>x.classList.contains('ok'))){ruleDone=true;$('#rcSaved').classList.remove('hidden');toast('📝 Rule Card saved!')}}
+  else if(s.value){s.classList.add('bad');shake(s);oops()}});
+function checkLi(li){if(!li.querySelector('.opts:not(.done),select.gap:not(.ok)')){li.classList.add('solved');if(li.dataset.full)speak(li.dataset.full)}}
+document.addEventListener('click',e=>{const b=e.target.closest('.lb button');if(!b)return;[...b.parentElement.children].forEach(x=>x.classList.toggle('on',x===b))});
+
+/* ===== DATA from Lesson 1 (word bank) ===== */
+const ACT=[['🏃','run','бігати','The boy is running.',['run']],['🏊','swim','плавати','She is swimming.',['swim']],['🚴','ride a bike','їздити на велосипеді','He is riding a bike.',['rid','bike']],['🪁','fly a kite','запускати повітряного змія','They are flying a kite.',['fly','kite']],['🛹','skateboard','кататися на скейті','He is skateboarding.',['skate']],['📖','read a book','читати книжку','Dad is reading a book.',['read','book']],['🍦','eat ice cream','їсти морозиво','Grandma is eating ice cream.',['eat','ice']],['⚽','play football','грати у футбол','Tom is playing football.',['football']],['🪑','sit on a bench','сидіти на лавці','Grandma is sitting on a bench.',['sit','bench']],['📷','take photos','фотографувати','The woman is taking photos.',['photo']],['🦆','feed the ducks','годувати качок','We are feeding the ducks.',['feed','duck']],['💃','dance','танцювати','She is dancing.',['danc']]];
+const MOODS=[['😼','ready to work hard','готовий(-а) старанно працювати',"I'm ready to work hard!",['work']],['🙀','shocked','у шоці',"Oh no! I'm shocked!",['shock']],['😾','so angry','дуже сердитий(-а)',"My cat is so angry today.",['angry']],['😩','tired','втомлений(-а)',"I'm feeling tired.",['tired']],['😴','sleepy','сонний(-а)',"Shhh! The baby is feeling sleepy.",['sleep']],['😸','full of energy','сповнений(-а) енергії',"I'm full of energy today!",['energ']],['😎','on top of the world','на сьомому небі',"I'm on top of the world!",['top','world']],['🤩','so excited','у захваті',"We are so excited!",['excit']],['😿','a bit sad','трохи сумний(-а)',"He is feeling a bit sad.",['sad']],['😋','hungry','голодний(-а)',"I'm hungry! What are we eating?",['hungr']]];
+
+/* ===== 0. Mood corkboard ===== */
+const MB=[{e:'🐶',p:'☀️',en:'happy',uk:'щасливий(-а)',c:'#FFF3CF'},{e:'🐨',p:'💤',en:'sleepy',uk:'сонний(-а)',c:'#E2F3F6'},{e:'🐻',p:'🍯',en:'hungry',uk:'голодний(-а)',c:'#FFE3CC'},
+ {e:'🦥',p:'🥱',en:'bored',uk:'нудно',c:'#ECE5FB'},{e:'🐱',p:'🌧️',en:'a bit sad',uk:'трохи сумний(-а)',c:'#DCE8F5'},{e:'🦁',p:'⚡',en:'full of energy',uk:'сповнений(-а) енергії',c:'#FFF3CF'},
+ {e:'🐸',p:'🤪',en:'silly',uk:'пустотливий(-а), дурашливий(-а)',c:'#DFF3E4'},{e:'🐼',p:'🍃',en:'calm',uk:'спокійний(-а)',c:'#E3F4EC'},{e:'🦊',p:'🔍',en:'curious',uk:'допитливий(-а)',c:'#FFE3CC'},
+ {e:'🐧',p:'🥶',en:'cold',uk:'мені холодно',c:'#E2F3F6'},{e:'🐰',p:'🎉',en:'so excited',uk:'у захваті',c:'#F6DCE8'},{e:'🦔',p:'❓',en:'worried',uk:'стурбований(-а)',c:'#ECE5FB'}];
+const MROT=[-4,3,-2,5,-3,2,4,-5,3,-2,4,-3];
+$('#mboard').innerHTML=MB.map((m,i)=>`<button class="polaroid" data-i="${i}" style="--r:${MROT[i]}deg;--bgc:${m.c}"><span class="ph"><span class="e">${m.e}</span><span class="pr">${m.p}</span></span><span class="cap">${m.en}</span><span class="ukm">${m.uk}</span></button>`).join('');
+let mMode='look',mAns=-1,mPool=[];
+function setMode(m){mMode=m;$$('.mbtn').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+  $('#lookBar').classList.toggle('hidden',m!=='look');$('#findBar').classList.toggle('hidden',m!=='find');$('#chooseBar').classList.toggle('hidden',m!=='choose');
+  if(m==='find')mStart()}
+$$('.mbtn').forEach(b=>b.onclick=()=>setMode(b.dataset.m));
+function mStart(){mPool=shuffle(MB.map((_,i)=>i)).slice(0,5);mNext()}
+function mNext(){if(!mPool.length){$('#findMsg').textContent='🎉 5 / 5! Great listening!';mAns=-1;return}
+  mAns=mPool.pop();$('#findMsg').textContent=`Round ${5-mPool.length} / 5`;setTimeout(()=>speak(MB[mAns].en),300)}
+$('#mAgain').onclick=()=>{if(mAns>=0)speak(MB[mAns].en)};$('#mRestart').onclick=mStart;
+$('#mboard').addEventListener('click',e=>{const s=e.target.closest('.polaroid');if(!s)return;const i=+s.dataset.i,m=MB[i];
+  if(mMode==='look'){s.classList.add('open');speak(m.en)}
+  else if(mMode==='find'){if(mAns<0)return;if(i===mAns){s.classList.add('hit');setTimeout(()=>s.classList.remove('hit'),900);reward();yay();mAns=-1;setTimeout(mNext,900)}else{shake(s);oops('Listen again! 🔊 Послухай ще раз')}}
+  else{$$('.polaroid').forEach(x=>x.classList.toggle('chosen',x===s));$('#myMood').innerHTML=`<b>How are you feeling today?</b><br>— Today I'm feeling <span class="hl">${m.en}</span> ${m.e} because …`;speak(`How are you feeling today? Today I'm feeling ${m.en}.`);reward()}});
+
+/* ===== 1. Tile game ===== */
+const TEAMS=[['🌞','Team Sun'],['🌙','Team Moon']];
+const TCOL=['#F08A3E','#1F7A8C','#9C3D6E','#E0A82E'];
+const TG={deck:[],i:0,open:new Set(),hints:0,over:false,turn:0,score:[0,0],shown:new Set()};
+const toItem=a=>({e:a[0],en:a[1],uk:a[2],s:a[3],k:a[4]});
+function deckItems(d){const act=ACT.map(toItem),mood=MOODS.map(toItem);
+  if(d==='act')return act;if(d==='mood')return mood;
+  if(d==='list'){const l=store.get('pc1_list',[]);const all=[...act,...mood];return l.map(([en])=>all.find(x=>x.en===en)).filter(Boolean)}
+  return [...act,...mood]}
+if(!deckItems('list').length){const b=$('.deck[data-d="list"]');b.disabled=true;b.title='На уроці 1 слова в My List ще не додано (або це інший браузер)'}
+function startDeck(d){const it=shuffle(deckItems(d));if(!it.length){toast('📒 My List з уроку 1 порожній');return}
+  $$('.deck').forEach(b=>b.classList.toggle('on',b.dataset.d===d));TG.deck=it;TG.i=0;newRound()}
+$('#decks').onclick=e=>{const b=e.target.closest('.deck');if(b&&!b.disabled)startDeck(b.dataset.d)};
+function renderTeams(){$('#tgTeams').innerHTML=TEAMS.map((t,i)=>`<div class="team${i===TG.turn&&!TG.over?' on':''}"><span class="nm">${t[0]} ${t[1]}</span><b>${TG.score[i]}</b></div>`).join('')}
+function setStatus(h){$('#tgStatus').innerHTML=h}
+function newRound(){const it=TG.deck[TG.i];TG.open.clear();TG.hints=0;TG.over=false;TG.shown=new Set();
+  $('#tgPic').textContent=it.e;
+  $('#tgTiles').innerHTML=Array.from({length:16},(_,n)=>`<button class="tile" data-n="${n+1}" style="--c:${TCOL[(n+Math.floor(n/4))%4]}">${n+1}</button>`).join('');
+  renderLetters();$('#tgAns').classList.add('hidden');$('#tgInput').value='';
+  $('#tgRound').textContent=`Picture ${TG.i+1} / ${TG.deck.length}`;
+  renderTeams();setStatus(`${TEAMS[TG.turn][0]} <b>${TEAMS[TG.turn][1]}</b>: choose a number! / Назвіть номер плашки`)}
+function renderLetters(all){const w=TG.deck[TG.i].en;
+  $('#tgLetters').innerHTML=[...w].map((c,i)=>c===' '?'<span class="lt gap"></span>':`<span class="lt${all||TG.shown.has(i)?'':' hid'}">${c.toUpperCase()}</span>`).join('')}
+const pts=()=>Math.max(1,16-TG.open.size-2*TG.hints);
+$('#tgTiles').addEventListener('click',e=>{const t=e.target.closest('.tile');if(!t||TG.over)return;const n=+t.dataset.n;if(TG.open.has(n))return;
+  TG.open.add(n);t.classList.add('open');
+  setStatus(`${TEAMS[TG.turn][0]} <b>${TEAMS[TG.turn][1]}</b>: guess or pass! / Вгадуйте або пас · зараз можна виграти <b>${pts()} ☀️</b>`)});
+$('#tgHint').onclick=()=>{if(TG.over||!TG.deck.length)return;const w=TG.deck[TG.i].en;const hid=[...w].map((c,i)=>i).filter(i=>w[i]!==' '&&!TG.shown.has(i));if(!hid.length)return;
+  TG.shown.add(hid[Math.floor(Math.random()*hid.length)]);TG.hints++;renderLetters();toast('💡 −2 ☀️')};
+function tgCorrect(){if(TG.over)return;const p=pts();TG.score[TG.turn]+=p;reward();toast(`+${p} ☀️ ${TEAMS[TG.turn][1]}!`);reveal()}
+function tgWrong(){if(TG.over)return;TG.turn=1-TG.turn;renderTeams();setStatus(`➡️ ${TEAMS[TG.turn][0]} <b>${TEAMS[TG.turn][1]}</b>: your turn! Choose a number.`)}
+function reveal(){TG.over=true;const it=TG.deck[TG.i];$$('#tgTiles .tile').forEach(t=>t.classList.add('open'));renderLetters(true);
+  $('#tgAns').innerHTML=`<div class="w">${it.e} ${esc(it.en)}</div><div class="ukb">${esc(it.uk)}</div><p style="margin:6px 0" class="big">🗣 ${esc(it.s)} <button class="say" data-say="${esc(it.s)}">🔊</button></p>
+   <div class="row c"><button class="add" data-en="${esc(it.en)}" data-uk="${esc(it.uk)}">➕ Add to My List</button><button class="btn or" id="tgNext">Next picture ▶</button></div>`;
+  $('#tgAns').classList.remove('hidden');speak(it.s);renderTeams();setStatus('🗣 Say the sentence together! / Скажіть речення разом!')}
+$('#tgRight').onclick=tgCorrect;$('#tgPass').onclick=tgWrong;$('#tgShow').onclick=()=>{if(!TG.over)reveal()};
+function tgCheck(){if(TG.over)return;const g=$('#tgInput').value.toLowerCase().replace(/[^a-z ]/g,'').trim();if(!g)return;
+  if(TG.deck[TG.i].k.some(k=>g.includes(k)))tgCorrect();else{shake($('#tgInput'));oops('Not this! ➡️ Хід іншої команди');$('#tgInput').value='';tgWrong()}}
+$('#tgCheck').onclick=tgCheck;$('#tgInput').addEventListener('keydown',e=>{if(e.key==='Enter')tgCheck()});
+$('#tgAns').addEventListener('click',e=>{if(!e.target.closest('#tgNext'))return;TG.i++;
+  if(TG.i>=TG.deck.length){const w=TG.score[0]===TG.score[1]?'🤝 Draw! Нічия!':`🏆 ${TEAMS[TG.score[0]>TG.score[1]?0:1].join(' ')} wins!`;
+    $('#tgAns').innerHTML=`<div class="w">${w}</div><p>☀️ ${TG.score[0]} : ${TG.score[1]} ☀️</p><button class="btn" id="tgAgain">↺ Play again</button>`;reward(2);return}
+  TG.turn=1-TG.turn;newRound()});
+$('#tgAns').addEventListener('click',e=>{if(e.target.closest('#tgAgain')){TG.score=[0,0];startDeck($('.deck.on').dataset.d)}});
+startDeck('act');
+
+/* ===== 2. Mission ===== */
+const M2=[['📅🪥','I [*brush|am brushing] my teeth every morning.'],['📸🐕💦','Look! The dog [*is swimming|swims]!'],['📅🎹','Mia [*plays|is playing] the piano on Mondays.'],['📸👨‍🍳','Shhh! Dad [*is cooking|cooks] dinner now.']];
+
+/* gap parser */
+function parse(line){const full=line.replace(/\[([^\]]+)\]/g,(m,b)=>b.split('|').find(o=>o[0]==='*').slice(1));
+  const html=line.replace(/\[([^\]]+)\]/g,(m,g)=>{const o=g.split('|');const ans=o.find(x=>x[0]==='*').slice(1);return `<select class="gap" data-ans="${esc(ans)}"><option value="">……</option>${shuffle(o.map(x=>x.replace('*',''))).map(x=>`<option>${esc(x)}</option>`).join('')}</select>`});return{full,html}}
+$('#miss2').innerHTML=M2.map(([e,l])=>{const p=parse(l);return `<li data-full="${esc(p.full)}"><span style="font-size:34px;margin-right:8px">${e}</span>${p.html}</li>`}).join('');
+
+/* ===== 3. Detective ===== */
+const PANELS=[
+ {cls:'p1',tag:'📅 Every Saturday',art:'👧🎾🥣',txt:'{Every Saturday} Mia [gets up|ps] at eight. She [has|ps] breakfast with her dad. Then she [plays|ps] tennis. She {never} [watches|ps] TV in the morning.'},
+ {cls:'p2',tag:'📸 This Saturday — right now!',art:'👧💤🐈',txt:'{Look!} Mia [is sleeping|pc] at ten o\'clock! {Today} she [isn\'t playing|pc] tennis. Her dad [is reading|pc] a book. And {now} her cat [is jumping|pc] on her bed!'}];
+function panelHTML(p){return p.txt.split(/(\{[^}]+\}|\[[^\]]+\])/).map(s=>{
+  if(s[0]==='{')return `<span class="tk" data-k="sig">${s.slice(1,-1)}</span>`;
+  if(s[0]==='['){const [w,t]=s.slice(1,-1).split('|');return `<span class="tk" data-k="verb" data-v="${t}">${w}</span>`}
+  return s.split(' ').map(w=>w?`<span class="tk" data-k="">${w}</span>`:'').join(' ')}).join('')}
+$('#comic').innerHTML=PANELS.map(p=>`<div class="panel ${p.cls}"><span class="tag">${p.tag}</span> <span class="art">${p.art}</span><br>${panelHTML(p)} <button class="say" data-say="${esc(p.txt.replace(/[{}]/g,'').replace(/\[([^|]+)\|\w+\]/g,'$1'))}">🔊</button></div>`).join('');
+const SIG_T=$$('#comic .tk[data-k="sig"]').length,VERB_T=$$('#comic .tk[data-k="verb"]').length;
+let dstage=1,dn=0;
+function dLabel(){$('#dTask').innerHTML=dstage===1?'Step 1: Click the <b>clue words</b> (when?) / Натисни слова-підказки (коли?)':'Step 2: Click all the <b>verbs</b>! / Натисни всі дієслова';$('#dc').textContent=`${dn} / ${dstage===1?SIG_T:VERB_T}`}
+dLabel();
+$('#comic').addEventListener('click',e=>{const t=e.target.closest('.tk');if(!t||t.className.includes('f-'))return;const want=dstage===1?'sig':'verb';
+  if(t.dataset.k===want){t.classList.add(want==='sig'?'f-sig':'f-'+t.dataset.v);reward();dn++;
+    if(dstage===1&&dn===SIG_T){dstage=2;dn=0;toast('🎉 Step 1 done!')}
+    else if(dstage===2&&dn===VERB_T){toast('🎉 Look at the colours! Now THINK…');$('#dThink').classList.remove('hidden')}else yay();dLabel()}
+  else{t.classList.add('miss');setTimeout(()=>t.classList.remove('miss'),400);oops(dstage===1?'Look for WHEN words: every…, now… 🔍':'Look for action words 🔍')}});
+
+/* ===== 4. Routine ===== */
+const ROUT=[['⏰','get up','вставати',"I get up at 7 o'clock."],['🧼','wash my face','вмиватися','I wash my face every morning.'],['🪥','brush my teeth','чистити зуби','I brush my teeth twice a day.'],['🥣','have breakfast','снідати','I have breakfast at half past seven.'],['🏫','go to school','ходити до школи','I go to school every day.'],['🍝','have lunch','обідати','I have lunch at one.'],['📝','do my homework','робити домашнє завдання','I do my homework after lunch.'],['🎮','play computer games','грати в комп’ютерні ігри','I play computer games on Fridays.'],['📺','watch TV','дивитися телевізор','I watch TV in the evening.'],['🐕','walk the dog','вигулювати собаку','I walk the dog every evening.'],['🚿','have a shower','приймати душ','I have a shower before bed.'],['🛏️','go to bed','лягати спати',"I go to bed at 9 o'clock."]];
+$('#routCards').innerHTML=ROUT.map(([e,en,uk,ex])=>`<div class="flip" tabindex="0"><div class="flip-in"><div class="face front"><button class="say" data-say="${esc(en)}">🔊</button><div class="emo">${e}</div><b>${en}</b></div><div class="face back"><div class="ukb">${uk}</div><div class="ex">${esc(ex)}</div><button class="add" data-en="${esc(en)}" data-uk="${esc(uk)}">➕ Add to My List</button></div></div></div>`).join('');
+document.addEventListener('click',e=>{const a=e.target.closest('.add');if(a){e.stopPropagation();addWord(a.dataset.en,a.dataset.uk);a.classList.add('added');a.textContent='✔ In My List';return}
+  const f=e.target.closest('.flip');if(f&&!e.target.closest('button'))f.classList.toggle('flipped')});
+document.addEventListener('keydown',e=>{const f=e.target.closest&&e.target.closest('.flip');if(f&&(e.key==='Enter'||e.key===' ')){e.preventDefault();f.classList.toggle('flipped')}});
+const LAB4=shuffle(ROUT).slice(0,6);
+$('#labels4').innerHTML=LAB4.map(a=>`<div class="lab"><span class="e">${a[0]}</span><select class="gap" data-ans="${esc(a[1])}"><option value="">…</option>${shuffle(LAB4.map(x=>x[1])).map(o=>`<option>${o}</option>`).join('')}</select></div>`).join('');
+
+/* sorting */
+function sortGame(bankEl,basketsEl,items,cats,onDone){
+  bankEl.innerHTML='';basketsEl.innerHTML=cats.map(c=>`<div class="basket ${c.cls}" data-cat="${c.id}"><h3>${c.label}</h3></div>`).join('');
+  shuffle(items).forEach((it,i)=>{const c=document.createElement('span');c.className='chip';c.textContent=it.t;c.dataset.cat=it.c;c.draggable=true;c.id=bankEl.id+'_'+i;bankEl.appendChild(c)});
+  let sel=null,left=items.length;
+  function place(chip,b){if(chip.classList.contains('placed'))return;
+    if(chip.dataset.cat===b.dataset.cat){b.appendChild(chip);chip.classList.remove('sel');chip.classList.add('placed');chip.draggable=false;reward();speak(chip.textContent);left--;if(!left){toast('🎉 All sorted!');onDone&&onDone()}}
+    else{shake(chip);oops()}sel=null}
+  bankEl.addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;speak(c.textContent);if(sel)sel.classList.remove('sel');sel=c===sel?null:c;if(sel)c.classList.add('sel')});
+  basketsEl.addEventListener('click',e=>{const b=e.target.closest('.basket');if(b&&sel)place(sel,b)});
+  bankEl.addEventListener('dragstart',e=>{const c=e.target.closest('.chip');if(c)e.dataTransfer.setData('text',c.id)});
+  basketsEl.querySelectorAll('.basket').forEach(b=>{b.addEventListener('dragover',e=>{e.preventDefault();b.classList.add('over')});b.addEventListener('dragleave',()=>b.classList.remove('over'));
+    b.addEventListener('drop',e=>{e.preventDefault();b.classList.remove('over');const c=document.getElementById(e.dataTransfer.getData('text'));if(c)place(c,b)})})}
+
+/* ===== 5. Clue words ===== */
+sortGame($('#bank5'),$('#baskets5'),
+ [['every day','e'],['usually','e'],['always','e'],['often','e'],['never','e'],['sometimes','e'],['on Mondays','e'],['every morning','e'],['now','n'],['right now','n'],['at the moment','n'],['Look!','n'],['Listen!','n'],['today','n']].map(([t,c])=>({t,c})),
+ [{id:'e',label:'📅 Every day<small>She plays tennis.</small>',cls:'b1'},{id:'n',label:'📸 Right now<small>She is playing tennis.</small>',cls:'b2'}]);
+const RACE=[['{Look!} The baby ___.','now','is crying'],['I ___ my teeth {every morning}.','every','brush'],['{Listen!} Mum ___ a song.','now','is singing'],['We ___ to school {every day}.','every','go'],['Shhh! Dad ___ {now}.','now','is sleeping'],['My cat {never} ___ fish.','every','eats'],['Tom {usually} ___ chess on Fridays.','every','plays'],['{At the moment} I ___ English.','now','am learning'],['She ___ TV {in the evening}.','every','watches'],['{Today} Granny ___ a cake!','now','is making']];
+let raceQ=[],raceCur=null,raceScore=0,raceLock=false;
+function raceStart(){raceQ=shuffle(RACE);raceScore=0;raceNext()}
+function raceNext(){raceLock=false;if(!raceQ.length){$('#raceS').innerHTML=`🏆 ${raceScore} / ${RACE.length}`;$('#raceN').textContent='Finish!';$('#raceMsg').textContent=raceScore>=8?'🎉 Super detective!':'🌱 Good try! Play again?';raceCur=null;return}
+  raceCur=raceQ.pop();$('#raceN').textContent=`${RACE.length-raceQ.length} / ${RACE.length} · ☀️ ${raceScore}`;
+  $('#raceS').innerHTML=raceCur[0].replace(/\{([^}]+)\}/,'$1').replace('___','<u>?</u>');$('#raceMsg').textContent=''}
+$$('[data-r]').forEach(b=>b.onclick=()=>{if(!raceCur||raceLock)return;raceLock=true;const ok=b.dataset.r===raceCur[1];
+  const full=raceCur[0].replace(/\{([^}]+)\}/,'<span class="clue">$1</span>').replace('___',`<b class="done">${raceCur[2]}</b>`);$('#raceS').innerHTML=full;
+  speak(raceCur[0].replace(/[{}]/g,'').replace('___',raceCur[2]));
+  if(ok){raceScore++;reward();$('#raceMsg').textContent='✅ Yes! The clue word helps!'}else{shake(b);$('#raceMsg').textContent='🔍 Look at the orange clue word! / Подивись на підказку'}
+  setTimeout(raceNext,2300)});
+$('#raceRestart').onclick=raceStart;raceStart();
+
+/* ===== 6. Reading ===== */
+const STORY=["Sam is ten. | He lives in Kyiv | with his mum, | his dad | and his cat, Fish.","Every Saturday | Sam gets up | at eight o'clock.","He has breakfast | and watches cartoons.","Then he plays chess | with his dad.","But today | is a special Saturday!","It is ten o'clock, | and Sam is still sleeping.","Fish is sitting | on his bed.","Dad is not playing chess. | He is washing | the car.","And Mum? | Mum is in the kitchen.","Shhh! | She is making | a big chocolate cake.","Today is Sam's birthday!"];
+const PLAIN=STORY.join(' ').replace(/ \| /g,' ');
+const EMO={cat:'🐈',eight:'⏰',breakfast:'🥣',cartoons:'📺',chess:'♟️',bed:'🛏️',car:'🚗',kitchen:'🍳',cake:'🎂',birthday:'🎉',saturday:'📅'};
+let helpMode=true,huntQ=null,shN=0;const foundW=new Set(),proofS=new Set();
+const isSh=w=>/sh|ch/i.test(w.replace(/[^A-Za-z]/g,''));
+function renderStory(){const used=new Set();
+  $('#story').innerHTML=STORY.map((s,i)=>`<span class="sent6${proofS.has(i)?' proof':''}" data-i="${i}">`+s.split(' ').map((w,j)=>{
+    if(w==='|')return helpMode?'<span class="sl">/</span>':'';
+    const c=w.toLowerCase().replace(/[^a-z]/g,'');const id=i+'-'+j;
+    let h=`<span class="w${foundW.has(id)?' found':''}" data-id="${id}" data-sh="${isSh(w)?1:0}">${w}</span>`;
+    if(helpMode&&EMO[c]&&!used.has(c)){used.add(c);h+=`<span class="emo">${EMO[c]}</span>`}return h}).join(' ')+'</span>').join(' ');
+  if(huntQ)$('#story').classList.add('hunting')}
+renderStory();
+const SH_T=$$('#story .w[data-sh="1"]').length;$('#shT').textContent=SH_T;
+$('#sayStory').dataset.say=PLAIN;
+$$('.lvl').forEach(b=>b.onclick=()=>{helpMode=b.dataset.l==='1';$$('.lvl').forEach(x=>x.classList.toggle('on',x===b));renderStory()});
+const Q6=[
+ {q:'Does Sam get up at eight every Saturday?',o:['Yes, he does.',"No, he doesn't."],a:0,p:1},
+ {q:'Is Sam getting up now?',o:['Yes, he is.',"No, he isn't. He is sleeping."],a:1,p:5},
+ {q:'What does Sam play with his dad?',o:['Chess.','Football.','Computer games.'],a:0,p:3},
+ {q:'Where is Fish sitting?',o:['On the bed.','In the kitchen.','In the car.'],a:0,p:6},
+ {q:'What is Dad doing today?',o:['He is playing chess.','He is washing the car.','He is making a cake.'],a:1,p:7},
+ {q:'Why is Mum making a cake?',o:["It's Sam's birthday.","It's Monday.",'Sam is hungry.'],a:0,p:10}];
+$('#qs6').innerHTML=Q6.map((q,i)=>`<div class="qcard" data-i="${i}"><b class="q">${i+1}. ${esc(q.q)}</b> <button class="say" data-say="${esc(q.q)}">🔊</button><div class="opts" data-ans="${esc(q.o[q.a])}">${q.o.map(o=>`<button class="opt">${esc(o)}</button>`).join('')}</div><button class="btn small alt proof" disabled>🔍 Find the proof</button> <span class="pmsg ukx"></span></div>`).join('');
+$('#qs6').addEventListener('solved',e=>{const c=e.target.closest('.qcard');c.querySelector('.proof').disabled=false;c.querySelector('.pmsg').textContent='Тепер знайди доказ у тексті!'});
+$('#qs6').addEventListener('click',e=>{const b=e.target.closest('.proof');if(!b)return;$$('.qcard').forEach(c=>c.classList.remove('active'));huntQ=b.closest('.qcard');huntQ.classList.add('active');$('#story').classList.add('hunting');huntQ.querySelector('.pmsg').textContent='👈 Натисни речення в тексті'});
+$('#story').addEventListener('click',e=>{
+  if(huntQ){const s=e.target.closest('.sent6');if(!s)return;const q=Q6[huntQ.dataset.i];
+    if(+s.dataset.i===q.p){proofS.add(q.p);s.classList.add('proof');huntQ.classList.remove('active');huntQ.classList.add('solved');huntQ.querySelector('.proof').remove();
+      const txt=STORY[q.p].replace(/ \| /g,' ');huntQ.querySelector('.pmsg').textContent='✅ Proof: «'+txt+'»';speak(txt);reward();yay();huntQ=null;$('#story').classList.remove('hunting')}
+    else{shake(s);oops('Not this sentence 🔍 Шукай ключове слово з питання!')}return}
+  const w=e.target.closest('.w');if(!w||foundW.has(w.dataset.id))return;
+  if(w.dataset.sh==='1'){foundW.add(w.dataset.id);w.classList.add('found');shN++;$('#shN').textContent=shN;reward();speak(w.textContent.replace(/[^A-Za-z]/g,''));if(shN===SH_T)toast('🎉 All sh / ch words found!')}
+  else{w.classList.add('miss');setTimeout(()=>w.classList.remove('miss'),400);oops('No sh / ch here 🙂')}});
+
+/* ===== sh / ch sort + reading record ===== */
+sortGame($('#bank7'),$('#baskets7'),
+ [['shower','s'],['brush','s'],['wash','s'],['fish','s'],['shop','s'],['she','s'],['sheep','s'],['chess','c'],['lunch','c'],['watch','c'],['kitchen','c'],['chocolate','c'],['teacher','c'],['cheese','c']].map(([t,c])=>({t,c})),
+ [{id:'s',label:'🤫 sh<small>shhh… like a quiet library</small>',cls:'b3'},{id:'c',label:'🚂 ch<small>ch-ch-ch… like a train</small>',cls:'b1'}]);
+const RW=PLAIN.split(/\s+/).filter(Boolean);
+$('#rtext').innerHTML=RW.map((w,i)=>`<span class="rw" data-i="${i}">${w}</span>`).join(' ');
+const rec=store.get('pc2_reading',[null,null,null]);
+const prev1=(store.get('pc1_reading',[]).filter(x=>x!=null));const prevBest=prev1.length?Math.max(...prev1):null;
+let rTry=0,rState='idle',rSec=0,rTimer=null,rErr=0;
+const TRYL=['1 👩‍🏫 teacher','2 👫 buddy','3 🦸 alone'];
+function renderTries(){const vals=rec.filter(x=>x!=null);const mx=Math.max(80,prevBest||0,...vals);
+  $('#bars').innerHTML=(prevBest?`<div class="barc"><b style="color:#999">${prevBest}</b><div class="rbar prev" style="height:${Math.round(prevBest/mx*130)}px"></div><span>Lesson 1 best</span></div>`:'')+
+    rec.map((v,i)=>`<div class="barc"><b>${v??'—'}</b><div class="rbar" style="height:${v?Math.round(v/mx*130):4}px"></div><span>${TRYL[i]}</span></div>`).join('');
+  $('#growth').innerHTML=vals.length>1&&vals[vals.length-1]>vals[0]?`🚀 +${vals[vals.length-1]-vals[0]} words per minute!`:vals.length?'words per minute / слів за хвилину':''}
+renderTries();
+function selTry(t){rTry=t;$$('.try').forEach(b=>b.classList.toggle('on',+b.dataset.t===t))}
+$$('.try').forEach(b=>b.onclick=()=>{if(rState==='running')return;selTry(+b.dataset.t)});
+function setErr(n){rErr=Math.max(0,n);$('#rErr').textContent=rErr}
+$('#errPlus').onclick=()=>setErr(rErr+1);$('#errMinus').onclick=()=>setErr(rErr-1);
+$('#rStart').onclick=()=>{if(rState==='running')return;rState='running';rSec=0;setErr(0);$$('.rw').forEach(x=>x.classList.remove('read'));$('#rtext').classList.remove('picking');
+  $('#rClock').textContent='60';$('#rMsg').textContent='📖 Read aloud! / Читай уголос!';
+  clearInterval(rTimer);rTimer=setInterval(()=>{rSec++;$('#rClock').textContent=60-rSec;if(rSec>=60){clearInterval(rTimer);rState='pick';$('#rClock').textContent='⏰';$('#rMsg').textContent='⏰ Time! Click the LAST word you read. / Натисни останнє прочитане слово.';$('#rtext').classList.add('picking')}},1000)};
+$('#rDone').onclick=()=>{if(rState!=='running')return;clearInterval(rTimer);$$('.rw').forEach(x=>x.classList.add('read'));finishRead(RW.length,Math.max(rSec,1))};
+$('#rtext').addEventListener('click',e=>{const w=e.target.closest('.rw');if(!w||rState!=='pick')return;const k=+w.dataset.i;$$('.rw').forEach(x=>x.classList.toggle('read',+x.dataset.i<=k));finishRead(k+1,60)});
+function finishRead(words,secs){rState='done';$('#rtext').classList.remove('picking');const wpm=Math.max(0,Math.round((words-rErr)*60/secs));
+  rec[rTry]=wpm;store.set('pc2_reading',rec);renderTries();
+  $('#rMsg').innerHTML=`✅ ${words} words, ${rErr} mistakes → <b>${wpm}</b> words per minute`;reward(2);if(rTry<2)selTry(rTry+1)}
+
+/* ===== 8. Practice ===== */
+const G8=["Look! Dad [*is cooking|cooks] dinner.","I [*go|am going] to bed at nine every day.","Shhh! The baby [*is sleeping|sleeps].","My sister usually [*watches|is watching] cartoons on Sunday.","We [*are having|have] lunch now. Call me later!","Tom [*doesn't play|isn't playing] chess on Mondays.","[*Is|Does] Mum washing the car now?","[*Does|Is] your cat sleep a lot every day?"];
+$('#g8').innerHTML=G8.map(l=>{const p=parse(l);return `<li data-full="${esc(p.full)}">${p.html}</li>`}).join('');
+function unscramble(el,list){el.innerHTML='<h3 class="t" style="margin:14px 0 4px">🧩 Put the words in order / Склади речення</h3>'+list.map(w=>{let s;do{s=shuffle(w)}while(s.join(' ')===w.join(' '));return `<div class="uns" data-w="${esc(w.join(' '))}"><div class="uline"></div><div class="ubank">${s.map(x=>`<button class="word">${esc(x)}</button>`).join('')}</div><button class="btn small uchk">✔ Check</button></div>`}).join('');
+  el.addEventListener('click',e=>{const box=e.target.closest('.uns');if(!box||box.classList.contains('solved'))return;const w=e.target.closest('.word');
+    if(w){(w.parentElement.classList.contains('ubank')?box.querySelector('.uline'):box.querySelector('.ubank')).appendChild(w);return}
+    if(e.target.closest('.uchk')){const got=[...box.querySelectorAll('.uline .word')].map(x=>x.textContent).join(' ');if(got===box.dataset.w){box.classList.add('solved');e.target.closest('.uchk').remove();speak(got);reward(2);yay()}else{shake(box);oops()}}})}
+unscramble($('#uns8'),[['She','usually','has','breakfast at eight.'],['Look!','The dog','is eating','my sandwich!'],['What','are','you','doing','now?'],['Do','you','walk','the dog','every day?']]);
+
+/* ===== 9. Info gap ===== */
+const FAM=[
+ ['👨','Dad',['🥞','cooks pancakes','is cooking pancakes'],['🚗','is washing the car']],
+ ['👩','Mum',['🌷','works in the garden','is working in the garden'],null],
+ ['👴','Grandpa',['📰','reads the newspaper','is reading the newspaper'],['💤','is sleeping']],
+ ['👵','Granny',['📞','talks to her friends on the phone','is talking on the phone'],['🎂','is making a cake']],
+ ['👦','Ben',['🎮','plays computer games','is playing computer games'],null],
+ ['👧','Mia',['🎹','plays the piano','is playing the piano'],['🚴','is riding her bike']],
+ ['🐕','Rex the dog',['🦴','eats a bone','is eating a bone'],null],
+ ['🐈','Kitty the cat',['🛋️','sleeps on the sofa','is sleeping on the sofa'],['🐦','is watching the birds']]];
+const DIFF9=FAM.map((f,i)=>f[3]?i:-1).filter(i=>i>=0);const sdFound=new Set();
+function famHTML(side,cls){return `<div class="fam ${side} ${cls||''}">${FAM.map((f,i)=>{const t=side==='A'?f[2][0]:(f[3]?f[3][0]:f[2][0]);return `<div class="fcell" data-i="${i}"><span class="e">${f[0]}</span><span class="e2">${t}</span><span class="who">${f[1]}</span></div>`}).join('')}</div>`}
+function showRole(r){$$('.role').forEach(b=>b.classList.toggle('on',b.dataset.r===r));
+  if(r==='A')$('#sdBox').innerHTML='<h3 class="t">📅 Student A — Every Sunday (usually)</h3>'+famHTML('A')+'<p class="uk">Кажи: «Every Sunday Dad cooks pancakes.» Питай: «What is Dad doing now?»</p>';
+  else if(r==='B')$('#sdBox').innerHTML='<h3 class="t">📸 Student B — This Sunday (right now)</h3>'+famHTML('B')+'<p class="uk">Кажи: «Now Dad is washing the car.» Питай: «What does Dad usually do?»</p>';
+  else{$('#sdBox').innerHTML=`<div class="twocol"><div><h3 class="t">📅 A — usually</h3>${famHTML('A')}</div><div><h3 class="t">📸 B — click the differences!</h3>${famHTML('B','sb')}</div></div><div class="row" style="margin-top:10px"><span class="counter">Found: <span id="sdN">0</span> / 5</span></div><ul id="sdList" class="sdlist"></ul>`;sdFound.forEach(i=>markDiff(i,false))}}
+$$('.role').forEach(b=>b.onclick=()=>showRole(b.dataset.r));
+function markDiff(i,fresh){$$(`#sdBox .fcell[data-i="${i}"]`).forEach(x=>x.classList.add('diff'));const f=FAM[i];
+  const s=`${f[1]} usually ${f[2][1]}, but now ${/dog|cat/.test(f[1])?'it':(['Dad','Grandpa','Ben'].includes(f[1])?'he':'she')} ${f[3][1]}.`;
+  $('#sdList').insertAdjacentHTML('beforeend',`<li>${s} <button class="say" data-say="${esc(s)}">🔊</button></li>`);$('#sdN').textContent=sdFound.size;
+  if(fresh){reward();speak(s);if(sdFound.size===5)toast('🎉 All 5 differences!');else yay()}}
+$('#sdBox').addEventListener('click',e=>{const c=e.target.closest('.sb .fcell');if(!c)return;const i=+c.dataset.i;if(sdFound.has(i))return;
+  if(DIFF9.includes(i)){sdFound.add(i);markDiff(i,true)}else{shake(c);const f=FAM[i];oops(`Same! ${f[1]} ${f[2][2]} 🙂`)}});
+
+/* ===== 10. Board game: Ladders & Snakes ===== */
+const SQ=[{t:'start'},
+ {t:'pic',e:'👨‍🍳🍳',q:'He … (cook)',a:'He is cooking.'},
+ {t:'spell',q:'write → ?',a:'writing'},
+ {t:'up',to:11,q:'🪜 A ladder! Say «I am climbing!» and go up to 11!'},
+ {t:'ask',q:'Ask a friend: you / listen to music?',a:'Are you listening to music?'},
+ {t:'not',q:'The baby is crying. → ❌',a:"The baby isn't crying."},
+ {t:'mime',q:'Mime: brush your teeth 🪥. Others guess: «Are you…?»'},
+ {t:'pic',e:'🐈🛏️',q:'The cat … (sleep)',a:'The cat is sleeping.'},
+ {t:'chance'},
+ {t:'down',to:2,q:'🍌 A banana skin! Say «I am falling!» and slide down to 2.'},
+ {t:'talk',q:'Ask the next player: «What are you doing now?» They answer.',a:"I'm sitting / I'm playing a game…"},
+ {t:'spell',q:'swim → ?',a:'swimming'},
+ {t:'pic',e:'👧🎨',q:'She … (paint a picture)',a:'She is painting a picture.'},
+ {t:'not',q:'I am singing. → ❌',a:"I'm not singing."},
+ {t:'ask',q:'Ask: Dad / wash the car?',a:'Is Dad washing the car?'},
+ {t:'chance'},
+ {t:'up',to:22,q:'🪜 A ladder! Say «I am climbing!» and go up to 22!'},
+ {t:'mime',q:'Mime: play the guitar 🎸. Others guess!'},
+ {t:'pic',e:'👨‍👩‍👧📺',q:'They … (watch TV)',a:'They are watching TV.'},
+ {t:'spell',q:'ride → ?',a:'riding'},
+ {t:'down',to:13,q:'🐍 A snake! Say «I am falling!» and slide down to 13.'},
+ {t:'talk',q:'Look out of the window. What is happening outside? Say 2 sentences.',a:'A man is walking. The sun is shining…'},
+ {t:'ask',q:'Ask: What / your friend / do?',a:'What is your friend doing?'},
+ {t:'pic',e:'🧒🧁',q:'He … (eat a cupcake)',a:'He is eating a cupcake.'},
+ {t:'chance'},
+ {t:'not',q:'We are dancing. → ❌',a:"We aren't dancing."},
+ {t:'down',to:17,q:'🐍 A big snake! Say «I am falling!» and slide down to 17.'},
+ {t:'mime',q:'Mime: take a photo 📷. Others guess!'},
+ {t:'pic',e:'👵📞',q:'Granny … (talk on the phone)',a:'Granny is talking on the phone.'},
+ {t:'finish'}];
+const LAST=SQ.length-1;
+const CHANCE=[{q:'Guess! What is your mum or dad doing now? 🤔',a:'I think my mum is working.'},{q:'Look at the teacher. What is she doing now?',a:'She is smiling. She is talking.'},{q:'✨ Lucky star! Go forward 2.',m:2},{q:'🌧 Oh, rain! Go back 2.',m:-2},{q:'Everyone mimes an action! You guess 2 of them.',a:'Max is swimming. Ira is dancing.'},{q:'Ask the teacher a question: «Are you …ing?»',a:'Are you drinking tea?'},{q:"Say 2 things your family is NOT doing now.",a:"My brother isn't sleeping. Mum isn't cooking."}];
+const TYPES={pic:{l:'🖼 Look & say!',bg:'#FFF3CF',bd:'#F7C95C'},ask:{l:'❓ Ask it!',bg:'#E2F3F6',bd:'#1F7A8C'},not:{l:'❌ Make it negative!',bg:'#F6DCE8',bd:'#9C3D6E'},spell:{l:'✍️ Spell it! Write in the chat',bg:'#FFE3CC',bd:'#F08A3E'},mime:{l:'🎭 Mime it!',bg:'#ECE5FB',bd:'#7C62C4'},talk:{l:'🎤 Talk!',bg:'#DFF3E4',bd:'#1F7A5A'},chance:{l:'🃏 Chance card',bg:'#FFF3CF',bd:'#C9611B'},up:{l:'🪜 Ladder!',bg:'#E3F4EC',bd:'#1F7A5A'},down:{l:'🐍 Snake!',bg:'#FDE5E2',bd:'#C2453B'}};
+const TOK=['🐯','🦁','🐼','🐨','🐵','🐧'],TEAMTOK=['🌞','🌙'];
+let gN=4,teams=false,players=[],turn=0,busy=false,chanceCard=null;
+$('#gCount').innerHTML=[2,3,4,5,6].map(n=>`<button class="cnt${n===4?' on':''}" data-n="${n}">${n} players</button>`).join('')+'<button class="cnt" data-n="t">🌞 vs 🌙 teams</button>';
+function renderNames(){const n=teams?2:gN;$('#gNames').innerHTML=Array.from({length:n},(_,i)=>`<label class="pname">${teams?TEAMTOK[i]:TOK[i]} <input value="${teams?['Team Sun','Team Moon'][i]:'Player '+(i+1)}"></label>`).join('')}
+renderNames();
+$('#gCount').onclick=e=>{const b=e.target.closest('.cnt');if(!b)return;teams=b.dataset.n==='t';if(!teams)gN=+b.dataset.n;$$('.cnt').forEach(x=>x.classList.toggle('on',x===b));renderNames()};
+$('#gStart').onclick=()=>{players=$$('#gNames input').map((inp,i)=>({n:inp.value.trim()||('Player '+(i+1)),t:teams?TEAMTOK[i]:TOK[i],pos:0}));turn=0;busy=false;
+  $('#gSetup').classList.add('hidden');$('#gPlay').classList.remove('hidden');drawBoard();$('#dice').textContent='🎲'};
+$('#gReset').onclick=()=>{$('#gPlay').classList.add('hidden');$('#gSetup').classList.remove('hidden')};
+const ROWS=Math.ceil(SQ.length/6);
+function drawBoard(){$('#gboard').innerHTML=SQ.map((s,k)=>{const r=Math.floor(k/6),c=r%2===0?k%6:5-k%6;
+    const ic={start:'🚩',finish:'🏁',pic:'🖼',ask:'❓',not:'❌',spell:'✍️',mime:'🎭',talk:'🎤',chance:'🃏',up:'🪜',down:'🐍'}[s.t];
+    const jm=s.t==='up'?`<span class="jmp">↑ ${s.to}</span>`:s.t==='down'?`<span class="jmp">↓ ${s.to}</span>`:'';
+    return `<div class="sq t-${s.t}" style="grid-row:${ROWS-r};grid-column:${c+1}"><span class="num">${k===0?'START':k===LAST?'FINISH':k}</span><span class="ico">${ic}${s.e?' '+s.e:''} ${jm}</span><span class="toks" data-k="${k}"></span></div>`}).join('');placeTokens()}
+function placeTokens(){$$('.toks').forEach(t=>t.innerHTML='');players.forEach((p,i)=>{const t=$(`.toks[data-k="${p.pos}"]`);if(t)t.insertAdjacentHTML('beforeend',`<span class="tok${i===turn?' me':''}" title="${esc(p.n)}">${p.t}</span>`)});
+  if(players.length)$('#gTurn').innerHTML=`Turn: <b>${players[turn].t} ${esc(players[turn].n)}</b>`}
+function move(p,steps,cb){const dir=Math.sign(steps);let left=Math.abs(steps);const iv=setInterval(()=>{if(!left||(dir>0&&p.pos>=LAST)||(dir<0&&p.pos<=0)){clearInterval(iv);cb&&cb();return}p.pos+=dir;left--;placeTokens()},200)}
+$('#gRoll').onclick=()=>{if(busy||!players.length)return;busy=true;const F=['⚀','⚁','⚂','⚃','⚄','⚅'];let k=0;
+  const iv=setInterval(()=>{$('#dice').textContent=F[Math.floor(Math.random()*6)];if(++k>8){clearInterval(iv);const n=1+Math.floor(Math.random()*6);$('#dice').textContent=F[n-1];const p=players[turn];move(p,n,()=>land(p))}},70)};
+function openCard(html,color){$('#gcard').innerHTML=html;$('#gcard').style.setProperty('--c',color);$('#gm').classList.add('open')}
+function land(p){if(p.pos>=LAST){win(p);return}const s=SQ[p.pos];if(s.t==='start'){nextTurn();return}const c=TYPES[s.t];
+  let h=`<div class="gtype" style="background:${c.bg}">${c.l}</div><div class="ukx" style="margin-top:6px">${p.t} ${esc(p.n)}</div>`;
+  if(s.t==='chance'){chanceCard=CHANCE[Math.floor(Math.random()*CHANCE.length)];h+=`<p class="gq">${chanceCard.q}</p>`;
+    if(chanceCard.m)h+=`<button class="btn" data-g="cm">OK ${chanceCard.m>0?'🚀':'🐌'}</button>`;
+    else h+=`<div class="gans hidden">💡 ${chanceCard.a}</div><div class="row c"><button class="btn alt" data-g="show">💡 Example</button><button class="btn" data-g="ok">✅ Done!</button></div>`}
+  else if(s.t==='up'||s.t==='down')h+=`<p class="gq">${s.q}</p><button class="btn" data-g="jump">${s.t==='up'?'🪜 Climb!':'🐍 Slide!'}</button>`;
+  else{h+=`${s.e?`<div class="gemo">${s.e}</div>`:''}<p class="gq">${s.q}</p>`;
+    if(s.t==='mime'||s.t==='talk')h+=`${s.a?`<div class="gans hidden">💡 ${s.a}</div>`:''}<div class="row c">${s.a?'<button class="btn alt" data-g="show">💡 Example</button>':''}<button class="btn" data-g="ok">✅ Done!</button></div>`;
+    else h+=`<div class="gans hidden">✅ ${s.a}</div><div class="row c"><button class="btn alt" data-g="show">👀 Answer</button><button class="btn" data-g="ok">👍 Correct!</button><button class="btn berry" data-g="no">🔁 Not yet: back 1</button></div>`}
+  openCard(h,c.bd)}
+$('#gcard').addEventListener('click',e=>{
+  if(e.target.closest('[data-w]')){players.forEach(p=>p.pos=0);turn=0;busy=false;$('#gm').classList.remove('open');placeTokens();$('#dice').textContent='🎲';return}
+  const b=e.target.closest('[data-g]');if(!b)return;const g=b.dataset.g;const p=players[turn];const s=SQ[p.pos];
+  if(g==='show'){const a=$('#gcard .gans');if(a)a.classList.remove('hidden');const t=s.t==='chance'?chanceCard.a:s.a;if(t)speak(t.replace(/…/g,''));return}
+  $('#gm').classList.remove('open');
+  if(g==='ok'){reward();nextTurn()}
+  else if(g==='no')move(p,-1,nextTurn);
+  else if(g==='cm')move(p,chanceCard.m,()=>{if(p.pos>=LAST)win(p);else nextTurn()});
+  else if(g==='jump'){speak(s.t==='up'?'I am climbing!':'I am falling!');reward();move(p,s.to-p.pos,()=>{if(p.pos>=LAST)win(p);else nextTurn()})}});
+function nextTurn(){turn=(turn+1)%players.length;placeTokens();busy=false}
+function win(p){openCard(`<div class="gemo">🏆</div><h2 style="color:var(--orange2)">${p.t} ${esc(p.n)} wins!</h2><p class="uk">Перемога! Але виграли всі, хто сьогодні говорив англійською 😉</p><button class="btn" data-w="again">↺ Play again</button>`,'#F7C95C');reward(3)}
+
+/* ===== 11. Final ===== */
+const CANS=['I can say what I do every day and what I am doing now.','I can find clue words: usually, every day, now, Look!','I can ask: Do you…? / Are you…?','I can read sh / ch words and find the proof in a text.'];
+$('#lights').innerHTML='<h3 class="t">🪞 How do I feel?</h3>'+CANS.map(c=>`<div class="light"><span>${c}</span><span class="lb"><button>🔴</button><button>🟡</button><button>🟢</button></span></div>`).join('');
+function renderBadge(){const lv=suns>=80?['🌞','Sunshine Champion']:suns>=40?['🌤️','Sunny Day']:['🌅','Early Bird'];
+  $('#badge').innerHTML=`<div class="e">${lv[0]}</div><b>${lv[1]}</b><div>☀️ ${suns} suns</div>`}
+function renderReadSum(){const d=rec.filter(x=>x!=null);$('#readSum').innerHTML=d.length?`📖 My best reading: <b>${Math.max(...d)}</b> words per minute`+(prevBest?` <span class="ukx">(Lesson 1: ${prevBest})</span>`:''):''}
+function exportText(){return 'EVERY DAY OR RIGHT NOW? — My Rule Card\n\n'+(ruleDone?RULE_TXT:'(not filled yet)')+'\n\nMy List:\n'+([...myList].map(([a,b])=>a+' — '+b).join('\n')||'—')+'\n\nMy reading record (words per minute): '+rec.map((x,i)=>`Try ${i+1}: ${x??'—'}`).join(', ')+'\n\nSuns: '+suns}
+function showCopy(t){const a=$('#copyArea');a.value=t;a.classList.remove('hidden');a.focus();a.select();toast('Виділи й скопіюй текст')}
+$('#copyBtn').onclick=()=>{const t=exportText();try{navigator.clipboard.writeText(t).then(()=>toast('📋 Copied! / Скопійовано!'),()=>showCopy(t))}catch(e){showCopy(t)}};
+$('#dlBtn').onclick=()=>{try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([exportText()],{type:'text/plain'}));a.download='my-rule-card-every-day-or-now.txt';document.body.appendChild(a);a.click();a.remove()}catch(e){}toast('Якщо файл не завантажився — натисни Copy')};
+
+/* video */
+$$('.video').forEach(v=>v.querySelector('.vgo').onclick=()=>{const u=v.querySelector('.vurl').value.trim();const m=u.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/);
+  v.querySelector('.vbox').innerHTML=m?`<iframe src="https://www.youtube.com/embed/${m[1]}" allowfullscreen></iframe>`:'<p class="ukx">Встав посилання на YouTube.</p>'});
+
+/* teacher notes */
+const TN=[
+ ['4 хв','Виведи коркову дошку на екран. 1) Look & listen: діти по черзі натискають фото й вгадують значення до того, як з\'явиться переклад. 2) Listen & find: 5 раундів, керування можна дати дитині (Remote control). 3) This is me!: кожен обирає свій настрій і пише в чат «Today I\'m feeling … because …», надсилаємо одночасно за сигналом «3-2-1-Send!». 4) Guess my mood: питання «Are you feeling…?» — це вже Present Continuous. ⭐ Сильнішим: «I usually feel … on Fridays, but today I\'m feeling …» — місток до теми уроку.','Mood mime: дитина показує настрій мімікою, інші вгадують: «Are you feeling bored?»'],
+ ['2 хв','Can-do вголос. Чотири речення «на відчуття»: картинка з 📅 чи 📸 підказує відповідь ще до правила. Не пояснюй — лише «Why do you think so?». Світлофор — самооцінка на старті.','Thumbs: учитель читає речення, діти показують 👆 (every day — рука по колу) чи 👇 (now).'],
+ ['5 хв','Повторення слів уроку 1 у формі гри. Дві команди по 3. Команда називає номер англійською («Number seven, please!») — плашка відкривається (Remote control можна дати дитині). Після кожної плашки команда може вгадати усно (ти тиснеш ✅ Right!) або вписати слово. Неправильно / пас — хід іншої команди. Бали = скільки плашок лишилось закритими; підказка-літера коштує 2 бали. Після кожного слова всі разом кажуть речення в Present Continuous — місток до теми уроку. Колода «My List» працює, якщо дитина на уроці 1 додавала слова в тому самому браузері.','Silent guess: команда, що вгадує, не говорить, а показує слово пантомімою — інша команда називає.'],
+ ['2 хв','Тільки сортування за звуком sh / ch: діти натискають слово (воно озвучується) і кладуть у кошик. Попроси повторити кожне слово вголос. Підготовка до тексту про Сема: там 10 слів з sh / ch.','Sound train: 🚂 «ch-ch-ch» — діти називають слова з ch; 🤫 «sh» — шепочуть слова з sh.'],
+ ['8 хв','Комікс про Мію: крок 1 — слова-підказки (вони зафарбовуються помаранчевим), крок 2 — дієслова (жовті = every day, бірюзові = now). Діти бачать різницю кольором. THINK → картка правил: заповнюють самі, 5–10 секунд тиші перед відповіддю. CCQ: «Is Mia sleeping now? Does she sleep at 10 every Saturday?» Попроси одну дитину переказати правило українською.','Body clock: «every day» — рука описує коло, «now» — палець униз. Ти читаєш речення, діти показують жест.'],
+ ['4 хв','Лексика розпорядку дня для тексту й інформаційного розриву. Діти перевертають картки, слухають, незнайомі додають у My List. Приклади на звороті — Present Simple (це звички). Підписи до картинок — перевірка розуміння.','Routine charades: дитина показує дію — «Do you brush your teeth every morning?» / «Are you brushing your teeth now?»'],
+ ['5 хв','Стратегія уроку — слова-підказки. Спершу сортування на 2 кошики (слова озвучуються при натисканні), потім Clue race: дієслово сховане, діти шукають підказку й обирають 📅 чи 📸. Після відповіді з\'являється речення з підказкою, виділеною помаранчевим. Командний варіант — 3-2-1-Send у чат.','Clue detective: ти кажеш речення без підказки («Dad is cooking»), діти додають підказку («Look! / now»).'],
+ ['6 хв','Повільні читачі обирають ⭐ (картинки й поділ на фрази). Спершу echo reading: ти читаєш фразу — діти повторюють. Потім полювання на sh / ch (10 слів) і питання з доказом 🔍. Зверни увагу: перші 4 речення про «every Saturday», решта — «today». Питання 1–2 саме на цей контраст. Стратегія: знайди в тексті ключове слово з питання.','Two voices: одна дитина читає «every Saturday» частину, інша — «today» частину.'],
+ ['4 хв','Скоромовка 3 рази (розминка для язика). Замір темпу в парах reading buddies на тексті, який діти щойно прочитали: спроба 1 — з тобою (echo), 2 — з buddy, 3 — сам. Buddy рахує помилки кнопкою, але не підказує одразу — 3 секунди на самовиправлення. Сірий стовпчик — найкращий результат уроку 1 (якщо той самий браузер). Порівнюємо дитину лише з нею самою. Якщо часу мало — одна спроба на уроці, дві вдома.','Phrase relay: діти по черзі читають по одній фразі (до знака /) без пауз між собою.'],
+ ['5 хв','Контрольована практика з різними підказками. Попроси дітей спершу вголос назвати слово-підказку, а вже потім обирати форму. Речення 7–8 — питання (Is / Does): найважче, тут допомагають експерти. Помилки зібрати для спільного розбору наприкінці.','Chat race: перший, хто правильно напише речення в чат, отримує ☀️.'],
+ ['6 хв','Інформаційний розрив у breakout rooms (3 пари): A — «usual Sunday», B — «this Sunday». На картинку партнера не дивитися! A каже «Every Sunday Dad cooks pancakes. What is Dad doing now?» — B: «He is washing the car!» — «Different!». Тренуємо обидва питання: What does … usually do? / What is … doing now? Після 5 відмінностей — Show both. Якщо немає окремих пристроїв, надішли картинки A і B скріншотом у приватний чат.','Memory check: закрити картинки й пригадати 3 відмінності реченнями з but: «Dad usually cooks pancakes, but now he is washing the car.»'],
+ ['7 хв','Ladders & Snakes — повторення Present Continuous. 2–6 гравців або 2 команди. Шеринг екрана, кубик кидає гравець (Remote control) або ти. Клітинки: 🖼 речення за картинкою, ❓ питання, ❌ заперечення, ✍️ -ing у чат, 🎭 пантоміма, 🎤 інтерв\'ю, 🃏 картки «Chance». На драбині кажуть «I\'m climbing!», на змії — «I\'m falling!». Правильність оцінює група 👍/👎, експерти можуть бути суддями.','Командний варіант: перед відповіддю команда радиться 20 секунд — більше взаємодії.'],
+ ['3 хв','Світлофор за can-do, значок за ☀️, результат читання. Exit ticket: 2 речення — «usually» і «now». Розбери 2–3 зібрані помилки: «Is there a clue word? Every day or now?». Поясни домашнє (самоперевірка: підкреслити підказку). Copy / Download — зберегти картку правил і My List.','Наступне заняття почни з міні-щоденників: діти читають одне речення, інші вгадують — «every day» чи «now»?']];
+function renderTeacher(){const t=TN[cur];$('#tnPage').innerHTML=`<h3>Сторінка ${cur+1}: ${pages[cur].dataset.title} <span class="time">⏱ ${t[0]}</span></h3><p>${t[1]}</p><p>🎲 <b>Гра / варіант:</b> ${t[2]}</p><p style="color:var(--muted);font-size:14px">Усього 13 сторінок ≈ 60 хв (якщо часу мало, замір темпу на с. 9 — удома). Стрілки ← → гортають сторінки.</p>`}
+
+go(0);refreshList();renderBadge();
+</script>
+</body>
+</html>
