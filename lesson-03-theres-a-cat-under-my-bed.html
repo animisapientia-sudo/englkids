@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>There's a cat under my bed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Grandstander:wght@500;600;700;800&family=Atkinson+Hyperlegible:wght@400;700&family=Gochi+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F7FC; --card:#FFFFFF; --ink:#1E2A3B; --muted:#5B6878;
+  --sky:#DCEFFB; --sky2:#A8D4F2; --blue:#2F6DB5; --blue2:#1F4F8A;
+  --coral:#F2705E; --coral2:#C94B3B; --coralL:#FDE3DE;
+  --lemon:#FFEBAD; --lemon2:#F2C94C; --plum:#6C4AB6; --plumL:#ECE5FB;
+  --line:#D9E6F3; --ok:#1E7B55; --bad:#C2453B;
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Atkinson Hyperlegible',system-ui,sans-serif;font-size:19px;line-height:1.5;background-color:var(--bg);
+  background-image:repeating-linear-gradient(90deg,rgba(47,109,181,.06) 0 28px,transparent 28px 56px)}
+h1,h2,h3{font-family:'Grandstander',system-ui,sans-serif;margin:0;font-weight:700}
+button,select,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+/* header */
+header{position:sticky;top:0;z-index:20;background:var(--blue);padding:10px 16px 8px;border-bottom:6px solid var(--coral)}
+.bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;max-width:1120px;margin:0 auto}
+.bar h1{font-size:26px;flex:1;min-width:220px;color:#fff}
+.hb{border:0;border-radius:999px;padding:7px 14px;background:#fff;color:var(--blue);font-weight:700;font-size:15px;text-decoration:none;box-shadow:0 3px 0 var(--blue2)}
+.hb:hover{background:var(--sky)}
+#keyBox{background:var(--lemon2);color:#4A3500;box-shadow:0 3px 0 #B8901F}
+#keyBox.bump{animation:bump .4s}
+@keyframes bump{50%{transform:scale(1.22) rotate(-8deg)}}
+nav#pills{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;max-width:1120px;margin:10px auto 0}
+nav#pills button{width:40px;height:40px;border-radius:10px 10px 4px 4px;border:0;background:rgba(255,255,255,.18);color:#fff;font-weight:700;font-size:15px;position:relative}
+nav#pills button::before{content:'';position:absolute;left:50%;top:-7px;margin-left:-11px;border:11px solid transparent;border-bottom:7px solid rgba(255,255,255,.18);border-top:0}
+nav#pills button.done{background:var(--sky2);color:var(--blue2)}
+nav#pills button.done::before{border-bottom-color:var(--sky2)}
+nav#pills button.on{background:var(--coral);color:#fff}
+nav#pills button.on::before{border-bottom-color:var(--coral)}
+/* main */
+main{max-width:1120px;margin:0 auto;padding:18px 16px 120px}
+.page{display:none;animation:fade .35s}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:16px 20px;margin-bottom:16px;box-shadow:0 5px 0 #D2E1F1}
+.head{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(120deg,#fff 55%,var(--sky) 100%)}
+.pnum{flex:none;width:56px;height:56px;background:var(--coral);color:#fff;display:grid;place-items:center;font-family:'Grandstander';font-size:28px;font-weight:800;clip-path:polygon(50% 0,100% 38%,100% 100%,0 100%,0 38%);padding-top:10px}
+.head h2{font-size:28px;line-height:1.2;color:var(--blue2)}
+.uk{color:var(--muted);font-size:16px;margin:4px 0 0}
+.uk::before{content:'🇺🇦 '}
+.ukx{color:var(--muted);font-size:16px}
+.skills{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+.skills span{font-size:13px;background:var(--plumL);color:var(--plum);border-radius:999px;padding:3px 11px;font-weight:700}
+.fact{background:#fff;border:3px dashed var(--plum);border-radius:20px;padding:12px 16px;margin:14px 0;display:flex;gap:12px;align-items:center}
+.fact b.t{font-family:'Grandstander';font-weight:800;color:var(--plum);font-size:20px}
+.say{border:0;background:var(--sky);border-radius:50%;width:38px;height:38px;font-size:17px;flex:none;vertical-align:middle}
+.say:hover{background:var(--sky2)}
+.btn{border:0;border-radius:14px;padding:10px 18px;font-weight:700;background:var(--blue);color:#fff;box-shadow:0 4px 0 var(--blue2)}
+.btn:active{transform:translateY(2px);box-shadow:none}
+.btn.alt{background:var(--sky);color:var(--blue2);box-shadow:0 4px 0 var(--sky2)}
+.btn.co{background:var(--coral);box-shadow:0 4px 0 var(--coral2)}
+.btn.pl{background:var(--plum);box-shadow:0 4px 0 #4A2F86}
+.btn.small{padding:5px 12px;font-size:15px}
+.btn[disabled]{opacity:.45;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row.c{justify-content:center}
+.big{font-size:22px}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.counter{font-family:'Grandstander';font-size:18px;font-weight:700;background:var(--coral);color:#fff;border-radius:999px;padding:3px 14px;display:inline-block}
+.foot{position:fixed;left:0;right:0;bottom:0;background:rgba(243,247,252,.97);border-top:4px solid var(--sky2);padding:10px 16px;z-index:15}
+.foot .in{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.foot .btn{font-size:20px;padding:12px 26px}
+#pageLabel{font-weight:700;color:var(--blue2);text-align:center;font-size:15px}
+h3.t{color:var(--coral2);margin-bottom:6px;font-size:22px}
+.cando{list-style:none;padding:0;margin:0}
+.cando li{margin:8px 0}
+.cando li::before{content:'🏠 '}
+.frames{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.frames span{background:var(--sky);border-radius:10px;padding:5px 12px;font-weight:700;color:var(--blue2);font-size:16px}
+.frames span.o{background:var(--coralL);color:var(--coral2)}
+.hand{font-family:'Gochi Hand',cursive;font-size:25px}
+/* ===== SCENE ENGINE ===== */
+.room{position:relative;width:100%;aspect-ratio:4/3;container-type:inline-size;overflow:hidden;border-radius:18px;border:4px solid var(--ink);background:#fff}
+.room .wall{position:absolute;left:0;right:0;top:0}
+.room .floor{position:absolute;left:0;right:0;bottom:0}
+.fl-wood{background:repeating-linear-gradient(90deg,#D9A06A 0 12cqw,#C98D57 12cqw 12.4cqw)}
+.fl-tiles{background-color:#F4F1EA;background-image:conic-gradient(#D7E3EC 25%,transparent 0 50%,#D7E3EC 0 75%,transparent 0);background-size:8cqw 8cqw}
+.fl-grass{background:linear-gradient(#8FD06E,#6DB34E)}
+.wl-sky{background:linear-gradient(#9FD6FF,#DFF2FF)}
+.sh{position:absolute}
+.it{position:absolute;line-height:1;transform:translate(-50%,-92%);z-index:2;user-select:none;white-space:nowrap}
+.it.fx{transform:translate(-50%,-92%) scaleX(-1)}
+.win{border:1.1cqw solid #fff;box-shadow:0 0 0 .4cqw #9AA9B8;background:linear-gradient(#BDE6FF,#E9F7FF)}
+.win.night{background:linear-gradient(#1C2D5A,#33508F)}
+.win::before,.win::after{content:'';position:absolute;background:#fff}
+.win::before{left:50%;top:0;bottom:0;width:.9cqw;margin-left:-.45cqw}
+.win::after{top:50%;left:0;right:0;height:.9cqw;margin-top:-.45cqw}
+.frame{border:1cqw solid #B7864F;background:#FFF8E7;display:grid;place-items:center;box-shadow:.4cqw .4cqw 0 rgba(0,0,0,.15)}
+.plank{background:#9B6A3E;border-radius:.4cqw}
+.leg{background:#8A5A30}
+.top{background:#A86E3C;border-radius:.6cqw}
+.side{background:#B07A47}
+.rug{border-radius:50%;background:radial-gradient(#F2B8A8 0 35%,#E58A75 36% 45%,#F2B8A8 46%)}
+.pond{border-radius:50%;background:radial-gradient(#7CC7F0,#3E95CF);box-shadow:0 0 0 .6cqw #9CD3A0}
+.fridge{background:linear-gradient(90deg,#FAFCFF,#E3EAF1);border:.4cqw solid #B9C6D3;border-radius:1cqw}
+.fridge::after{content:'';position:absolute;right:1.4cqw;top:30%;width:.8cqw;height:14%;background:#9AA9B8;border-radius:.4cqw}
+.fridge::before{content:'';position:absolute;left:0;right:0;top:36%;height:.4cqw;background:#B9C6D3}
+.sink{background:#fff;border:.4cqw solid #B9C6D3;border-radius:0 0 3cqw 3cqw}
+.mattress{background:#fff;border-radius:1cqw;border:.4cqw solid #C9D3DE}
+.blanket{background:repeating-linear-gradient(45deg,#7FB3E8 0 2cqw,#6A9FD6 2cqw 4cqw);border-radius:0 1cqw 1cqw 0}
+.head-b{background:#8A5A30;border-radius:1.4cqw 1.4cqw 0 0}
+.door{background:#B07A47;border:.6cqw solid #8A5A30;border-radius:.6cqw .6cqw 0 0}
+.door::after{content:'';position:absolute;right:1.2cqw;top:52%;width:1.2cqw;height:1.2cqw;border-radius:50%;background:#F2C94C}
+.curt{background:repeating-linear-gradient(90deg,#E46F5E 0 1.2cqw,#C9574A 1.2cqw 2cqw);border-radius:0 0 1cqw 1cqw}
+.fire{background-color:#B5533C;background-image:linear-gradient(#9C4430 .3cqw,transparent .3cqw),linear-gradient(90deg,#9C4430 .3cqw,transparent .3cqw);background-size:4cqw 2cqw}
+.firehole{background:#2B1E1A;border-radius:6cqw 6cqw 0 0}
+.ach{background:#5E8FCB;border-radius:2cqw}
+.ach.dk{background:#4A78B0}
+.jugb{background:#F2C94C;border-radius:30% 30% 45% 45%;border:.4cqw solid #C9A02A}
+.jugh{border:1cqw solid #C9A02A;border-left:0;border-radius:0 50% 50% 0}
+.tf{background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px 14px;margin:8px 0;font-size:20px}
+.tf.solved{border-color:var(--sky2);background:#F2F8FE}
+.tf .fix{color:var(--coral2);font-weight:700;margin-top:4px}
+.deckbtn{border:2px solid var(--coral);background:#fff;color:var(--coral2);border-radius:999px;padding:6px 14px;font-weight:700}
+.deckbtn.on{background:var(--coral);color:#fff}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.mcol{display:flex;flex-direction:column;gap:8px}
+.mpic,.mword{border:3px solid var(--sky2);background:#fff;border-radius:14px;min-height:64px;display:flex;align-items:center;gap:10px;padding:6px 10px;font-weight:700;font-size:20px;position:relative;text-align:left}
+.mpic .emo{font-size:40px;line-height:1}
+.mpic .mini{width:120px;flex:none}
+.mpic.sel,.mword.sel{outline:4px solid var(--coral);transform:scale(1.02)}
+.mpic.done,.mword.done{border-color:var(--ok);background:#EAF7F0;cursor:default}
+.mpic .tag,.mword .tag{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;color:#fff;display:none;place-items:center;font-size:15px}
+.mpic.done .tag,.mword.done .tag{display:grid}
+.memo{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.mc{perspective:800px;height:130px;cursor:pointer}
+.mc-in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.mc.up .mc-in,.mc.got .mc-in{transform:rotateY(180deg)}
+.mc .fc{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:700;font-size:20px;padding:6px;text-align:center}
+.mc .fc.bk{background:repeating-linear-gradient(45deg,var(--blue) 0 10px,var(--blue2) 10px 20px);color:#fff;font-family:'Grandstander';font-size:34px}
+.mc .fc.ft{transform:rotateY(180deg);background:#fff;border:3px solid var(--sky2)}
+.mc.got .fc.ft{border-color:var(--ok);background:#EAF7F0}
+.mc .fc.ft .emo{font-size:46px}
+.mc .fc.ft .mini{width:100%}
+@media (max-width:760px){.mgrid{grid-template-columns:1fr 1fr}.mpic .mini{width:60px}.mpic,.mword{font-size:16px}}
+.cab{background:#C48A57;border:.4cqw solid #8A5A30;border-radius:.6cqw}
+/* animal house warm-up */
+.house{max-width:760px;margin:0 auto}
+.roof{height:0;border-left:380px solid transparent;border-right:380px solid transparent;border-bottom:90px solid var(--coral);position:relative;margin:0 auto;width:0}
+.roof::after{content:'🏠 Animal House';position:absolute;left:-110px;top:38px;width:220px;text-align:center;font-family:'Grandstander';font-weight:800;font-size:24px;color:#fff}
+.facade{background:repeating-linear-gradient(0deg,#F4D9B8 0 22px,#E9C9A2 22px 24px);border:5px solid #9B6A3E;border-top:0;border-radius:0 0 14px 14px;padding:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.awin{border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center}
+.awin .gl{width:100%;aspect-ratio:1;border:7px solid #fff;outline:3px solid #9B6A3E;border-radius:50% 50% 8px 8px;background:linear-gradient(#BDE6FF,#E9F7FF);display:grid;place-items:center;font-size:54px;position:relative;overflow:hidden;transition:transform .2s}
+.awin:hover .gl{transform:scale(1.05)}
+.awin .gl .pr{position:absolute;right:6px;bottom:2px;font-size:24px}
+.awin .sill{width:110%;height:10px;background:#9B6A3E;border-radius:4px;margin-top:-2px}
+.awin .nm{font-family:'Gochi Hand',cursive;font-size:22px;line-height:1.1;margin-top:4px;color:var(--ink)}
+.awin .ukm{font-size:14px;color:var(--coral2);font-weight:700;visibility:hidden;min-height:20px}
+.awin.open .ukm{visibility:visible}
+.awin.chosen .gl{outline:5px solid var(--plum);background:linear-gradient(#FFF1B8,#FFE07A)}
+.awin.hit .gl{outline:5px solid var(--ok)}
+.mbtn{border:2px solid var(--sky2);background:#fff;color:var(--blue);border-radius:999px;padding:7px 14px;font-weight:700}
+.mbtn.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.task{background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px 14px;margin:8px 0}
+.task b.n{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--coral);color:#fff;margin-right:6px}
+.spotbtn{border:2px solid var(--coral);background:#fff;color:var(--coral2);border-radius:12px;padding:5px 12px;font-weight:700;margin:3px}
+.spotbtn.on{background:var(--coral);color:#fff}
+.mymood{font-size:22px;background:var(--lemon);border-radius:14px;padding:10px 14px;margin-top:8px}
+.hl{background:#fff;border-radius:8px;padding:0 8px;color:var(--coral2);font-weight:700}
+@media (max-width:760px){.facade{grid-template-columns:repeat(3,1fr)}.roof{border-left-width:45vw;border-right-width:45vw}}
+/* tile game */
+.tg{display:grid;grid-template-columns:minmax(300px,1.25fr) 1fr;gap:18px;align-items:start}
+.tilewrap{position:relative}
+.tiles{position:absolute;inset:4px;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:4px;z-index:30;border-radius:14px;overflow:hidden}
+.tile{border:0;border-radius:8px;font-family:'Grandstander';font-size:30px;font-weight:800;color:#fff;background:var(--c);box-shadow:inset 0 -6px 0 rgba(0,0,0,.18);transition:transform .45s,opacity .45s}
+.tile:hover{filter:brightness(1.1)}
+.tile.open{transform:rotateX(90deg);opacity:0;pointer-events:none}
+.teams{display:flex;gap:10px}
+.team{flex:1;border-radius:18px;padding:8px 10px;text-align:center;border:3px solid transparent;background:var(--sky)}
+.team:nth-child(2){background:var(--coralL)}
+.team.on{border-color:var(--plum);box-shadow:0 0 0 4px var(--plumL)}
+.team .nm{font-weight:700}
+.team b{display:block;font-family:'Grandstander';font-size:36px;line-height:1.1}
+.status{background:#fff;border:2px dashed var(--plum);border-radius:14px;padding:8px 12px;margin:10px 0;font-weight:700}
+.clock{font-family:'Grandstander';font-size:46px;font-weight:800;color:var(--coral2);min-width:90px;text-align:center}
+.keychips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.kc{border:2px solid var(--sky2);background:#fff;border-radius:10px;padding:4px 10px;font-size:15px;font-weight:700;color:var(--blue2)}
+.kc.t0{background:var(--sky);border-color:var(--blue);text-decoration:line-through;opacity:.75}
+.kc.t1{background:var(--coralL);border-color:var(--coral);text-decoration:line-through;opacity:.75}
+details{border:2px solid var(--line);border-radius:12px;padding:8px 12px;margin:8px 0;background:#fff}
+summary{font-weight:700;cursor:pointer;color:var(--blue)}
+/* options */
+.opt{border:2px solid var(--sky2);background:#F6FAFE;border-radius:12px;padding:6px 14px;font-weight:700;font-size:18px;margin:3px}
+.opt:hover{background:var(--sky)}
+.opt.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.no{background:#FDE5E2;border-color:var(--bad)}
+.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.opts.done .opt:not(.ok){opacity:.3}
+select.gap{border:2px dashed var(--coral);border-radius:10px;padding:4px 8px;background:#FFF6F4;font-weight:700;font-size:18px;max-width:100%}
+select.gap.ok{border:2px solid var(--ok);background:#E3F4EC;color:#135A40}
+select.gap.bad{border-color:var(--bad);background:#FFF0EE}
+ol.items{padding:0;margin:0;counter-reset:it}
+ol.items>li{list-style:none;counter-increment:it;background:#fff;border:2px solid var(--line);border-radius:16px;padding:12px 14px 12px 56px;margin:10px 0;position:relative;font-size:20px}
+ol.items>li::before{content:counter(it);position:absolute;left:12px;top:12px;width:32px;height:32px;border-radius:50%;background:var(--sky);color:var(--blue2);display:grid;place-items:center;font-size:16px;font-weight:700}
+ol.items>li.solved{border-color:var(--sky2);background:#F2F8FE}
+/* flip */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.flip{perspective:900px;height:190px;cursor:pointer;outline:none}
+.flip-in{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
+.flip.flipped .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;text-align:center;border:3px solid var(--sky2);background:#fff}
+.front .emo{font-size:56px;line-height:1.1}
+.front b{font-size:19px}
+.front .mini{width:100%}
+.back{transform:rotateY(180deg);background:var(--plumL);border-color:#C9B8EE}
+.ukb{font-size:17px;font-weight:700;color:var(--coral2)}
+.ex{font-size:14px;color:var(--blue2);font-weight:700}
+.add{border:0;border-radius:10px;background:var(--coral);color:#fff;padding:5px 10px;font-size:13px;font-weight:700}
+.add.added{background:var(--ok)}
+.flip .say{position:absolute;top:6px;right:6px;width:30px;height:30px;font-size:14px;z-index:3}
+.mini .room{border-width:2px;border-radius:12px}
+.labgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.lab{background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px;text-align:center}
+.lab .e{font-size:54px;display:block}
+.lab select{width:100%;margin-top:6px}
+/* word card maker */
+.wcard{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wcard label{font-weight:700;font-size:15px;color:var(--blue2)}
+.wcard input{width:100%;border:2px solid var(--sky2);border-radius:10px;padding:7px 10px}
+.emopick{display:flex;flex-wrap:wrap;gap:4px}
+.emopick button{border:2px solid transparent;background:#F6FAFE;border-radius:10px;font-size:24px;padding:2px 6px}
+.emopick button.on{border-color:var(--coral);background:var(--coralL)}
+.mycards{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.mycard{width:200px;background:#fff;border:3px solid var(--plum);border-radius:16px;padding:10px;text-align:center;box-shadow:4px 4px 0 var(--plumL)}
+.mycard .e{font-size:44px}
+.mycard b{font-size:20px;display:block}
+/* detective */
+.tk{border-radius:7px;padding:1px 4px;cursor:pointer;transition:background .2s}
+.tk:hover{background:var(--lemon)}
+.tk.f-one{background:var(--coral);color:#fff;font-weight:700}
+.tk.f-many{background:var(--blue);color:#fff;font-weight:700}
+.miss{animation:shake .35s}
+.dtext{font-size:22px;line-height:2}
+.rulecard{background:#fff;border:3px solid var(--blue);border-radius:20px;padding:16px 18px;box-shadow:7px 7px 0 var(--coralL)}
+.rulecard h3{font-size:23px;margin-bottom:8px;color:var(--blue2)}
+.rulecard p{margin:8px 0;font-size:19px}
+.rc2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rc2>div{border-radius:16px;padding:10px 14px}
+.rc2 .a{background:var(--coralL)}.rc2 .b{background:var(--sky)}
+.saved{color:var(--ok);font-weight:700;margin-top:8px}
+/* sort */
+.bank{display:flex;flex-wrap:wrap;gap:8px;min-height:58px;padding:12px;border:3px dashed var(--coral);border-radius:16px;background:#fff}
+.chip{border:2px solid var(--sky2);background:#fff;border-radius:12px;padding:6px 14px;font-weight:700;font-size:18px;user-select:none;cursor:pointer}
+.chip.sel{outline:4px solid var(--coral);transform:scale(1.06)}
+.chip.placed{border-color:var(--ok);background:#F2FAF6;cursor:default}
+.baskets{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+.basket{border-radius:18px;padding:12px;min-height:150px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;cursor:pointer;border:3px solid transparent}
+.basket h3{font-size:22px;width:100%}
+.basket h3 small{font-family:'Atkinson Hyperlegible';font-size:15px;color:var(--muted);display:block;font-weight:400}
+.basket.over{border-color:var(--blue)}
+.b1{background:var(--coralL)}.b2{background:var(--sky)}.b3{background:var(--plumL)}
+/* reading */
+.reading{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;align-items:start}
+.lvl{border:2px solid var(--blue);background:#fff;color:var(--blue);border-radius:999px;padding:5px 14px;font-weight:700}
+.lvl.on{background:var(--blue);color:#fff}
+#story{font-size:21px;line-height:2.05}
+#story .sl{color:var(--coral);font-weight:800;margin:0 2px}
+#story .emo{font-size:18px;margin-left:1px}
+.sent6{border-radius:8px;padding:2px 1px;transition:background .2s}
+#story.hunting .sent6{cursor:pointer;background:var(--lemon)}
+#story.hunting .sent6:hover{background:var(--lemon2)}
+.sent6.proof{background:var(--sky2)!important;box-shadow:0 0 0 2px var(--blue)}
+.w{border-radius:7px;padding:1px 3px;cursor:pointer}
+.w:hover{background:var(--lemon)}
+.w.found{background:var(--plumL);color:var(--plum);font-weight:700}
+.qcard{background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px 14px;margin:8px 0}
+.qcard.solved{border-color:var(--sky2);background:#F2F8FE}
+.qcard.active{outline:4px solid var(--coral)}
+.qcard b.q{font-size:19px}
+.it.clk{cursor:pointer}
+.it.mark{filter:drop-shadow(0 0 .6cqw #F2705E) drop-shadow(0 0 .6cqw #F2705E)}
+.it.mark::after{content:'✔';position:absolute;right:-.4em;top:-.3em;font-size:.4em;background:var(--coral);color:#fff;border-radius:50%;width:1.3em;height:1.3em;display:grid;place-items:center}
+/* record */
+#rtext{font-size:22px;line-height:2}
+.rw{border-radius:6px;padding:1px 2px}
+#rtext.picking .rw{cursor:pointer;background:var(--lemon)}
+#rtext.picking .rw:hover{background:var(--lemon2)}
+.rw.read{background:var(--sky2)}
+.try{border:2px solid var(--sky2);background:#fff;border-radius:14px;padding:6px 12px;font-weight:700;color:var(--blue)}
+.try.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.bars{display:flex;gap:18px;align-items:flex-end;height:190px;padding:10px;background:#fff;border-radius:16px;border:2px solid var(--line)}
+.barc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px}
+.rbar{width:60%;background:linear-gradient(var(--coral),var(--plum));border-radius:10px 10px 4px 4px;min-height:4px;transition:height .6s}
+.rbar.prev{background:linear-gradient(#DDD,#BBB)}
+.barc b{font-family:'Grandstander';font-size:22px;color:var(--coral2)}
+.barc span{font-size:13px;color:var(--muted);text-align:center}
+.errbox{display:flex;align-items:center;gap:8px;background:var(--sky);border-radius:14px;padding:6px 12px;font-weight:700}
+.twister{background:var(--plumL);border-radius:16px;padding:10px 14px;font-size:20px;margin-bottom:14px}
+/* unscramble */
+.uns{background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px 12px;margin:10px 0}
+.uns.solved{border-color:var(--sky2);background:#F2F8FE}
+.uline{min-height:48px;border-bottom:3px solid var(--coral);display:flex;gap:6px;flex-wrap:wrap;padding:6px 0;margin-bottom:8px}
+.ubank{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.word{border:2px solid var(--sky2);background:#F6FAFE;border-radius:10px;padding:5px 12px;font-weight:700;font-size:19px}
+/* info gap */
+.role{border:2px solid var(--coral);background:#fff;color:var(--coral2);border-radius:999px;padding:8px 16px;font-weight:700}
+.role.on{background:var(--coral);color:#fff}
+.sdlist li{margin:6px 0}
+/* board */
+.gboard{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;padding:12px;background:#fff;border-radius:22px;border:4px solid var(--blue)}
+.sq{min-height:88px;border-radius:12px 12px 6px 6px;padding:5px 7px;display:flex;flex-direction:column;justify-content:space-between;border:2px solid rgba(0,0,0,.06)}
+.sq .num{font-weight:700;font-size:13px;color:var(--muted)}
+.sq .ico{font-size:20px;line-height:1.1}
+.sq .jmp{font-size:13px;font-weight:700}
+.toks{display:flex;flex-wrap:wrap;gap:1px;min-height:26px}
+.tok{font-size:24px;line-height:1}
+.tok.me{animation:hop 1s infinite}
+@keyframes hop{50%{transform:translateY(-5px)}}
+.t-start,.t-finish{background:var(--blue)}.t-start .num,.t-finish .num{color:#fff}
+.t-look{background:var(--lemon)}.t-ask{background:var(--sky)}.t-not{background:var(--coralL)}.t-where{background:#DFF3E4}.t-show{background:var(--plumL)}.t-talk{background:#FFE3CC}.t-spell{background:#F1F1EE}.t-chance{background:repeating-linear-gradient(45deg,var(--lemon) 0 9px,#fff 9px 18px)}
+.t-up{background:linear-gradient(#E3F4EC,#BFE6D2)}.t-down{background:linear-gradient(#FDE5E2,#F6C2BB)}
+.cnt{border:2px solid var(--sky2);background:#fff;color:var(--blue);border-radius:12px;padding:6px 14px;font-weight:700}
+.cnt.on{background:var(--blue);color:#fff}
+.pname input{border:2px solid var(--line);border-radius:10px;padding:5px 8px;width:150px;font-weight:700}
+.turn{font-size:20px;background:var(--sky);border-radius:999px;padding:6px 16px}
+.dice{font-size:54px;line-height:1;color:var(--coral2)}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;font-size:14px}
+.legend span{border-radius:10px;padding:3px 10px;font-weight:700;border:1px solid rgba(0,0,0,.08)}
+.gm{position:fixed;inset:0;background:rgba(30,42,59,.5);display:none;z-index:55}
+.gm.open{display:grid;place-items:center}
+.gcard{background:#fff;border-radius:24px;padding:22px;width:min(540px,92%);text-align:center;border:6px solid var(--c,#2F6DB5)}
+.gtype{display:inline-block;border-radius:999px;padding:5px 16px;font-family:'Grandstander';font-size:21px;font-weight:700}
+.gemo{font-size:62px;margin-top:8px}
+.gq{font-size:24px;font-weight:700;margin:10px 0}
+.gans{font-size:21px;color:var(--blue2);font-weight:700;background:var(--sky);border-radius:12px;padding:6px 10px;margin:8px 0}
+/* final */
+.badge{text-align:center;padding:16px;border:6px double var(--blue);border-radius:30px 30px 14px 14px;width:220px;height:220px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--sky)}
+.badge .e{font-size:62px}
+.badge b{font-family:'Grandstander';font-size:21px;color:var(--blue2)}
+.light{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;padding:8px 0;border-bottom:2px dashed var(--line)}
+.light .lb button{border:0;background:none;font-size:28px;opacity:.3}
+.light .lb button.on{opacity:1;transform:scale(1.15)}
+textarea#copyArea{width:100%;min-height:150px;margin-top:10px;border-radius:12px;border:2px solid var(--line);padding:10px;font-size:15px}
+.video{border:3px dashed var(--blue);border-radius:16px;padding:12px;background:#F6FAFE;margin-top:14px}
+.video iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;margin-top:10px}
+.video input{flex:1;min-width:200px;padding:8px 12px;border-radius:10px;border:2px solid var(--line);font-size:16px}
+.expert{background:var(--plumL);border-radius:16px;padding:12px 16px}
+/* drawers */
+.drawer,.modal{position:fixed;inset:0;background:rgba(30,42,59,.5);z-index:50;display:none}
+.drawer.open,.modal.open{display:block}
+.sheet{position:absolute;right:0;top:0;bottom:0;width:min(420px,100%);background:#fff;padding:20px;overflow:auto}
+.modal .sheet{left:50%;right:auto;top:4vh;bottom:4vh;transform:translateX(-50%);width:min(800px,94%);border-radius:20px}
+.sheet h3{margin:14px 0 6px;color:var(--coral2)}
+.sheet .close{float:right}
+#listItems li{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)}
+.tn p,.tn li{font-size:16px}
+.time{display:inline-block;background:var(--coral);color:#fff;border-radius:8px;padding:1px 10px;font-weight:700;font-size:14px;font-family:'Atkinson Hyperlegible'}
+#toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(30px);background:var(--blue);color:#fff;padding:10px 20px;border-radius:999px;opacity:0;transition:.3s;z-index:60;font-weight:700;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%)}
+@media (max-width:760px){
+  body{font-size:16px}
+  header{position:static}
+  .head h2{font-size:22px}
+  .twocol,.reading,.tg,.rc2,.wcard{grid-template-columns:1fr}
+  #story,#rtext,.dtext{font-size:18px}
+  ol.items>li{font-size:17px}
+  .foot .btn{font-size:16px;padding:10px 16px}
+  .gboard{grid-template-columns:repeat(3,1fr)}
+  .tile{font-size:20px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1>🛏️ There's a cat under my bed</h1>
+    <a class="hb" href="index.html">📚 Зміст</a>
+    <button class="hb" id="keyBox" title="Keys">🔑 <span id="keys">0</span></button>
+    <button class="hb" id="openNote">📝 My Rule Card</button>
+    <button class="hb" id="openList">📒 My List (<span id="listCount">0</span>)</button>
+    <button class="hb" id="openTeacher">🍎 Для вчителя</button>
+  </div>
+  <nav id="pills"></nav>
+</header>
+
+<main>
+<!-- MISSION -->
+<section class="page" data-title="Today's mission">
+  <div class="card head"><div class="pnum">2</div><div>
+    <h2>Today's mission: describe a room 🏠</h2>
+    <p class="uk">Сьогодні вчимося розповідати, що є в кімнаті і де саме.</p>
+    <div class="skills"><span>🧠 Learning to learn</span><span>📖 Reading</span></div></div></div>
+  <div class="twocol">
+    <div class="card">
+      <h3 class="t">Today I can… / Сьогодні я зможу…</h3>
+      <ul class="cando">
+        <li>say what there is in a room — <b>There is a bed. There are two chairs.</b></li>
+        <li>say where things are — <b>in, on, under, next to, behind, in front of</b></li>
+        <li>ask — <b>Is there a TV? Are there any books?</b></li>
+        <li>make my own word card <span class="ukx">— зробити власну картку слова</span></li>
+      </ul>
+    </div>
+    <div class="card expert">
+      <h3 class="t">👑 Experts' cards</h3>
+      <p class="uk">Експерт не каже відповідь, а ставить питання-підказку:</p>
+      <div class="frames"><span>One thing or many things?</span><span>Where is it? On? Under?</span><span>Is it a question?</span><span class="o">Look at your Rule Card!</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3 class="t">🤔 What do you think? Choose!</h3>
+    <p class="uk">Ще без правила — просто відчуй: одна річ чи багато?</p>
+    <ol class="items" id="m2"></ol>
+  </div>
+</section>
+
+<!-- ANIMAL WARM-UP -->
+<section class="page" data-title="Warm-up: Which animal are you?">
+  <div class="card head"><div class="pnum">1</div><div>
+    <h2>Warm-up: Which animal are you today? 🐾</h2>
+    <p class="uk">Розминка. Хто живе у віконцях Animal House? Послухай, обери тваринку, яка схожа на тебе СЬОГОДНІ, і сховайся в кімнаті!</p>
+    <div class="skills"><span>👂 Listening</span><span>🗣 Speaking</span><span>📚 Vocabulary</span></div></div></div>
+  <div class="house"><div class="roof"></div><div class="facade" id="aHouse"></div></div>
+  <div class="card" style="margin-top:16px">
+    <h3 class="t">Tasks / Завдання</h3>
+    <div class="row" style="margin-bottom:6px">
+      <button class="mbtn on" data-m="look">1 👀 Look &amp; listen</button>
+      <button class="mbtn" data-m="find">2 🎯 Listen &amp; find</button>
+      <button class="mbtn" data-m="choose">3 ⭐ This is me!</button>
+    </div>
+    <div class="task" id="lookBar"><b class="n">1</b><b>Click a window. Listen and guess the meaning.</b> <span class="ukx">Натисни віконце, послухай. Спершу вгадай, потім побачиш переклад.</span></div>
+    <div class="task hidden" id="findBar"><b class="n">2</b><b>Listen and click the right animal!</b> <span class="ukx">Послухай і знайди тваринку. 5 раундів.</span>
+      <div class="row" style="margin-top:6px"><button class="btn small alt" id="aAgain">🔊 Again</button><button class="btn small" id="aRestart">↺ New game</button><span id="aFindMsg" class="counter"></span></div></div>
+    <div class="task hidden" id="chooseBar"><b class="n">3</b><b>Choose YOUR animal today. Then choose where you are in the room!</b>
+      <span class="ukx">Обери свою тваринку, потім місце в кімнаті. Напиши речення в чат.</span>
+      <div class="twocol" style="margin-top:8px">
+        <div><div class="mymood" id="aMine">👆 Click a window / Натисни віконце</div><div id="aSpots" style="margin-top:8px"></div></div>
+        <div id="aRoom"></div>
+      </div></div>
+    <div class="task"><b class="n">4</b><b>🕵️ Guess who I am!</b> <span class="ukx">Одна дитина загадує тваринку й місце, інші питають. Хто вгадав, той загадує наступним.</span>
+      <div class="frames"><span>❓ Are you a sleepy koala?</span><span>❓ Are you under the table?</span><span class="o">✅ Yes, I am!</span><span class="o">❌ No, I'm not.</span></div></div>
+  </div>
+  <div class="fact"><span style="font-size:38px">🦉</span><div><b class="t">Fun fact!</b> An owl can turn its head about 270 degrees! <br><span class="ukx">Сова може повернути голову приблизно на 270 градусів!</span></div></div>
+</section>
+
+<!-- TILE SCENE GAME -->
+<section class="page" data-title="What's in the room?">
+  <div class="card head"><div class="pnum">1</div><div>
+    <h2>What's in the room? 🧩 Say it in 1 minute!</h2>
+    <p class="uk">Дві команди. Називайте номер плашки — вона відкриється. За 1 хвилину скажіть якомога більше речень: «There is… / There are…». Кожне НОВЕ речення = 🔑. Потім хвилина іншої команди — вона відкриває нові плашки й шукає нові речі!</p>
+    <div class="skills"><span>🗣 Speaking</span><span>📚 Vocabulary</span><span>🤝 Teamwork</span></div></div></div>
+  <div class="tg">
+    <div>
+      <div class="tilewrap"><div id="tgRoom"></div><div class="tiles" id="tgTiles"></div></div>
+      <div class="row c" style="margin-top:10px"><span class="counter" id="tgRound"></span><button class="btn alt small" id="tgOpenAll">👀 Open all</button><button class="btn alt small" id="tgCover">🙈 Cover all</button><button class="btn co small" id="tgNext">Next picture ▶</button></div>
+    </div>
+    <div>
+      <div class="teams" id="tgTeams"></div>
+      <div class="status" id="tgStatus"></div>
+      <div class="row"><span class="clock" id="tgClock">60</span><button class="btn co" id="tgStart">▶ Start 1 minute</button><button class="btn" id="tgPlus">+1 🔑</button><button class="btn alt small" id="tgSwitch">➡️ Other team</button></div>
+      <div class="frames" style="margin-top:12px"><span>🔢 Number 6, please!</span><span>There is a cat in the box.</span><span>There are two dogs on the sofa.</span><span class="o">on · in · under · next to · behind</span></div>
+      <details style="margin-top:12px"><summary>🍎 Teacher key — click a sentence to give a 🔑</summary><p class="ukx" style="margin:4px 0">Натисни речення, яке сказала команда, — вона отримає 🔑, а речення закреслиться (повторювати не можна).</p><div class="keychips" id="tgKey"></div></details>
+    </div>
+  </div>
+  <div class="fact"><span style="font-size:38px">🦴</span><div><b class="t">Fun fact!</b> There are 206 bones in your body. But a baby has about 300! <br><span class="ukx">У тілі дорослої людини 206 кісток, а в немовляти — близько 300! (Деякі кістки потім зростаються.)</span></div></div>
+</section>
+
+<!-- TH SORT -->
+<section class="page" data-title="Two th sounds">
+  <div class="card head"><div class="pnum">7</div><div>
+    <h2>🐝 Buzzy th or 💨 windy th? Listen and sort!</h2>
+    <p class="uk">Натисни слово — послухай. У «this» язик «дзижчить» 🐝, у «three» — лише повітря 💨. Поклади язик між зубами!</p>
+    <div class="skills"><span>🗣 Phonics</span><span>👂 Listening</span></div></div></div>
+  <div class="bank" id="bank7"></div>
+  <div class="baskets" id="baskets7"></div>
+</section>
+
+<!-- ROOM WORDS -->
+<section class="page" data-title="Room words & my word card">
+  <div class="card head"><div class="pnum">3</div><div>
+    <h2>Room words 🛋️ and my own word card ✍️</h2>
+    <p class="uk">Слова з Beehive 2 (Unit 9): обери набір, переверни картки, послухай. Потім зроби СВОЮ картку для слова, яке хочеш запам'ятати. Це стратегія дня: власна картка слова допомагає пам'ятати краще!</p>
+    <div class="skills"><span>📚 Vocabulary</span><span>🧠 Learning to learn</span></div></div></div>
+  <div class="row" id="roomDecks" style="margin-bottom:10px"></div>
+  <div class="cards" id="roomCards"></div>
+  <div class="card" style="margin-top:16px">
+    <h3 class="t">✍️ My word card / Моя картка слова</h3>
+    <p class="uk">1) Англійське слово. 2) Переклад. 3) Обери картинку. 4) Твоє речення з There is / There are. 5) Послухай і збережи!</p>
+    <div class="wcard">
+      <div><label>English word</label><input id="wcEn" placeholder="mirror" autocomplete="off" spellcheck="false"></div>
+      <div><label>Переклад</label><input id="wcUk" placeholder="дзеркало" autocomplete="off"></div>
+      <div style="grid-column:1/-1"><label>Picture</label><div class="emopick" id="wcEmo"></div></div>
+      <div style="grid-column:1/-1"><label>My sentence</label><input id="wcEx" placeholder="There is a mirror in my bathroom." autocomplete="off" spellcheck="false"></div>
+    </div>
+    <div class="row" style="margin-top:10px"><button class="btn alt" id="wcSay">🔊 Listen</button><button class="btn co" id="wcSave">💾 Save my card</button></div>
+    <div class="mycards" id="myCards"></div>
+  </div>
+</section>
+
+<!-- MATCH -->
+<section class="page" data-title="Match the words">
+  <div class="card head"><div class="pnum">6</div><div>
+    <h2>Match it! 🧩 Picture ↔ word</h2>
+    <p class="uk">Завдання 1: натисни картинку, потім слово (або навпаки) — з'єднай пари. Завдання 2: Memory — відкривай по 2 картки й знаходь пари «картинка + слово». Обери набір слів.</p>
+    <div class="skills"><span>📚 Vocabulary</span><span>🧠 Memory</span><span>👂 Listening</span></div></div></div>
+  <div class="row" id="matchDecks" style="margin-bottom:10px"></div>
+  <div class="card">
+    <div class="row" style="justify-content:space-between"><h3 class="t">1️⃣ Match the pairs / З'єднай пари</h3><span class="counter" id="mCount"></span></div>
+    <div class="mgrid"><div class="mcol" id="mPics"></div><div class="mcol" id="mWords"></div></div>
+    <div class="row" style="margin-top:10px"><button class="btn alt small" id="mAgain">↺ Again</button></div>
+  </div>
+  <div class="card">
+    <div class="row" style="justify-content:space-between"><h3 class="t">2️⃣ Memory game / Гра «Пам'ять»</h3><span class="counter" id="memInfo"></span></div>
+    <p class="uk">Відкрий 2 картки. Картинка + її слово = пара! Скажи слово вголос. Можна грати командами: хто знайшов пару — ходить ще раз.</p>
+    <div class="memo" id="memo"></div>
+    <div class="row" style="margin-top:10px"><button class="btn alt small" id="memAgain">↺ New game</button></div>
+  </div>
+</section>
+
+<!-- PREPOSITIONS -->
+<section class="page" data-title="Where is the cat?">
+  <div class="card head"><div class="pnum">4</div><div>
+    <h2>Where is the cat? 🐱 in, on, under…</h2>
+    <p class="uk">Переверни картки — де кіт? Потім підпиши картинки. Покажи прийменник руками!</p>
+    <div class="skills"><span>📚 Vocabulary</span><span>👂 Listening</span></div></div></div>
+  <div class="cards" id="prepCards"></div>
+  <div class="card" style="margin-top:16px">
+    <h3 class="t">🏷 Where is the mouse? / Де мишка?</h3>
+    <div class="labgrid" id="prepLabels"></div>
+  </div>
+</section>
+
+<!-- DETECTIVE -->
+<section class="page" data-title="Grammar detective">
+  <div class="card head"><div class="pnum">5</div><div>
+    <h2>Grammar detective: There is or There are? 🕵️</h2>
+    <p class="uk">Крок 1: знайди всі «There is / There's / There isn't». Крок 2: знайди всі «There are / There aren't». Подивись, що стоїть ПІСЛЯ них!</p>
+    <div class="skills"><span>🔍 Noticing</span><span>🧠 Grammar</span></div></div></div>
+  <div class="row" style="margin-bottom:10px"><span id="dTask" class="big"></span><span class="counter" id="dc"></span></div>
+  <div class="twocol">
+    <div class="card"><div class="dtext" id="dText"></div></div>
+    <div id="dRoom"></div>
+  </div>
+  <div id="dThink" class="hidden" style="margin-top:16px">
+    <div class="card">
+      <h3 class="t">🧠 THINK: After «There are» we have…</h3>
+      <p class="uk">Що стоїть після «There are»?</p>
+      <div class="opts" data-ans="two or more things (books, windows)"><button class="opt">one thing (a bed, a cat)</button><button class="opt">two or more things (books, windows)</button><button class="opt">a verb (run, play)</button></div>
+    </div>
+    <div class="rulecard">
+      <h3>📝 My Rule Card — There is / There are</h3>
+      <p class="uk">Заповни картку — вона збережеться (кнопка 📝 вгорі).</p>
+      <div class="rc2">
+        <div class="a"><b>1️⃣ One thing</b>
+          <p>There <select class="gap rc" data-ans="is"><option value="">…</option><option>is</option><option>are</option></select> a bed.</p>
+          <p>❌ There <select class="gap rc" data-ans="isn't"><option value="">…</option><option>isn't</option><option>aren't</option></select> a TV.</p>
+          <p>❓ <select class="gap rc" data-ans="Is"><option value="">…</option><option>Is</option><option>Are</option></select> there a lamp? — Yes, there is.</p>
+        </div>
+        <div class="b"><b>🔢 Two or more things</b>
+          <p>There <select class="gap rc" data-ans="are"><option value="">…</option><option>is</option><option>are</option></select> two chairs.</p>
+          <p>❌ There <select class="gap rc" data-ans="aren't"><option value="">…</option><option>isn't</option><option>aren't</option></select> any posters.</p>
+          <p>❓ <select class="gap rc" data-ans="Are"><option value="">…</option><option>Is</option><option>Are</option></select> there any books? — No, there aren't.</p>
+        </div>
+      </div>
+      <p>✅ There are <select class="gap rc" data-ans="some"><option value="">…</option><option>some</option><option>any</option></select> books. · ❌❓ There aren't <select class="gap rc" data-ans="any"><option value="">…</option><option>some</option><option>any</option></select> posters.</p>
+      <div class="saved hidden" id="rcSaved">✅ Saved to My Rule Card! / Збережено!</div>
+    </div>
+    <div class="video"><b>🎬 Video slot</b> <span class="ukx">— встав посилання на відео з YouTube (за бажанням)</span>
+      <div class="row" style="margin-top:8px"><input type="url" class="vurl" placeholder="https://www.youtube.com/watch?v=..."><button class="btn vgo">Show</button></div><div class="vbox"></div></div>
+  </div>
+  <div class="fact"><span style="font-size:38px">🐍</span><div><b class="t">Fun fact!</b> There aren't any wild snakes in Ireland! <br><span class="ukx">В Ірландії немає диких змій!</span></div></div>
+</section>
+
+<!-- SORT IS/ARE -->
+<section class="page" data-title="is or are?">
+  <div class="card head"><div class="pnum">6</div><div>
+    <h2>There is… or There are…? Sort it!</h2>
+    <p class="uk">Одна річ чи багато? Розклади слова в кошики. Натисни слово, потім кошик.</p>
+    <div class="skills"><span>🧠 Grammar</span><span>🔍 Noticing</span></div></div></div>
+  <div class="bank" id="bank6"></div>
+  <div class="baskets" id="baskets6"></div>
+</section>
+
+<!-- TRUE FALSE -->
+<section class="page" data-title="True or false? Correct me!">
+  <div class="card head"><div class="pnum">9</div><div>
+    <h2>True or false? Correct me! ✅❌</h2>
+    <p class="uk">Подивись на вітальню. Речення правдиве — True. Неправдиве — False, і скажи, як насправді: «There isn't a dog on the shelf. There's a rabbit on the shelf!»</p>
+    <div class="skills"><span>👀 Looking</span><span>🧠 Grammar</span><span>🗣 Speaking</span></div></div></div>
+  <div class="twocol">
+    <div id="tfRoom"></div>
+    <div id="tfList"></div>
+  </div>
+  <div class="card" style="margin-top:12px"><h3 class="t">🗣 Now you! / Тепер ти</h3><p class="uk">У парах: один каже про картинку речення (правдиве чи ні), інший відповідає «True!» або «False! There isn't… There's…».</p>
+    <div class="frames"><span>There's a vase on the shelf.</span><span class="o">True!</span><span>There's a cat on the armchair.</span><span class="o">False! There isn't a cat on the armchair. There's a teddy!</span></div></div>
+</section>
+
+<!-- READING -->
+<section class="page" data-title="Reading: Tom's room">
+  <div class="card head"><div class="pnum">8</div><div>
+    <h2>Tom's room 🛏️ Read and find the differences!</h2>
+    <p class="uk">1) Прочитай текст. 2) Знайди 4 відмінності між текстом і картинкою — натисни на картинці те, що не так. 3) Знайди слова з <b>ee / ea</b>. 4) Відповідай і знаходь доказ 🔍.</p>
+    <div class="skills"><span>📖 Reading</span><span>🔍 Spot the difference</span><span>🗣 Phonics</span></div></div></div>
+  <div class="reading">
+    <div class="card">
+      <div class="row" style="margin-bottom:8px">
+        <button class="lvl on" data-l="1">⭐ With help</button><button class="lvl" data-l="2">⭐⭐ No help</button>
+        <button class="say" id="sayStory">🔊</button>
+        <span class="counter">ee / ea: <span id="eeN">0</span> / <span id="eeT">0</span></span>
+      </div>
+      <div id="story"></div>
+    </div>
+    <div>
+      <div id="rRoom"></div>
+      <div class="row" style="margin-top:8px"><span class="counter">Differences: <span id="rdN">0</span> / 4</span></div>
+      <ul class="sdlist" id="rdList"></ul>
+    </div>
+  </div>
+  <div id="qs8"></div>
+</section>
+
+<!-- READING RECORD -->
+<section class="page" data-title="My reading record">
+  <div class="card head"><div class="pnum">9</div><div>
+    <h2>Read faster! My reading record ⏱</h2>
+    <p class="uk">Спершу скоромовка. Потім читай текст про кімнату Тома 1 хвилину — тричі. Змагаєшся лише з собою!</p>
+    <div class="skills"><span>📖 Reading</span><span>🧠 Learning to learn</span></div></div></div>
+  <div class="twister">👅 <b>Tongue twister:</b> <span class="hand">Three thin thieves think there are three thick things.</span> <button class="say" data-say="Three thin thieves think there are three thick things.">🔊</button> <span class="ukx">Скажи 3 рази швидко!</span></div>
+  <div class="twocol">
+    <div class="card">
+      <h3 class="t">📊 My 3 tries</h3>
+      <div class="row" style="margin-bottom:8px"><button class="try on" data-t="0">1 👩‍🏫 with teacher</button><button class="try" data-t="1">2 👫 with a buddy</button><button class="try" data-t="2">3 🦸 alone</button></div>
+      <div class="bars" id="bars"></div>
+      <p id="growth" class="big" style="margin:8px 0 0"></p>
+    </div>
+    <div class="card">
+      <div class="row"><span class="clock" id="rClock">60</span><button class="btn co" id="rStart">▶ Start (1 min)</button><button class="btn alt" id="rDone">🏁 I finished!</button></div>
+      <div class="errbox" style="margin-top:10px">Buddy: mistakes <button class="btn small alt" id="errMinus">−</button><span id="rErr">0</span><button class="btn small alt" id="errPlus">+</button></div>
+      <p id="rMsg" style="margin:8px 0 0">Press Start and read aloud. / Натисни Start і читай уголос.</p>
+    </div>
+  </div>
+  <div class="card"><div id="rtext"></div></div>
+</section>
+
+<!-- PRACTICE -->
+<section class="page" data-title="Practice">
+  <div class="card head"><div class="pnum">10</div><div>
+    <h2>Choose the right words. Then build sentences!</h2>
+    <p class="uk">Одна річ чи багато? Питання чи заперечення? Сумніваєшся — відкрий картку правил 📝.</p>
+    <div class="skills"><span>🧠 Grammar</span><span>✍️ Writing</span></div></div></div>
+  <ol class="items" id="g10"></ol>
+  <div id="uns10"></div>
+</section>
+
+<!-- INFO GAP -->
+<section class="page" data-title="Hide and seek pets">
+  <div class="card head"><div class="pnum">11</div><div>
+    <h2>Hide and seek: where are the pets? 🐾</h2>
+    <p class="uk">Пари. У Student A і Student B та сама кімната, але тваринки сховалися в різних місцях. Не дивись на картинку партнера! Питайте й знайдіть 5 відмінностей.</p>
+    <div class="skills"><span>🗣 Speaking</span><span>👂 Listening</span><span>🤝 Teamwork</span></div></div></div>
+  <div class="card">
+    <div class="row"><button class="role" data-r="A">🔵 I'm Student A</button><button class="role" data-r="B">🔴 I'm Student B</button><button class="role" data-r="both">👀 Show both (check)</button></div>
+    <div class="frames" style="margin-top:10px"><span>Is there a cat in the box?</span><span class="o">Yes, there is. / No, there isn't.</span><span>Where is the dog?</span><span class="o">It's under the table.</span><span>Different! / Same!</span></div>
+  </div>
+  <div id="sdBox" class="card"><p class="big" style="margin:0">👆 Choose your role / Обери свою роль</p></div>
+</section>
+
+<!-- BOARD GAME -->
+<section class="page" data-title="Board game: Hide-and-seek House">
+  <div class="card head"><div class="pnum">12</div><div>
+    <h2>Board game: Hide-and-seek House 🎲🏠</h2>
+    <p class="uk">Кидай кубик і виконуй завдання клітинки. Сходи 🪜 ведуть угору, гірка 🛝 — вниз. Відповідь оцінює група: 👍 чи 👎? Неправильно — назад на 1.</p>
+    <div class="skills"><span>🗣 Speaking</span><span>🧠 Grammar</span><span>🤝 Teamwork</span></div></div></div>
+  <div class="card" id="gSetup">
+    <h3 class="t">Who is playing? / Хто грає?</h3>
+    <div class="row" id="gCount"></div>
+    <div class="row" id="gNames" style="margin:12px 0"></div>
+    <button class="btn co" id="gStart">▶ Start the game</button>
+  </div>
+  <div id="gPlay" class="hidden">
+    <div class="card row" style="justify-content:space-between">
+      <div id="gTurn" class="turn"></div>
+      <div class="row"><span class="dice" id="dice">🎲</span><button class="btn co" id="gRoll" style="font-size:22px">🎲 Roll</button><button class="btn alt small" id="gReset">↺ New game</button></div>
+    </div>
+    <div class="gboard" id="gboard"></div>
+    <div class="legend"><span class="t-look">🖼 Look &amp; say</span><span class="t-where">📍 Where?</span><span class="t-ask">❓ Ask it</span><span class="t-not">❌ Negative</span><span class="t-show">✋ Show me!</span><span class="t-talk">🏠 My home</span><span class="t-spell">✍️ Spell it</span><span class="t-chance">🃏 Chance</span><span class="t-up">🪜 Stairs</span><span class="t-down">🛝 Slide</span></div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section class="page" data-title="Well done!">
+  <div class="card head"><div class="pnum">13</div><div>
+    <h2>Well done! How do I feel now?</h2>
+    <p class="uk">Оціни себе: 🔴 ще важко, 🟡 майже, 🟢 можу пояснити іншим.</p>
+    <div class="skills"><span>🪞 Reflection</span><span>🗣 Speaking</span></div></div></div>
+  <div class="twocol">
+    <div class="card" id="lights"></div>
+    <div class="card"><div class="badge" id="badge"></div><p id="readSum" class="big" style="text-align:center;margin:12px 0 0"></p></div>
+  </div>
+  <div class="card">
+    <h3 class="t">🎟 Exit ticket</h3>
+    <p class="big" style="margin:4px 0">Look around your room. Say 2 sentences: <b>There is… on/under/next to…</b> and <b>There are…</b> 🗣</p>
+    <p class="uk">Подивись довкола: 2 речення про свою кімнату.</p>
+  </div>
+  <div class="card">
+    <h3 class="t">🏠 Homework / Домашнє завдання (10–15 хв)</h3>
+    <ol>
+      <li><b>My dream house.</b> Draw your dream house «in a cut»: 3 rooms (living room, kitchen, bedroom). Write 5 sentences: <i>There is a fireplace in the living room. There are two cats on the armchair.</i> <span class="ukx">Намалюй будинок мрії «в розрізі» (3 кімнати) й напиши 5 речень.</span><br>✅ <b>Check yourself:</b> <span class="ukx">одна річ → is, багато → are; у кожному реченні є слово «де?» (on, under, next to…).</span></li>
+      <li><b>2 new word cards.</b> <span class="ukx">Зроби 2 власні картки слів (як на с. 5) для речей у твоїй кімнаті.</span></li>
+      <li><b>📖 Reading:</b> <span class="ukx">щодня 5 хв читай уголос «Tom's room» — 3 рази поспіль. Раз на тиждень — голосове вчительці.</span></li>
+      <li><b>⭐ Star task (A2):</b> write 8–10 sentences about your real room with <b>and, but, because</b>. <span class="ukx">Завдання із зірочкою.</span></li>
+    </ol>
+    <div class="row"><button class="btn" id="copyBtn">📋 Copy my Rule Card &amp; List</button><button class="btn alt" id="dlBtn">📥 Download</button></div>
+    <textarea id="copyArea" class="hidden" readonly></textarea>
+  </div>
+</section>
+</main>
+
+<div class="foot"><div class="in">
+  <button class="btn alt" id="prev">◀ Back</button>
+  <div id="pageLabel"></div>
+  <button class="btn co" id="next">Next ▶</button>
+</div></div>
+
+<div class="gm" id="gm"><div class="gcard" id="gcard"></div></div>
+
+<div class="drawer" id="drawer"><div class="sheet">
+  <button class="btn alt close" data-close>✕</button>
+  <h2>📒 My List</h2>
+  <p class="uk">Твої слова цього уроку. Збережи їх: кнопка Copy на останній сторінці.</p>
+  <ul id="listItems" style="padding:0;list-style:none"></ul>
+</div></div>
+<div class="drawer" id="noteDrawer"><div class="sheet">
+  <button class="btn alt close" data-close>✕</button>
+  <h2>📝 My Rule Card</h2>
+  <div id="noteBody"></div>
+</div></div>
+
+<div class="modal" id="teacher"><div class="sheet tn">
+  <button class="btn alt close" data-close>✕</button>
+  <h2>🍎 Для вчителя</h2>
+  <div id="tnPage"></div>
+  <h3>🎯 Ідея уроку</h3>
+  <p>Заняття 3 з 9: <b>there is / there are, some / any, прийменники місця</b>. Діти вже зустрічали цю тему, тому починаємо з мовлення (гра з плашками), а правило потім уточнюємо через детектив. Хід: <b>can-do і «відчуй» → Animal House (хто я сьогодні і де я) → гра «What's in the room?» → два звуки th → слова кімнати й власна картка слова → Match і Memory → прийменники → детектив і картка правил → is / are сортування → True or false? Correct me! → читання з пошуком відмінностей → замір темпу → практика → інформаційний розрив → настільна гра</b>.</p>
+  <h3>📘 Зв'язок із Beehive 2 (Unit 9)</h3>
+  <ul>
+    <li><b>Лексика:</b> living room furniture (armchair, coffee table, curtains, vase, fireplace, rug, shelf, painting) і kitchen things (plate, glass, jug, knife, fork, spoon) — на с. 5–6, у сценах гри на с. 3 і на с. 10.</li>
+    <li><b>Граматика:</b> There's / There are / There isn't / There aren't any — як у Lesson 2 юніту.</li>
+    <li><b>Ідеї ігор з Teacher's Guide, перенесені онлайн:</b> True or False + виправлення неправди (с. 10); «Where shall I put the…?» — варіант для с. 14: один розставляє меблі на своєму малюнку, інший питає й повторює; вгадайка «Is there a…?» за картинками; Draw and guess; проєкт Dream house (домашнє).</li>
+    <li><b>Загадки kitchen things (усно, свої формулювання):</b> «You eat soup with it» (spoon), «You cut bread with it» (knife), «You put milk in it» (jug), «You drink water from it» (glass).</li>
+  </ul>
+  <h3>👥 Ролі в групі</h3>
+  <ul>
+    <li><b>👑 Експерти:</b> ставлять питання-підказки з картки на с. 1, а не дають відповідей.</li>
+    <li><b>📖 Reading buddies:</b> ті самі пари. На с. 12 сірий стовпчик — найкращий результат уроку 2.</li>
+    <li><b>🔁 Ролі в командах:</b> caller (називає номер плашки), speaker, checker (стежить, щоб речення не повторювалися), timekeeper.</li>
+  </ul>
+  <h3>🎲 Ігри для онлайн-групи</h3>
+  <details><summary>Animal House (с. 2) + What's in the room? (с. 3)</summary><p>5 кімнат під плашками. Команда називає номери плашок і за 1 хвилину каже якомога більше НОВИХ речень. Ти тиснеш речення в «Teacher key» — команда отримує 🔑, речення закреслюється. Речення, якого немає в ключі, але правильне, — кнопка «+1 🔑». Варіант «Memory»: відкрий усе, 20 секунд дивимося, тоді 🙈 Cover all — і команди по черзі називають з пам'яті.</p></details>
+  <details><summary>Show me! (с. 7)</summary><p>TPR онлайн: «Put your pen ON your book! UNDER your book! NEXT TO your cup! BEHIND your head!» Діти показують у камеру. Потім дитина-ведучий дає команди.</p></details>
+  <details><summary>Hide and seek at home (с. 7, 14)</summary><p>Дитина ховає іграшку у своїй кімнаті (поза камерою), інші питають: «Is it under the bed? Is it in the box?» — «Yes, it is! / No, it isn't.» Хто вгадав — ховає наступним.</p></details>
+  <details><summary>Room tour (с. 16)</summary><p>Дитина повертає камеру й показує кімнату: «There is a bed. There are two windows.» Інші ставлять одне питання: «Is there a cat?»</p></details>
+  <details><summary>Draw dictation (запасна)</summary><p>Ти описуєш кімнату («There is a bed. There is a cat under the bed. There are three balls next to the bed.»), діти малюють і показують у камеру. Порівнюємо!</p></details>
+  <details><summary>Hide-and-seek House — настільна гра (с. 15)</summary><p>Клітинки: 🖼 речення за картинкою, 📍 «Where is…?», ❓ питання Is there / Are there any, ❌ заперечення, ✋ Show me! (руками з предметами), 🏠 про свій дім, ✍️ правопис, 🃏 Chance. На сходах кажуть «There are stairs!», на гірці — «I'm sliding!».</p></details>
+  <h3>📌 Методичні рекомендації</h3>
+  <ul>
+    <li><b>Українська як місток:</b> «є» = there is / there are. Порівняй: «На столі є яблуко» — речення починається з місця, а англійське — з There is.</li>
+    <li><b>Типові помилки:</b> «There is two chairs», «There are a cat», «In my room is a bed». Не виправляй одразу — збери 2–3 приклади й розберіть наприкінці питанням «One thing or many things?».</li>
+    <li><b>Concept-checking questions:</b> «There are three books. — One book or many books? Is or are?»</li>
+    <li><b>Прийменники тілом:</b> руки — «on» (долоня на долоні), «under» (під), «next to» (поруч), «behind» (за спиною). Діти повторюють жест разом зі словом.</li>
+    <li><b>Some / any без перевантаження:</b> some — у ствердженні, any — у питанні й запереченні. Для weak A1 достатньо впізнавання й вибору.</li>
+    <li><b>Стратегія «власна картка слова»:</b> дитина сама обирає слово, картинку й складає речення — так слово запам'ятовується краще, ніж зі списку. Картки зберігаються в My List.</li>
+    <li><b>Спершу значення, потім форма:</b> на с. 1 діти обирають «на відчуття», правило — лише на с. 8.</li>
+    <li><b>3-2-1-Send!</b> у чаті й <b>Remote control</b> у Zoom на с. 2, 3, 4, 6, 9, 10, 15.</li>
+    <li><b>Рефлексія:</b> «Яке слово ти зробив(-ла) своєю карткою? Чому саме його?»</li>
+  </ul>
+</div></div>
+<div id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function speak(t){try{if(!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.85;const vs=speechSynthesis.getVoices();const v=vs.find(v=>v.lang==='en-GB')||vs.find(v=>/^en/.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(b){e.stopPropagation();speak(b.dataset.say)}},true);
+let keys=0;
+function reward(n=1){keys+=n;$('#keys').textContent=keys;const s=$('#keyBox');s.classList.remove('bump');void s.offsetWidth;s.classList.add('bump');renderBadge()}
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1900)}
+const praise=['Great job! 🔑','Super! ⭐','Well done! 🏠','Brilliant! 💙','Yes! 🎉'];
+const yay=()=>toast(praise[Math.floor(Math.random()*praise.length)]);
+const oops=m=>toast(m||'Try again! 🌱 Спробуй ще раз!');
+function shake(el){el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')}
+
+/* nav */
+const pages=$$('.page');let cur=0;const pills=$('#pills');
+pages.forEach((p,i)=>{const n=p.querySelector('.pnum');if(n)n.textContent=i+1;const b=document.createElement('button');b.textContent=i+1;b.title=p.dataset.title;b.onclick=()=>go(i);pills.appendChild(b)});
+function go(i){cur=Math.max(0,Math.min(pages.length-1,i));pages.forEach((p,k)=>p.classList.toggle('active',k===cur));
+  [...pills.children].forEach((b,k)=>{b.classList.toggle('on',k===cur);if(k<cur)b.classList.add('done')});
+  $('#pageLabel').textContent=`${cur+1} / ${pages.length} · ${pages[cur].dataset.title}`;
+  $('#prev').style.visibility=cur?'visible':'hidden';$('#next').textContent=cur===pages.length-1?'🏠 Finish':'Next ▶';
+  if(cur===pages.length-1){renderBadge();renderReadSum()}
+  window.scrollTo({top:0,behavior:'smooth'});renderTeacher()}
+$('#prev').onclick=()=>go(cur-1);
+$('#next').onclick=()=>{if(cur===pages.length-1)toast('🏠 See you next time! Goodbye!');else go(cur+1)};
+document.addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;if($('#gm').classList.contains('open'))return;if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
+$$('.drawer,.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m||e.target.closest('[data-close]'))m.classList.remove('open')}));
+$('#openTeacher').onclick=()=>{renderTeacher();$('#teacher').classList.add('open')};
+$('#openList').onclick=()=>{refreshList();$('#drawer').classList.add('open')};
+$('#openNote').onclick=()=>{$('#noteBody').innerHTML=ruleHTML();$('#noteDrawer').classList.add('open')};
+
+/* My List */
+const myList=new Map(store.get('pc3_list',[]));
+function addWord(en,uk){if(!myList.has(en)){myList.set(en,uk);store.set('pc3_list',[...myList]);toast('📒 Added to My List!')}refreshList()}
+function refreshList(){$('#listCount').textContent=myList.size;
+  $('#listItems').innerHTML=myList.size?[...myList].map(([en,uk])=>`<li><span><b>${esc(en)}</b> — ${esc(uk)}</span><button class="say" data-say="${esc(en)}">🔊</button></li>`).join(''):'<li>Поки порожньо. Натисни «➕ Add to My List» або збережи свою картку слова.</li>'}
+
+/* Rule card */
+let ruleDone=false;
+const RULE_TXT="ONE thing: There is a bed. ❌ There isn't a TV. ❓ Is there a lamp? — Yes, there is.\nMANY things: There are two chairs. ❌ There aren't any posters. ❓ Are there any books? — No, there aren't.\n✅ some books · ❌❓ any books\nWhere? in · on · under · next to · behind · in front of";
+function ruleHTML(){return ruleDone?`<div class="rc2"><div class="a"><b>1️⃣ One thing</b><p>There <b>is</b> a bed.</p><p>❌ There <b>isn't</b> a TV.</p><p>❓ <b>Is</b> there a lamp? — Yes, there is.</p></div>
+  <div class="b"><b>🔢 Many things</b><p>There <b>are</b> two chairs.</p><p>❌ There <b>aren't any</b> posters.</p><p>❓ <b>Are</b> there <b>any</b> books? — No, there aren't.</p></div></div><p>✅ <b>some</b> books · ❌❓ <b>any</b> books</p><p>📍 in · on · under · next to · behind · in front of · between</p>`:'<p class="ukx">Картка ще порожня — заповни її на сторінці 8 (Grammar detective).</p>'}
+
+/* generic options & gaps */
+document.addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;const g=b.closest('.opts');if(!g||g.classList.contains('done'))return;
+  if(b.textContent===g.dataset.ans){b.classList.add('ok');g.classList.add('done');reward();yay();const li=b.closest('li');if(li)checkLi(li);g.dispatchEvent(new CustomEvent('solved',{bubbles:true}))}
+  else{b.classList.add('no');shake(b);setTimeout(()=>b.classList.remove('no'),600);oops()}});
+document.addEventListener('change',e=>{const s=e.target;if(!s.matches('select.gap'))return;
+  if(s.value===s.dataset.ans){s.classList.remove('bad');s.classList.add('ok');s.disabled=true;reward();yay();const li=s.closest('li');if(li&&li.dataset.full)checkLi(li);
+    if(s.classList.contains('rc')&&$$('select.rc').every(x=>x.classList.contains('ok'))){ruleDone=true;$('#rcSaved').classList.remove('hidden');toast('📝 Rule Card saved!')}}
+  else if(s.value){s.classList.add('bad');shake(s);oops()}});
+function checkLi(li){if(!li.querySelector('.opts:not(.done),select.gap:not(.ok)')){li.classList.add('solved');if(li.dataset.full)speak(li.dataset.full)}}
+document.addEventListener('click',e=>{const b=e.target.closest('.lb button');if(!b)return;[...b.parentElement.children].forEach(x=>x.classList.toggle('on',x===b))});
+function parse(line){const full=line.replace(/\[([^\]]+)\]/g,(m,b)=>b.split('|').find(o=>o[0]==='*').slice(1));
+  const html=line.replace(/\[([^\]]+)\]/g,(m,g)=>{const o=g.split('|');const ans=o.find(x=>x[0]==='*').slice(1);return `<select class="gap" data-ans="${esc(ans)}"><option value="">……</option>${shuffle(o.map(x=>x.replace('*',''))).map(x=>`<option>${esc(x)}</option>`).join('')}</select>`});return{full,html}}
+
+/* ===== SCENE ENGINE ===== */
+const P=(l,t,w,h)=>`left:${l}%;top:${t}%;width:${w}%;height:${h}%`;
+function shapeHTML(s){
+  switch(s.t){
+    case 'window':return `<div class="sh win${s.night?' night':''}" style="${P(s.l,s.t2,s.w,s.h)}"></div>`;
+    case 'frame':return `<div class="sh frame" style="${P(s.l,s.t2,s.w,s.h)};font-size:${s.s||6}cqw">${s.e}</div>`;
+    case 'door':return `<div class="sh door" style="${P(s.l,s.t2,s.w,s.h)}"></div>`;
+    case 'rug':return `<div class="sh rug" style="${P(s.l,s.t2,s.w,s.h)}"></div>`;
+    case 'pond':return `<div class="sh pond" style="${P(s.l,s.t2,s.w,s.h)}"></div>`;
+    case 'fridge':return `<div class="sh fridge" style="${P(s.l,s.t2,s.w,s.h)}"></div>`;
+    case 'cab':return `<div class="sh cab" style="${P(s.l,s.t2,s.w,s.h)}"></div>`;
+    case 'plank':return `<div class="sh plank" style="${P(s.l,s.t2,s.w,1.6)}"></div>`;
+    case 'sink':return `<div class="sh sink" style="${P(s.l,s.t2,s.w,8)}"></div><div class="sh" style="${P(s.l+s.w/2-2,s.t2+8,4,s.h-8)};background:#E3EAF1;border:.3cqw solid #B9C6D3"></div>`;
+    case 'table':return `<div class="sh top" style="${P(s.l,s.t2,s.w,2.6)}"></div><div class="sh leg" style="${P(s.l+1.5,s.t2+2.6,1.6,s.h-2.6)}"></div><div class="sh leg" style="${P(s.l+s.w-3.1,s.t2+2.6,1.6,s.h-2.6)}"></div>`;
+    case 'shelf':return `<div class="sh side" style="${P(s.l,s.t2,1.6,s.h)}"></div><div class="sh side" style="${P(s.l+s.w-1.6,s.t2,1.6,s.h)}"></div>`+[s.t2,...s.planks,s.t2+s.h-1.6].map(y=>`<div class="sh plank" style="${P(s.l,y,s.w,1.6)}"></div>`).join('');
+    case 'curtain':return `<div class="sh curt" style="${P(s.l,s.t2,s.w,s.h)}"></div>`;
+    case 'fireplace':return `<div class="sh plank" style="${P(s.l-2,s.t2-2.5,s.w+4,2.5)}"></div><div class="sh fire" style="${P(s.l,s.t2,s.w,s.h)}"></div><div class="sh firehole" style="${P(s.l+s.w*.22,s.t2+s.h*.35,s.w*.56,s.h*.65)}"></div>`;
+    case 'armchair':return `<div class="sh ach dk" style="${P(s.l+s.w*.14,s.t2,s.w*.72,s.h*.62)}"></div><div class="sh ach" style="${P(s.l+s.w*.12,s.t2+s.h*.5,s.w*.76,s.h*.28)}"></div><div class="sh ach dk" style="${P(s.l,s.t2+s.h*.32,s.w*.2,s.h*.56)}"></div><div class="sh ach dk" style="${P(s.l+s.w*.8,s.t2+s.h*.32,s.w*.2,s.h*.56)}"></div><div class="sh leg" style="${P(s.l+s.w*.14,s.t2+s.h*.88,s.w*.06,s.h*.12)}"></div><div class="sh leg" style="${P(s.l+s.w*.8,s.t2+s.h*.88,s.w*.06,s.h*.12)}"></div>`;
+    case 'jug':return `<div class="sh jugh" style="${P(s.l+s.w*.7,s.t2+s.h*.2,s.w*.3,s.h*.45)}"></div><div class="sh jugb" style="${P(s.l,s.t2,s.w*.8,s.h)}"></div>`;
+    case 'bed':return `<div class="sh head-b" style="${P(s.l,s.t2-16,3,16+9)}"></div><div class="sh mattress" style="${P(s.l+2,s.t2,s.w-2,6)}"></div><div class="sh blanket" style="${P(s.l+s.w*0.38,s.t2-.5,s.w*0.62,6.5)}"></div><div class="sh side" style="${P(s.l+2,s.t2+6,s.w-2,3)}"></div><div class="sh leg" style="${P(s.l,s.t2+9,2.2,s.h-9)}"></div><div class="sh leg" style="${P(s.l+s.w-2.2,s.t2+9,2.2,s.h-9)}"></div>`;
+  }return ''}
+function sceneHTML(sc,opt={}){
+  const ft=sc.floorTop??64;
+  const wallStyle=sc.sky?'':`background:repeating-linear-gradient(90deg,${sc.wall[0]} 0 4cqw,${sc.wall[1]} 4cqw 8cqw)`;
+  let h=`<div class="room" ${opt.id?`id="${opt.id}"`:''}><div class="wall ${sc.sky?'wl-sky':''}" style="bottom:${100-ft}%;${wallStyle}"></div><div class="floor fl-${sc.floor}" style="top:${ft}%"></div>`;
+  h+=sc.shapes.map(s=>shapeHTML({...s,t2:s.y})).join('');
+  h+=(opt.items||sc.items).map((it,i)=>`<span class="it${it.fx?' fx':''}${opt.click?' clk':''}" data-i="${i}" style="left:${it.x}%;top:${it.y}%;font-size:${it.s}cqw;z-index:${it.z||5}">${it.e}</span>`).join('');
+  return h+'</div>'}
+
+/* ===== SCENES for the tile game ===== */
+const SCENES=[
+ {name:'Living room',wall:['#F6E3C8','#F1D9B8'],floor:'wood',
+  shapes:[{t:'window',l:5,y:8,w:18,h:28},{t:'curtain',l:1,y:6,w:5,h:36},{t:'curtain',l:22,y:6,w:5,h:36},{t:'frame',l:44,y:6,w:12,h:15,e:'🌻',s:6},{t:'shelf',l:74,y:12,w:20,h:56,planks:[30,48]},{t:'rug',l:22,y:80,w:52,h:15},{t:'table',l:30,y:73,w:34,h:15},{t:'armchair',l:78,y:72,w:19,h:24}],
+  items:[{e:'🐦',x:18,y:36,s:5},{e:'🕰️',x:32,y:26,s:6},{e:'🛋️',x:50,y:70,s:30,z:3},{e:'🐕',x:42,y:57,s:9,z:4},{e:'🐩',x:57,y:57,s:9,z:4},{e:'🪴',x:28,y:69,s:9},
+   {e:'📚',x:80,y:30,s:7},{e:'🏺',x:86,y:48,s:6},{e:'🐇',x:84,y:12.5,s:8},{e:'🍎',x:40,y:73.5,s:4.5,z:6},{e:'🍎',x:47,y:73.5,s:4.5,z:6},{e:'🍎',x:54,y:73.5,s:4.5,z:6},
+   {e:'🐭',x:47,y:89,s:6,z:6},{e:'🐈',x:12,y:84,s:9,z:5},{e:'📦',x:12,y:97,s:13,z:7},{e:'⚽',x:72,y:96,s:5,z:6},{e:'🧸',x:87.5,y:86,s:7,z:6}],
+  key:['There is a window.','There are curtains next to the window.','There is a bird on the window.','There is a clock on the wall.','There is a painting on the wall.','There is a sofa.','There are two dogs on the sofa.','There is a plant next to the sofa.','There is a lamp next to the sofa.','There is a shelf.','There are some books on the shelf.','There is a vase on the shelf.','There is a rabbit on the shelf.','There is a coffee table.','There are three apples on the coffee table.','There is a mouse under the coffee table.','There is a rug.','There is a cat in the box.','There is a ball on the floor.','There is an armchair.','There is a teddy bear on the armchair.']},
+ {name:'Bedroom',wall:['#E7E0F7','#DED5F3'],floor:'wood',
+  shapes:[{t:'window',l:62,y:8,w:24,h:28,night:true},{t:'frame',l:12,y:10,w:16,h:20,e:'🚀',s:8},{t:'bed',l:4,y:60,w:44,h:24},{t:'table',l:58,y:62,w:32,h:22}],
+  items:[{e:'🌙',x:70,y:22,s:6},{e:'⭐',x:79,y:16,s:4},{e:'⭐',x:81,y:31,s:3},{e:'🧸',x:34,y:60.5,s:9,z:6},{e:'🐈',x:22,y:85,s:8,z:6},{e:'🧦',x:36,y:85,s:5,z:6},
+   {e:'💻',x:66,y:62.5,s:7},{e:'📚',x:77,y:62.5,s:6},{e:'⏰',x:86,y:62.5,s:5},{e:'🪑',x:72,y:94,s:13,z:7},{e:'⚽',x:84,y:84,s:6,z:6},{e:'🎸',x:53,y:90,s:12,z:6},{e:'👟',x:8,y:97,s:6,z:6},{e:'👟',x:15,y:97,s:6,z:6}],
+  key:['There is a bed.','There is a teddy bear on the bed.','There is a cat under the bed.','There are some socks under the bed.','There is a poster on the wall.','There is a window.','There is a moon in the sky.','There are some stars.','There is a desk.','There is a laptop on the desk.','There are some books on the desk.','There is a clock on the desk.','There is a chair in front of the desk.','There is a ball under the desk.','There is a guitar next to the bed.','There are two shoes on the floor.']},
+ {name:'Kitchen',wall:['#FFF1C2','#FBE8AE'],floor:'tiles',
+  shapes:[{t:'fridge',l:4,y:20,w:16,h:66},{t:'window',l:30,y:8,w:20,h:24},{t:'plank',l:58,y:24,w:34},{t:'table',l:30,y:64,w:46,h:22},{t:'jug',l:76,y:13,w:6,h:11}],
+  items:[{e:'🐭',x:12,y:20.5,s:6},{e:'☀️',x:40,y:20,s:6},{e:'☕',x:62,y:24.5,s:5},{e:'☕',x:70,y:24.5,s:5},{e:'🍯',x:89,y:24.5,s:5},
+   {e:'🍕',x:36,y:64.5,s:6},{e:'🍽️',x:45,y:64.5,s:6},{e:'🍴',x:52,y:64.5,s:5},{e:'🥄',x:57,y:64.5,s:4.5},{e:'🥛',x:62,y:64.5,s:5},{e:'🥛',x:66,y:64.5,s:5},{e:'🎂',x:72,y:64.5,s:6},
+   {e:'🐕',x:52,y:86,s:9,z:6},{e:'🪑',x:24,y:94,s:13,z:6},{e:'🐈',x:24,y:79,s:7,z:7},{e:'🪴',x:93,y:94,s:9},{e:'🥚',x:80,y:97,s:4,z:6},{e:'🥚',x:84,y:97,s:4,z:6},{e:'🥚',x:88,y:97,s:4,z:6}],
+  key:['There is a fridge.','There is a mouse on the fridge.','There is a window.','There is a sun in the window.','There is a shelf.','There are two cups on the shelf.','There is a jug on the shelf.','There is some honey on the shelf.','There is a table.','There is a pizza on the table.','There is a plate on the table.','There is a knife and a fork on the table.','There is a spoon on the table.','There are two glasses of milk on the table.','There is a cake on the table.','There is a dog under the table.','There is a chair next to the table.','There is a cat on the chair.','There is a plant.','There are three eggs on the floor.']},
+ {name:'Bathroom',wall:['#D6F0EE','#C8E9E6'],floor:'tiles',
+  shapes:[{t:'window',l:6,y:8,w:14,h:18},{t:'sink',l:62,y:52,w:20,h:32}],
+  items:[{e:'🕷️',x:40,y:22,s:4},{e:'🦆',x:20,y:81,s:5,z:3},{e:'🦆',x:28,y:81,s:5,z:3},{e:'🦆',x:36,y:81,s:5,z:3},{e:'🛁',x:30,y:97,s:34,z:4},
+   {e:'🪞',x:72,y:44,s:12},{e:'🧼',x:66,y:52.5,s:4,z:6},{e:'🪥',x:76,y:52.5,s:5,z:6},{e:'🐈',x:72,y:84,s:8,z:6},{e:'🚽',x:92,y:94,s:16},{e:'🧻',x:92,y:56,s:5},{e:'🐸',x:56,y:97,s:6,z:6}],
+  key:['There is a window.','There is a spider on the wall.','There is a bath.','There are three ducks in the bath.','There is a frog next to the bath.','There is a mirror.','There is a sink.','There is some soap on the sink.','There is a toothbrush on the sink.','There is a cat under the sink.','There is a toilet.','There is some toilet paper.']},
+ {name:'Garden',sky:true,floorTop:60,floor:'grass',
+  shapes:[{t:'pond',l:30,y:76,w:30,h:13}],
+  items:[{e:'☀️',x:88,y:18,s:9},{e:'☁️',x:20,y:16,s:10},{e:'☁️',x:48,y:12,s:8},{e:'🏠',x:18,y:66,s:28},{e:'🌳',x:72,y:68,s:34},{e:'🐦',x:66,y:32,s:5,z:6},{e:'🐦',x:78,y:40,s:5,z:6},
+   {e:'🐿️',x:80,y:76,s:7,z:6},{e:'🦆',x:42,y:84,s:7,z:6},{e:'🐸',x:54,y:86,s:5,z:6},{e:'🌷',x:6,y:86,s:5},{e:'🌷',x:10,y:88,s:5},{e:'🌷',x:14,y:86,s:5},{e:'🐝',x:12,y:74,s:4},
+   {e:'🚲',x:39,y:68,s:11},{e:'🐕',x:90,y:96,s:9,z:6},{e:'⚽',x:81,y:97,s:5,z:6},{e:'🦋',x:30,y:42,s:5}],
+  key:['There is a sun in the sky.','There are two clouds.','There is a house.','There is a tree.','There are two birds in the tree.','There is a squirrel under the tree.','There is a pond.','There is a duck on the pond.','There is a frog in the pond.','There are some flowers.','There is a bee.','There is a bike next to the house.','There is a dog.','There is a ball next to the dog.','There is a butterfly.']}];
+
+/* ===== 1. Tile + 1-minute game ===== */
+const TEAMS=[['🔵','Team Blue'],['🔴','Team Red']];
+const TCOL=['#2F6DB5','#F2705E','#6C4AB6','#E0A82E'];
+const TG={order:shuffle(SCENES.map((_,i)=>i)),i:0,turn:0,score:[0,0],timer:null,left:60,running:false,said:new Set()};
+function tgRenderTeams(){$('#tgTeams').innerHTML=TEAMS.map((t,i)=>`<div class="team${i===TG.turn?' on':''}"><span class="nm">${t[0]} ${t[1]}</span><b>${TG.score[i]}</b></div>`).join('')}
+function tgStatus(h){$('#tgStatus').innerHTML=h}
+function tgScene(){const sc=SCENES[TG.order[TG.i]];TG.said=new Set();
+  $('#tgRoom').innerHTML=sceneHTML(sc);
+  $('#tgTiles').innerHTML=Array.from({length:16},(_,n)=>`<button class="tile" data-n="${n+1}" style="--c:${TCOL[(n+Math.floor(n/4))%4]}">${n+1}</button>`).join('');
+  $('#tgKey').innerHTML=sc.key.map((k,i)=>`<button class="kc" data-i="${i}">${esc(k)}</button>`).join('');
+  $('#tgRound').textContent=`Picture ${TG.i+1} / ${SCENES.length}`;tgStop();TG.left=60;$('#tgClock').textContent=60;
+  tgRenderTeams();tgStatus(`${TEAMS[TG.turn][0]} <b>${TEAMS[TG.turn][1]}</b>: press ▶ Start and choose numbers! / Натисніть Start і називайте номери`)}
+function tgStop(){clearInterval(TG.timer);TG.running=false}
+$('#tgTiles').addEventListener('click',e=>{const t=e.target.closest('.tile');if(!t)return;t.classList.add('open')});
+$('#tgStart').onclick=()=>{if(TG.running)return;TG.running=true;TG.left=60;$('#tgClock').textContent=60;
+  tgStatus(`⏱ ${TEAMS[TG.turn][0]} <b>${TEAMS[TG.turn][1]}</b>: There is… / There are… GO!`);
+  TG.timer=setInterval(()=>{TG.left--;$('#tgClock').textContent=TG.left;if(TG.left<=0){tgStop();$('#tgClock').textContent='⏰';speak('Time!');
+    toast(`⏰ Time! ${TEAMS[TG.turn][1]}: ${TG.score[TG.turn]} 🔑`);TG.turn=1-TG.turn;tgRenderTeams();
+    tgStatus(`➡️ ${TEAMS[TG.turn][0]} <b>${TEAMS[TG.turn][1]}</b>: your minute! Open new tiles, say NEW sentences.`)}},1000)};
+function tgPoint(){TG.score[TG.turn]++;reward();tgRenderTeams()}
+$('#tgPlus').onclick=()=>{tgPoint();toast(`+1 🔑 ${TEAMS[TG.turn][1]}`)};
+$('#tgSwitch').onclick=()=>{tgStop();TG.turn=1-TG.turn;TG.left=60;$('#tgClock').textContent=60;tgRenderTeams();tgStatus(`➡️ ${TEAMS[TG.turn][0]} <b>${TEAMS[TG.turn][1]}</b>: press ▶ Start!`)};
+$('#tgKey').addEventListener('click',e=>{const c=e.target.closest('.kc');if(!c||TG.said.has(c.dataset.i)){if(c)toast('Already said! / Уже було 🙂');return}
+  TG.said.add(c.dataset.i);c.classList.add('t'+TG.turn);tgPoint();speak(c.textContent)});
+$('#tgOpenAll').onclick=()=>$$('#tgTiles .tile').forEach(t=>t.classList.add('open'));
+$('#tgCover').onclick=()=>$$('#tgTiles .tile').forEach(t=>t.classList.remove('open'));
+$('#tgNext').onclick=()=>{TG.i++;if(TG.i>=SCENES.length){const w=TG.score[0]===TG.score[1]?'🤝 Draw!':`🏆 ${TEAMS[TG.score[0]>TG.score[1]?0:1].join(' ')} wins!`;tgStatus(`${w} 🔑 ${TG.score[0]} : ${TG.score[1]}`);reward(2);TG.i=0;TG.order=shuffle(TG.order);TG.score=[0,0];return}
+  TG.turn=TG.i%2;tgScene()};
+tgScene();
+
+/* ===== 2. Mission ===== */
+const M2=[['🐱🛏️','There [*is|are] a cat on the bed.'],['📚📚📚','There [*are|is] three books on the shelf.'],['🍎🚫','There [*isn\'t|aren\'t] an apple in my bag.'],['❓🪑🪑','[*Are|Is] there two chairs in the kitchen?']];
+$('#m2').innerHTML=M2.map(([e,l])=>{const p=parse(l);return `<li data-full="${esc(p.full)}"><span style="font-size:32px;margin-right:8px">${e}</span>${p.html}</li>`}).join('');
+
+/* ===== 3. Room words + word card ===== */
+const RMINI={wall:['#EAF4FC','#E1EEF9'],floor:'wood',floorTop:76};
+const RM=(shapes,items)=>({mini:{...RMINI,shapes,items:items||[]}});
+const DECKS={
+ living:{label:'🛋️ Living room',cards:[
+  [RM([{t:'armchair',l:22,y:26,w:56,h:58}]),'armchair','крісло','There is an armchair next to the fireplace.'],
+  [RM([{t:'rug',l:6,y:76,w:88,h:18},{t:'table',l:18,y:54,w:64,h:28}],[{e:'☕',x:50,y:54.5,s:14}]),'coffee table','журнальний столик','There is a coffee table on the rug.'],
+  [RM([{t:'window',l:28,y:10,w:44,h:48},{t:'curtain',l:14,y:6,w:16,h:66},{t:'curtain',l:70,y:6,w:16,h:66}]),'curtains','штори','There are curtains next to the window.'],
+  [{e:'🏺'},'vase','ваза','There is a vase on the shelf.'],
+  [RM([{t:'fireplace',l:22,y:34,w:56,h:42}],[{e:'🔥',x:50,y:76,s:20,z:6}]),'fireplace','камін','There is a fireplace in the living room.'],
+  [RM([{t:'rug',l:6,y:72,w:88,h:22}],[{e:'🐈',x:50,y:88,s:24,z:6}]),'rug','килимок','There is a cat on the rug.'],
+  [RM([{t:'shelf',l:22,y:8,w:56,h:68,planks:[32,54]}],[{e:'📚',x:38,y:32,s:16},{e:'🏺',x:62,y:54,s:14}]),'shelf','полиця','There are some books on the shelf.'],
+  [{e:'🖼️'},'painting','картина','There is a painting on the wall.']]},
+ kitchen:{label:'🍽️ Kitchen things',cards:[
+  [{e:'🍽️'},'plate','тарілка','There is a plate on the table.'],
+  [{e:'🥛'},'glass','склянка','There are two glasses on the table.'],
+  [RM([{t:'jug',l:34,y:24,w:30,h:52}]),'jug','глечик','There is a jug of milk.'],
+  [{e:'🔪'},'knife','ніж','There is a knife next to the plate.'],
+  [{e:'🍴'},'fork','виделка','There is a fork next to the knife.'],
+  [{e:'🥄'},'spoon','ложка','There is a spoon in the soup.']]},
+ room:{label:'🛏️ My room',cards:[
+  [{e:'🛏️'},'bed','ліжко','There is a bed in my room.'],[{e:'🛋️'},'sofa','диван','There is a sofa in the living room.'],[{e:'🪑'},'chair','стілець','There are two chairs in the kitchen.'],
+  [{e:'🪟'},'window','вікно','There is a big window.'],[{e:'🚪'},'door','двері','There is a door.'],[{e:'💡'},'lamp','лампа','There is a lamp on my desk.'],
+  [{e:'🪞'},'mirror','дзеркало','There is a mirror in the bathroom.'],[{e:'🕰️'},'clock','годинник','There is a clock on the wall.']]}};
+function frontPic(c){return c.mini?`<div class="mini">${sceneHTML(c.mini)}</div>`:`<div class="emo">${c.e}</div>`}
+function showDeck(k){$$('.deckbtn').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+  $('#roomCards').innerHTML=DECKS[k].cards.map(([pic,en,uk,ex])=>`<div class="flip" tabindex="0"><div class="flip-in"><div class="face front"><button class="say" data-say="${esc(en)}">🔊</button>${frontPic(pic)}<b>${en}</b></div><div class="face back"><div class="ukb">${uk}</div><div class="ex">${esc(ex)}</div><button class="add" data-en="${esc(en)}" data-uk="${esc(uk)}">➕ Add to My List</button></div></div></div>`).join('')}
+$('#roomDecks').innerHTML=Object.entries(DECKS).map(([k,d])=>`<button class="deckbtn" data-k="${k}">${d.label} (${d.cards.length})</button>`).join('');
+$('#roomDecks').onclick=e=>{const b=e.target.closest('.deckbtn');if(b)showDeck(b.dataset.k)};
+showDeck('living');
+document.addEventListener('click',e=>{const a=e.target.closest('.add');if(a){e.stopPropagation();addWord(a.dataset.en,a.dataset.uk);a.classList.add('added');a.textContent='✔ In My List';return}
+  const f=e.target.closest('.flip');if(f&&!e.target.closest('button'))f.classList.toggle('flipped')});
+document.addEventListener('keydown',e=>{const f=e.target.closest&&e.target.closest('.flip');if(f&&(e.key==='Enter'||e.key===' ')){e.preventDefault();f.classList.toggle('flipped')}});
+const EMOS=['🛏️','🛋️','🪑','🪟','🚪','🪞','💡','🕰️','🖼️','🏺','🔥','🍽️','🍴','🔪','🥄','🥛','🪴','🛁','🚽','📺','💻','📚','🧸','🎸','⚽','🧦','👟','🎒','🧺','🧹','🍽️','🥄','🧊','🐈','🐕','🐟','🦜'];
+let wcE='🪞';
+$('#wcEmo').innerHTML=EMOS.map(e=>`<button data-e="${e}"${e===wcE?' class="on"':''}>${e}</button>`).join('');
+$('#wcEmo').onclick=e=>{const b=e.target.closest('button');if(!b)return;wcE=b.dataset.e;$$('#wcEmo button').forEach(x=>x.classList.toggle('on',x===b))};
+const myCards=store.get('pc3_cards',[]);
+function renderCards(){$('#myCards').innerHTML=myCards.map(c=>`<div class="mycard"><div class="e">${c.e}</div><b>${esc(c.en)}</b><div class="ukb">${esc(c.uk)}</div><div class="ex">${esc(c.ex)}</div><button class="say" data-say="${esc(c.en+'. '+c.ex)}">🔊</button></div>`).join('')}
+renderCards();
+$('#wcSay').onclick=()=>{const en=$('#wcEn').value.trim(),ex=$('#wcEx').value.trim();if(en||ex)speak([en,ex].filter(Boolean).join('. '));else toast('Впиши слово ✍️')};
+$('#wcSave').onclick=()=>{const en=$('#wcEn').value.trim(),uk=$('#wcUk').value.trim(),ex=$('#wcEx').value.trim();
+  if(!en||!uk){toast('Впиши слово й переклад ✍️');return}
+  if(ex&&!/^there (is|are|isn't|aren't)\b/i.test(ex))toast('💡 Порада: почни речення з There is / There are');
+  myCards.push({e:wcE,en,uk,ex});store.set('pc3_cards',myCards);renderCards();addWord(en,uk);reward(2);speak(en);
+  $('#wcEn').value='';$('#wcUk').value='';$('#wcEx').value=''};
+
+/* ===== Match & Memory ===== */
+const TAGC=['#2F6DB5','#F2705E','#6C4AB6','#1E7B55','#E0A82E','#C94B3B','#4A90C2','#8A5A30'];
+let mDeck='living',mSel=null,mDone=0,mTotal=0;
+function picHTML(c){return c.mini?`<span class="mini">${sceneHTML(c.mini)}</span>`:`<span class="emo">${c.e}</span>`}
+function mStart(){const cards=DECKS[mDeck].cards;mSel=null;mDone=0;mTotal=cards.length;
+  $$('#matchDecks .deckbtn').forEach(b=>b.classList.toggle('on',b.dataset.k===mDeck));
+  $('#mPics').innerHTML=shuffle(cards.map((c,i)=>i)).map(i=>`<button class="mpic" data-i="${i}">${picHTML(cards[i][0])}<span class="tag"></span></button>`).join('');
+  $('#mWords').innerHTML=shuffle(cards.map((c,i)=>i)).map(i=>`<button class="mword" data-i="${i}">${cards[i][1]}<span class="tag"></span></button>`).join('');
+  $('#mCount').textContent=`0 / ${mTotal}`;memStart()}
+$('#matchDecks').innerHTML=Object.entries(DECKS).map(([k,d])=>`<button class="deckbtn" data-k="${k}">${d.label}</button>`).join('');
+$('#matchDecks').onclick=e=>{const b=e.target.closest('.deckbtn');if(b){mDeck=b.dataset.k;mStart()}};
+function mClick(el){if(el.classList.contains('done'))return;const isPic=el.classList.contains('mpic');
+  if(isPic)speak(DECKS[mDeck].cards[el.dataset.i][1]);
+  if(!mSel||mSel.classList.contains('mpic')===isPic){if(mSel)mSel.classList.remove('sel');mSel=el;el.classList.add('sel');return}
+  if(mSel.dataset.i===el.dataset.i){const c=TAGC[mDone%TAGC.length];[mSel,el].forEach(x=>{x.classList.remove('sel');x.classList.add('done');const t=x.querySelector('.tag');t.style.background=c;t.textContent=mDone+1});
+    mDone++;$('#mCount').textContent=`${mDone} / ${mTotal}`;reward();speak(DECKS[mDeck].cards[el.dataset.i][1]);if(mDone===mTotal){toast('🎉 All pairs! Now play Memory 👇');reward(2)}else yay()}
+  else{shake(el);shake(mSel);mSel.classList.remove('sel');oops('Not a pair 🙂 Спробуй ще')}
+  mSel=null}
+$('#mPics').onclick=e=>{const b=e.target.closest('.mpic');if(b)mClick(b)};
+$('#mWords').onclick=e=>{const b=e.target.closest('.mword');if(b)mClick(b)};
+$('#mAgain').onclick=mStart;
+/* memory */
+let memOpen=[],memLock=false,memMoves=0,memPairs=0,memN=0;
+function memStart(){const cards=shuffle(DECKS[mDeck].cards.map((c,i)=>i)).slice(0,6);memN=cards.length;memOpen=[];memLock=false;memMoves=0;memPairs=0;
+  const tiles=shuffle(cards.flatMap(i=>[{i,k:'p'},{i,k:'w'}]));const d=DECKS[mDeck].cards;
+  $('#memo').innerHTML=tiles.map((t,n)=>`<div class="mc" data-i="${t.i}" data-n="${n}"><div class="mc-in"><div class="fc bk">?</div><div class="fc ft">${t.k==='p'?picHTML(d[t.i][0]):d[t.i][1]}</div></div></div>`).join('');memInfo()}
+function memInfo(){$('#memInfo').textContent=`Pairs: ${memPairs} / ${memN} · Moves: ${memMoves}`}
+$('#memo').onclick=e=>{const c=e.target.closest('.mc');if(!c||memLock||c.classList.contains('up')||c.classList.contains('got'))return;
+  c.classList.add('up');memOpen.push(c);if(memOpen.length<2)return;memMoves++;const [a,b]=memOpen;memOpen=[];
+  if(a.dataset.i===b.dataset.i){[a,b].forEach(x=>{x.classList.remove('up');x.classList.add('got')});memPairs++;reward();speak(DECKS[mDeck].cards[a.dataset.i][1]);
+    if(memPairs===memN){toast(`🎉 All pairs in ${memMoves} moves!`);reward(2)}else yay();memInfo()}
+  else{memLock=true;memInfo();setTimeout(()=>{a.classList.remove('up');b.classList.remove('up');memLock=false},1100)}};
+$('#memAgain').onclick=memStart;
+mStart();
+
+/* ===== 4. Prepositions (mini scenes) ===== */
+const MINI_BASE={wall:['#EAF4FC','#E1EEF9'],floor:'wood',floorTop:70,shapes:[]};
+const BOX=(x,y)=>({e:'📦',x,y,s:30,z:6});
+const PREP=[
+ ['in','у, в','The cat is in the box.',[{e:'🐈',x:50,y:62,s:22,z:4},BOX(50,96)]],
+ ['on','на','The cat is on the box.',[BOX(50,96),{e:'🐈',x:50,y:56,s:22,z:7}]],
+ ['under','під','The cat is under the table.',[{e:'🐈',x:50,y:96,s:22,z:7}],[{t:'table',l:18,y:44,w:64,h:52}]],
+ ['next to','поруч, біля','The cat is next to the box.',[BOX(36,96),{e:'🐈',x:78,y:96,s:22,z:7}]],
+ ['behind','за, позаду','The cat is behind the box.',[{e:'🐈',x:62,y:70,s:22,z:3},BOX(48,96)]],
+ ['in front of','перед','The cat is in front of the box.',[BOX(50,84),{e:'🐈',x:50,y:99,s:20,z:8}]],
+ ['opposite','навпроти','The cat is opposite the dog.',[{e:'🐈',x:18,y:96,s:20,z:7,fx:true},{e:'🐕',x:82,y:96,s:20,z:7}],[{t:'table',l:34,y:62,w:32,h:34}]],
+ ['between','між','The cat is between the boxes.',[{e:'📦',x:18,y:96,s:24,z:6},{e:'🐈',x:50,y:96,s:20,z:7},{e:'📦',x:82,y:96,s:24,z:6}]]];
+function mini(items,shapes){return `<div class="mini">${sceneHTML({...MINI_BASE,shapes:shapes||[]},{items})}</div>`}
+$('#prepCards').innerHTML=PREP.map(([en,uk,ex,items,shapes])=>`<div class="flip" tabindex="0"><div class="flip-in"><div class="face front"><button class="say" data-say="${esc(ex)}">🔊</button>${mini(items,shapes)}<b>${en}</b></div><div class="face back"><div class="ukb">${uk}</div><div class="ex">${esc(ex)}</div><button class="add" data-en="${esc(en)}" data-uk="${esc(uk)}">➕ Add to My List</button></div></div></div>`).join('');
+const PL=shuffle(PREP).slice(0,6);
+$('#prepLabels').innerHTML=PL.map(p=>{const items=p[3].map(it=>it.e==='🐈'?{...it,e:'🐭'}:it);return `<div class="lab">${mini(items,p[4])}<select class="gap" data-ans="${esc(p[0])}"><option value="">The mouse is …</option>${shuffle(PL.map(x=>x[0])).map(o=>`<option>${o}</option>`).join('')}</select></div>`}).join('');
+
+/* ===== 5. Detective ===== */
+const DTXT="Welcome to my room! {There is|one} a big bed. {There's|one} a lamp on my desk. {There are|many} two windows. {There are|many} some books on the shelf. And look! {There's|one} a cat under the bed! {There aren't|many} any dogs. Is there a TV? No, {there isn't|one}.";
+$('#dText').innerHTML=DTXT.split(/(\{[^}]+\})/).map(s=>{if(s[0]==='{'){const [w,k]=s.slice(1,-1).split('|');return `<span class="tk" data-k="${k}">${w}</span>`}return s.split(' ').map(w=>w?`<span class="tk" data-k="">${w}</span>`:'').join(' ')}).join('')+' <button class="say" data-say="'+esc(DTXT.replace(/\{([^|]+)\|\w+\}/g,'$1'))+'">🔊</button>';
+$('#dRoom').innerHTML=sceneHTML({wall:['#E7F1FB','#DCEAF8'],floor:'wood',shapes:[{t:'window',l:8,y:8,w:18,h:24},{t:'window',l:34,y:8,w:18,h:24},{t:'shelf',l:74,y:10,w:20,h:56,planks:[30,48]},{t:'bed',l:6,y:62,w:46,h:24},{t:'table',l:58,y:66,w:16,h:20}],
+  items:[{e:'📚',x:80,y:30,s:7},{e:'📚',x:88,y:48,s:7},{e:'💡',x:66,y:66.5,s:6},{e:'🐈',x:24,y:87,s:9,z:6}]});
+const ONE_T=$$('#dText .tk[data-k="one"]').length,MANY_T=$$('#dText .tk[data-k="many"]').length;
+let dstage=1,dn=0;
+function dLabel(){$('#dTask').innerHTML=dstage===1?'Step 1: Click <b>There is / There\'s / there isn\'t</b>':'Step 2: Click <b>There are / There aren\'t</b>';$('#dc').textContent=`${dn} / ${dstage===1?ONE_T:MANY_T}`}
+dLabel();
+$('#dText').addEventListener('click',e=>{const t=e.target.closest('.tk');if(!t||t.className.includes('f-'))return;const want=dstage===1?'one':'many';
+  if(t.dataset.k===want){t.classList.add('f-'+want);reward();dn++;
+    if(dstage===1&&dn===ONE_T){dstage=2;dn=0;toast('🎉 Step 1 done!')}else if(dstage===2&&dn===MANY_T){toast('🎉 Now look: what comes after? THINK…');$('#dThink').classList.remove('hidden')}else yay();dLabel()}
+  else{t.classList.add('miss');setTimeout(()=>t.classList.remove('miss'),400);oops(dstage===1?'Look for There is / There\'s 🔍':'Look for There are 🔍')}});
+
+/* sorting */
+function sortGame(bankEl,basketsEl,items,cats,onDone){
+  bankEl.innerHTML='';basketsEl.innerHTML=cats.map(c=>`<div class="basket ${c.cls}" data-cat="${c.id}"><h3>${c.label}</h3></div>`).join('');
+  shuffle(items).forEach((it,i)=>{const c=document.createElement('span');c.className='chip';c.textContent=it.t;c.dataset.cat=it.c;c.draggable=true;c.id=bankEl.id+'_'+i;bankEl.appendChild(c)});
+  let sel=null,left=items.length;
+  function place(chip,b){if(chip.classList.contains('placed'))return;
+    if(chip.dataset.cat===b.dataset.cat){b.appendChild(chip);chip.classList.remove('sel');chip.classList.add('placed');chip.draggable=false;reward();speak((b.dataset.say||'')+chip.textContent);left--;if(!left){toast('🎉 All sorted!');onDone&&onDone()}}
+    else{shake(chip);oops()}sel=null}
+  bankEl.addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;speak(c.textContent);if(sel)sel.classList.remove('sel');sel=c===sel?null:c;if(sel)c.classList.add('sel')});
+  basketsEl.addEventListener('click',e=>{const b=e.target.closest('.basket');if(b&&sel)place(sel,b)});
+  bankEl.addEventListener('dragstart',e=>{const c=e.target.closest('.chip');if(c)e.dataTransfer.setData('text',c.id)});
+  basketsEl.querySelectorAll('.basket').forEach(b=>{const c=cats.find(x=>x.id===b.dataset.cat);if(c&&c.say)b.dataset.say=c.say;b.addEventListener('dragover',e=>{e.preventDefault();b.classList.add('over')});b.addEventListener('dragleave',()=>b.classList.remove('over'));
+    b.addEventListener('drop',e=>{e.preventDefault();b.classList.remove('over');const c=document.getElementById(e.dataTransfer.getData('text'));if(c)place(c,b)})})}
+
+/* ===== 6. is / are ===== */
+sortGame($('#bank6'),$('#baskets6'),
+ [['a bed 🛏️','i'],['a lamp 💡','i'],['an apple 🍎','i'],['a big sofa 🛋️','i'],['a cat 🐈','i'],['a mirror 🪞','i'],['two chairs 🪑🪑','a'],['some books 📚','a'],['three cats 🐈🐈🐈','a'],['five pens ✏️','a'],['some flowers 🌷🌷','a'],['two windows 🪟🪟','a']].map(([t,c])=>({t,c})),
+ [{id:'i',label:'There is… 1️⃣<small>one thing / одна річ</small>',cls:'b1',say:'There is '},{id:'a',label:'There are… 🔢<small>two or more / дві й більше</small>',cls:'b2',say:'There are '}]);
+
+/* ===== 7. th ===== */
+sortGame($('#bank7'),$('#baskets7'),
+ [['this','v'],['that','v'],['there','v'],['the','v'],['they','v'],['mother','v'],['brother','v'],['three','u'],['think','u'],['thank you','u'],['bath','u'],['thin','u'],['mouth','u'],['Thursday','u']].map(([t,c])=>({t,c})),
+ [{id:'v',label:'🐝 buzzy th<small>this, there — «дзижчить»</small>',cls:'b3'},{id:'u',label:'💨 windy th<small>three, bath — лише повітря</small>',cls:'b1'}]);
+
+/* ===== True / False ===== */
+const TF=[["There's a dog on the shelf.",0,"There isn't a dog on the shelf. There's a rabbit on the shelf."],["There are three apples on the coffee table.",1],["There's a mouse under the coffee table.",1],
+ ["There's a cat on the armchair.",0,"There isn't a cat on the armchair. There's a teddy bear on the armchair."],["There are curtains next to the window.",1],["There's a vase on the shelf.",1],
+ ["There aren't any dogs on the sofa.",0,"There are two dogs on the sofa!"],["There's a fireplace in the living room.",0,"There isn't a fireplace in the living room."]];
+$('#tfRoom').innerHTML=sceneHTML(SCENES[0]);
+$('#tfList').innerHTML=TF.map((t,i)=>`<div class="tf" data-i="${i}">${i+1}. <b>${esc(t[0])}</b> <button class="say" data-say="${esc(t[0])}">🔊</button><div class="row" style="margin-top:4px"><button class="opt" data-v="1">✅ True</button><button class="opt" data-v="0">❌ False</button></div><div class="fix hidden">${t[2]?'✏️ '+esc(t[2]):''}</div></div>`).join('');
+$('#tfList').addEventListener('click',e=>{const b=e.target.closest('.opt[data-v]');if(!b)return;const c=b.closest('.tf');if(c.classList.contains('solved'))return;const t=TF[c.dataset.i];
+  if(+b.dataset.v===t[1]){b.classList.add('ok');c.classList.add('solved');reward();if(!t[1]){c.querySelector('.fix').classList.remove('hidden');speak('False! '+t[2])}else{speak('True!');yay()}}
+  else{b.classList.add('no');shake(b);setTimeout(()=>b.classList.remove('no'),600);oops('Look again! 👀 Подивись ще раз')}});
+/* ===== 8. Reading: Tom's room ===== */
+const STORY=["Hi! I'm Tom. | This is my room. | It is small, | but I love it.","There is a big bed | and a desk.","There is a teddy | on my bed.","There are three books | on the desk.","My cat Pip is | under the bed. | She is sleeping.","There isn't a TV | in my room, | but there is a guitar!","Is there a dog? | No, there isn't.","There are two green plants | next to the window.","I read and sleep here. | It's my favourite place!"];
+const PLAIN=STORY.join(' ').replace(/ \| /g,' ');
+const EMO={room:'🏠',bed:'🛏️',desk:'🪑',teddy:'🧸',books:'📚',cat:'🐈',tv:'📺',guitar:'🎸',dog:'🐕',plants:'🪴',window:'🪟'};
+let helpMode=true,huntQ=null,eeN=0;const foundW=new Set(),proofS=new Set();
+const isEE=w=>/ee|ea/i.test(w.replace(/[^A-Za-z]/g,''));
+function renderStory(){const used=new Set();
+  $('#story').innerHTML=STORY.map((s,i)=>`<span class="sent6${proofS.has(i)?' proof':''}" data-i="${i}">`+s.split(' ').map((w,j)=>{
+    if(w==='|')return helpMode?'<span class="sl">/</span>':'';
+    const c=w.toLowerCase().replace(/[^a-z]/g,'');const id=i+'-'+j;
+    let h=`<span class="w${foundW.has(id)?' found':''}" data-id="${id}" data-ee="${isEE(w)?1:0}">${w}</span>`;
+    if(helpMode&&EMO[c]&&!used.has(c)){used.add(c);h+=`<span class="emo">${EMO[c]}</span>`}return h}).join(' ')+'</span>').join(' ');
+  if(huntQ)$('#story').classList.add('hunting')}
+renderStory();
+const EE_T=$$('#story .w[data-ee="1"]').length;$('#eeT').textContent=EE_T;
+$('#sayStory').dataset.say=PLAIN;
+$$('.lvl').forEach(b=>b.onclick=()=>{helpMode=b.dataset.l==='1';$$('.lvl').forEach(x=>x.classList.toggle('on',x===b));renderStory()});
+/* picture with 4 differences: two books, cat ON the bed, a dog under the desk, one plant */
+const RROOM={wall:['#E9F3EA','#DEEEE0'],floor:'wood',shapes:[{t:'window',l:60,y:8,w:24,h:28},{t:'bed',l:4,y:60,w:44,h:24},{t:'table',l:56,y:64,w:30,h:22}],
+ items:[{e:'🧸',x:14,y:60.5,s:9,z:6,d:-1},{e:'🐈',x:34,y:60.5,s:9,z:6,d:1},{e:'📚',x:62,y:64.5,s:6,d:0},{e:'📚',x:70,y:64.5,s:6,d:0},{e:'🎸',x:52,y:92,s:12,z:6,d:-1},{e:'🐕',x:72,y:87,s:9,z:6,d:2},{e:'🪴',x:92,y:66,s:9,d:3}]};
+const RDIFF=['Text: There are THREE books on the desk. Picture: two books.','Text: Pip is UNDER the bed. Picture: the cat is ON the bed.','Text: There isn\'t a dog. Picture: there is a dog under the desk!','Text: There are TWO plants. Picture: one plant.'];
+$('#rRoom').innerHTML=sceneHTML(RROOM,{click:true});
+const rdFound=new Set();
+$('#rRoom').addEventListener('click',e=>{const it=e.target.closest('.it');if(!it)return;const d=RROOM.items[it.dataset.i].d;
+  if(d>=0){if(rdFound.has(d))return;rdFound.add(d);$$('#rRoom .it').forEach((x,k)=>{if(RROOM.items[k].d===d)x.classList.add('mark')});
+    $('#rdList').insertAdjacentHTML('beforeend',`<li>✅ ${RDIFF[d]}</li>`);$('#rdN').textContent=rdFound.size;reward();speak(RDIFF[d].split('Picture')[0].replace('Text:',''));if(rdFound.size===4)toast('🎉 All 4 differences!');else yay()}
+  else{shake(it);oops('It\'s the same in the text 🙂 Тут усе як у тексті')}});
+const Q8=[
+ {q:"Is Tom's room big?",o:['Yes, it is.',"No, it isn't."],a:1,p:0},
+ {q:'Where is the teddy?',o:['On the bed.','Under the bed.','On the desk.'],a:0,p:2},
+ {q:'How many books are there on the desk?',o:['Two.','Three.','Four.'],a:1,p:3},
+ {q:'Where is Pip?',o:['On the bed.','Under the bed.','Next to the window.'],a:1,p:4},
+ {q:"Is there a TV in Tom's room?",o:['Yes, there is.',"No, there isn't."],a:1,p:5},
+ {q:'What is there next to the window?',o:['Two green plants.','A guitar.','A dog.'],a:0,p:7}];
+$('#qs8').innerHTML='<h3 class="t" style="margin:14px 0 4px">❓ Answer and find the proof / Відповідай і знайди доказ</h3>'+Q8.map((q,i)=>`<div class="qcard" data-i="${i}"><b class="q">${i+1}. ${esc(q.q)}</b> <button class="say" data-say="${esc(q.q)}">🔊</button><div class="opts" data-ans="${esc(q.o[q.a])}">${q.o.map(o=>`<button class="opt">${esc(o)}</button>`).join('')}</div><button class="btn small alt proof" disabled>🔍 Find the proof</button> <span class="pmsg ukx"></span></div>`).join('');
+$('#qs8').addEventListener('solved',e=>{const c=e.target.closest('.qcard');c.querySelector('.proof').disabled=false;c.querySelector('.pmsg').textContent='Тепер знайди доказ у тексті!'});
+$('#qs8').addEventListener('click',e=>{const b=e.target.closest('.proof');if(!b)return;$$('.qcard').forEach(c=>c.classList.remove('active'));huntQ=b.closest('.qcard');huntQ.classList.add('active');$('#story').classList.add('hunting');huntQ.querySelector('.pmsg').textContent='👆 Натисни речення в тексті вгорі';$('#story').scrollIntoView({behavior:'smooth',block:'center'})});
+$('#story').addEventListener('click',e=>{
+  if(huntQ){const s=e.target.closest('.sent6');if(!s)return;const q=Q8[huntQ.dataset.i];
+    if(+s.dataset.i===q.p){proofS.add(q.p);s.classList.add('proof');huntQ.classList.remove('active');huntQ.classList.add('solved');huntQ.querySelector('.proof').remove();
+      const txt=STORY[q.p].replace(/ \| /g,' ');huntQ.querySelector('.pmsg').textContent='✅ Proof: «'+txt+'»';speak(txt);reward();yay();huntQ=null;$('#story').classList.remove('hunting')}
+    else{shake(s);oops('Not this sentence 🔍 Шукай ключове слово з питання!')}return}
+  const w=e.target.closest('.w');if(!w||foundW.has(w.dataset.id))return;
+  if(w.dataset.ee==='1'){foundW.add(w.dataset.id);w.classList.add('found');eeN++;$('#eeN').textContent=eeN;reward();speak(w.textContent.replace(/[^A-Za-z]/g,''));if(eeN===EE_T)toast('🎉 All ee / ea words found!')}
+  else{w.classList.add('miss');setTimeout(()=>w.classList.remove('miss'),400);oops('No ee / ea here 🙂')}});
+
+/* ===== 9. Reading record ===== */
+const RW=PLAIN.split(/\s+/).filter(Boolean);
+$('#rtext').innerHTML=RW.map((w,i)=>`<span class="rw" data-i="${i}">${w}</span>`).join(' ');
+const rec=store.get('pc3_reading',[null,null,null]);
+const prev2=store.get('pc2_reading',[]).filter(x=>x!=null);const prevBest=prev2.length?Math.max(...prev2):null;
+let rTry=0,rState='idle',rSec=0,rTimer=null,rErr=0;
+const TRYL=['1 👩‍🏫 teacher','2 👫 buddy','3 🦸 alone'];
+function renderTries(){const vals=rec.filter(x=>x!=null);const mx=Math.max(80,prevBest||0,...vals);
+  $('#bars').innerHTML=(prevBest?`<div class="barc"><b style="color:#999">${prevBest}</b><div class="rbar prev" style="height:${Math.round(prevBest/mx*130)}px"></div><span>Lesson 2 best</span></div>`:'')+
+    rec.map((v,i)=>`<div class="barc"><b>${v??'—'}</b><div class="rbar" style="height:${v?Math.round(v/mx*130):4}px"></div><span>${TRYL[i]}</span></div>`).join('');
+  $('#growth').innerHTML=vals.length>1&&vals[vals.length-1]>vals[0]?`🚀 +${vals[vals.length-1]-vals[0]} words per minute!`:vals.length?'words per minute / слів за хвилину':''}
+renderTries();
+function selTry(t){rTry=t;$$('.try').forEach(b=>b.classList.toggle('on',+b.dataset.t===t))}
+$$('.try').forEach(b=>b.onclick=()=>{if(rState==='running')return;selTry(+b.dataset.t)});
+function setErr(n){rErr=Math.max(0,n);$('#rErr').textContent=rErr}
+$('#errPlus').onclick=()=>setErr(rErr+1);$('#errMinus').onclick=()=>setErr(rErr-1);
+$('#rStart').onclick=()=>{if(rState==='running')return;rState='running';rSec=0;setErr(0);$$('.rw').forEach(x=>x.classList.remove('read'));$('#rtext').classList.remove('picking');
+  $('#rClock').textContent='60';$('#rMsg').textContent='📖 Read aloud! / Читай уголос!';
+  clearInterval(rTimer);rTimer=setInterval(()=>{rSec++;$('#rClock').textContent=60-rSec;if(rSec>=60){clearInterval(rTimer);rState='pick';$('#rClock').textContent='⏰';$('#rMsg').textContent='⏰ Time! Click the LAST word you read. / Натисни останнє прочитане слово.';$('#rtext').classList.add('picking')}},1000)};
+$('#rDone').onclick=()=>{if(rState!=='running')return;clearInterval(rTimer);$$('.rw').forEach(x=>x.classList.add('read'));finishRead(RW.length,Math.max(rSec,1))};
+$('#rtext').addEventListener('click',e=>{const w=e.target.closest('.rw');if(!w||rState!=='pick')return;const k=+w.dataset.i;$$('.rw').forEach(x=>x.classList.toggle('read',+x.dataset.i<=k));finishRead(k+1,60)});
+function finishRead(words,secs){rState='done';$('#rtext').classList.remove('picking');const wpm=Math.max(0,Math.round((words-rErr)*60/secs));
+  rec[rTry]=wpm;store.set('pc3_reading',rec);renderTries();
+  $('#rMsg').innerHTML=`✅ ${words} words, ${rErr} mistakes → <b>${wpm}</b> words per minute`;reward(2);if(rTry<2)selTry(rTry+1)}
+
+/* ===== 10. Practice ===== */
+const G10=["💡 There [*is|are] a lamp on my desk.","🪟🪟 There [*are|is] two windows in the kitchen.","🐈🛏️ [*Is|Are] there a cat under the bed? — Yes, there is.","🍎❓ [*Are|Is] there any apples? — No, there aren't.","🛁 There [*aren't|isn't] any chairs in the bathroom.","📚 There are [*some|any] books on the shelf.","✏️❓ Are there [*any|some] pens in your bag?","🐕🪑 The dog is [*under|in|between] the table.","🧸📦 The teddy is [*in|on|next to] the box."];
+$('#g10').innerHTML=G10.map(l=>{const p=parse(l);return `<li data-full="${esc(p.full.replace(/^[^A-Za-z]+/,''))}">${p.html}</li>`}).join('');
+function unscramble(el,list){el.innerHTML='<h3 class="t" style="margin:14px 0 4px">🧩 Put the words in order / Склади речення</h3>'+list.map(w=>{let s;do{s=shuffle(w)}while(s.join(' ')===w.join(' '));return `<div class="uns" data-w="${esc(w.join(' '))}"><div class="uline"></div><div class="ubank">${s.map(x=>`<button class="word">${esc(x)}</button>`).join('')}</div><button class="btn small uchk">✔ Check</button></div>`}).join('');
+  el.addEventListener('click',e=>{const box=e.target.closest('.uns');if(!box||box.classList.contains('solved'))return;const w=e.target.closest('.word');
+    if(w){(w.parentElement.classList.contains('ubank')?box.querySelector('.uline'):box.querySelector('.ubank')).appendChild(w);return}
+    if(e.target.closest('.uchk')){const got=[...box.querySelectorAll('.uline .word')].map(x=>x.textContent).join(' ');if(got===box.dataset.w){box.classList.add('solved');e.target.closest('.uchk').remove();speak(got);reward(2);yay()}else{shake(box);oops()}}})}
+unscramble($('#uns10'),[['There is','a mouse','under','the table.'],['There are','three cats','on','the sofa.'],['Is there','a TV','in','your room?'],['There aren\'t','any','posters','on the wall.']]);
+
+/* ===== 11. Info gap: hide and seek pets ===== */
+const GAPROOM={wall:['#F6E3C8','#F1D9B8'],floor:'wood',shapes:[{t:'window',l:4,y:8,w:20,h:28},{t:'shelf',l:74,y:12,w:20,h:56,planks:[30,48]},{t:'rug',l:22,y:80,w:52,h:15},{t:'table',l:30,y:73,w:34,h:15}],
+ items:[{e:'🛋️',x:50,y:70,s:30,z:3},{e:'📦',x:12,y:97,s:13,z:7},{e:'📚',x:80,y:30,s:7},{e:'🪴',x:28,y:69,s:9}]};
+const SPOTS={sofa:[50,57,'on the sofa'],under:[47,89,'under the table'],table:[47,73.5,'on the table'],box:[12,84,'in the box'],shelf:[84,12.5,'on the shelf'],window:[16,36,'on the window'],nextbox:[26,97,'next to the box'],floor:[90,97,'on the floor'],rug:[68,93,'on the rug']};
+const PETS=[['🐈','the cat','box','sofa'],['🐕','the dog','sofa','under'],['🐭','the mouse','under','box'],['🐇','the rabbit','shelf','shelf'],['🐦','the bird','window','table'],['🐹','the hamster','nextbox','nextbox'],['🐢','the tortoise','floor','rug']];
+const gapItems=side=>[...GAPROOM.items,...PETS.map((p,i)=>{const s=SPOTS[side==='A'?p[2]:p[3]];return{e:p[0],x:s[0],y:s[1],s:p[0]==='🐕'?9:8,z:s===SPOTS.box?5:8,pet:i}})];
+const sdFound=new Set();
+function gapScene(side,click){return sceneHTML(GAPROOM,{items:gapItems(side),click})}
+function showRole(r){$$('.role').forEach(b=>b.classList.toggle('on',b.dataset.r===r));
+  if(r==='A'||r==='B')$('#sdBox').innerHTML=`<h3 class="t">${r==='A'?'🔵 Student A':'🔴 Student B'} — where are the pets?</h3><div style="max-width:620px">${gapScene(r)}</div><p class="uk">Питай: «Is there a cat in the box?» / «Where is the dog?» Відповідай: «It's under the table.»</p>`;
+  else{$('#sdBox').innerHTML=`<div class="twocol"><div><h3 class="t">🔵 A</h3>${gapScene('A')}</div><div><h3 class="t">🔴 B — click the pets in different places!</h3><div id="gapB">${gapScene('B',true)}</div></div></div><div class="row" style="margin-top:10px"><span class="counter">Found: <span id="sdN">0</span> / 5</span></div><ul id="sdList" class="sdlist"></ul>`;sdFound.forEach(i=>markDiff(i,false))}}
+$$('.role').forEach(b=>b.onclick=()=>showRole(b.dataset.r));
+function markDiff(i,fresh){const p=PETS[i];$$(`#gapB .it`).forEach(x=>{const it=gapItems('B')[x.dataset.i];if(it.pet===i)x.classList.add('mark')});
+  const s=`In picture A, ${p[1]} is ${SPOTS[p[2]][2]}. In picture B, it is ${SPOTS[p[3]][2]}.`;
+  $('#sdList').insertAdjacentHTML('beforeend',`<li>${s} <button class="say" data-say="${esc(s)}">🔊</button></li>`);$('#sdN').textContent=sdFound.size;
+  if(fresh){reward();speak(s);if(sdFound.size===5)toast('🎉 All 5 differences!');else yay()}}
+$('#sdBox').addEventListener('click',e=>{const it=e.target.closest('#gapB .it');if(!it)return;const d=gapItems('B')[it.dataset.i];if(d.pet==null)return;const p=PETS[d.pet];if(sdFound.has(d.pet))return;
+  if(p[2]!==p[3]){sdFound.add(d.pet);markDiff(d.pet,true)}else{shake(it);oops(`Same! ${p[1]} is ${SPOTS[p[2]][2]} 🙂`)}});
+
+/* ===== 12. Board game ===== */
+const SQ=[{t:'start'},
+ {t:'look',e:'🍎🍎 🧺',q:'… two apples in the basket.',a:'There are two apples in the basket.'},
+ {t:'where',e:'🐈📦',q:'Where is the cat? (in)',a:"It's in the box."},
+ {t:'ask',q:'Ask a friend: a TV / in your room?',a:'Is there a TV in your room?'},
+ {t:'up',to:12,q:'🪜 Stairs! Say «There are stairs!» and go up to 12.'},
+ {t:'not',q:'There is a dog. → ❌',a:"There isn't a dog."},
+ {t:'show',q:'Show me! Put your pen ON your book. 📖✏️'},
+ {t:'look',e:'🐕 🛏️ (under)',q:'… a dog under the bed.',a:'There is a dog under the bed.'},
+ {t:'chance'},
+ {t:'spell',q:'Write a word with th in the chat! (this, three…)',a:'this / three / there / bath…'},
+ {t:'talk',q:'Look around your room. Say 2 sentences: There is… / There are…',a:'There is a bed. There are two windows.'},
+ {t:'where',e:'🐭🧀',q:'Where is the mouse? (next to)',a:"It's next to the cheese."},
+ {t:'ask',q:'Ask: any books / on the shelf?',a:'Are there any books on the shelf?'},
+ {t:'down',to:6,q:'🛝 A slide! Say «I\'m sliding!» and go down to 6.'},
+ {t:'not',q:'There are some cats. → ❌',a:"There aren't any cats."},
+ {t:'look',e:'🦆🦆🦆 🛁',q:'… three ducks in the bath.',a:'There are three ducks in the bath.'},
+ {t:'show',q:'Show me! Put your hand UNDER your chin. 🤚'},
+ {t:'chance'},
+ {t:'up',to:25,q:'🪜 Stairs! Say «There are stairs!» and go up to 25.'},
+ {t:'where',e:'🐦🌳',q:'Where is the bird? (in)',a:"It's in the tree."},
+ {t:'spell',q:'Spell: window → write it in the chat!',a:'w-i-n-d-o-w'},
+ {t:'talk',q:'What is there in your kitchen? Say 3 things.',a:'There is a fridge. There is a table. There are four chairs.'},
+ {t:'ask',q:'Ask a friend: a cat / in your house?',a:'Is there a cat in your house?'},
+ {t:'down',to:15,q:'🛝 A slide! Say «I\'m sliding!» and go down to 15.'},
+ {t:'look',e:'🧸 🪑 (on)',q:'… a teddy on the chair.',a:'There is a teddy on the chair.'},
+ {t:'not',q:'There is a mouse in my bag. → ❌',a:"There isn't a mouse in my bag."},
+ {t:'chance'},
+ {t:'where',e:'🐠🫙',q:'Where is the fish? (in)',a:"It's in the jar."},
+ {t:'show',q:'Show me! Put your pencil BEHIND your back. Others ask: Where is the pencil?'},
+ {t:'finish'}];
+const LAST=SQ.length-1;
+const CHANCE=[{q:'Hide a small thing in your room. Others ask: «Is it under the bed?»',a:'Is it under the bed? — No, it isn\'t!'},{q:'What is there in your bag? Say 3 things.',a:'There is a pen. There are two books.'},{q:'✨ Lucky key! Go forward 2.',m:2},{q:'🕸️ A spider! Go back 2.',m:-2},{q:'Name 3 things in your bathroom.',a:'There is a bath. There is a mirror. There is a sink.'},{q:'Ask the teacher: «Is there a … in your room?»',a:'Is there a cat in your room?'}];
+const TYPES={look:{l:'🖼 Look & say!',bg:'#FFEBAD',bd:'#E0A82E'},where:{l:'📍 Where is it?',bg:'#DFF3E4',bd:'#1E7B55'},ask:{l:'❓ Ask it!',bg:'#DCEFFB',bd:'#2F6DB5'},not:{l:'❌ Make it negative!',bg:'#FDE3DE',bd:'#C94B3B'},show:{l:'✋ Show me!',bg:'#ECE5FB',bd:'#6C4AB6'},talk:{l:'🏠 My home',bg:'#FFE3CC',bd:'#F08A3E'},spell:{l:'✍️ Spell it!',bg:'#F1F1EE',bd:'#5B6878'},chance:{l:'🃏 Chance card',bg:'#FFEBAD',bd:'#C94B3B'},up:{l:'🪜 Stairs!',bg:'#E3F4EC',bd:'#1E7B55'},down:{l:'🛝 Slide!',bg:'#FDE5E2',bd:'#C2453B'}};
+const TOK=['🐱','🐶','🐭','🐰','🐹','🐢'],TEAMTOK=['🔵','🔴'];
+let gN=4,teams=false,players=[],turn=0,busy=false,chanceCard=null;
+$('#gCount').innerHTML=[2,3,4,5,6].map(n=>`<button class="cnt${n===4?' on':''}" data-n="${n}">${n} players</button>`).join('')+'<button class="cnt" data-n="t">🔵 vs 🔴 teams</button>';
+function renderNames(){const n=teams?2:gN;$('#gNames').innerHTML=Array.from({length:n},(_,i)=>`<label class="pname">${teams?TEAMTOK[i]:TOK[i]} <input value="${teams?['Team Blue','Team Red'][i]:'Player '+(i+1)}"></label>`).join('')}
+renderNames();
+$('#gCount').onclick=e=>{const b=e.target.closest('.cnt');if(!b)return;teams=b.dataset.n==='t';if(!teams)gN=+b.dataset.n;$$('.cnt').forEach(x=>x.classList.toggle('on',x===b));renderNames()};
+$('#gStart').onclick=()=>{players=$$('#gNames input').map((inp,i)=>({n:inp.value.trim()||('Player '+(i+1)),t:teams?TEAMTOK[i]:TOK[i],pos:0}));turn=0;busy=false;
+  $('#gSetup').classList.add('hidden');$('#gPlay').classList.remove('hidden');drawBoard();$('#dice').textContent='🎲'};
+$('#gReset').onclick=()=>{$('#gPlay').classList.add('hidden');$('#gSetup').classList.remove('hidden')};
+const ROWS=Math.ceil(SQ.length/6);
+function drawBoard(){$('#gboard').innerHTML=SQ.map((s,k)=>{const r=Math.floor(k/6),c=r%2===0?k%6:5-k%6;
+    const ic={start:'🚩',finish:'🏁',look:'🖼',where:'📍',ask:'❓',not:'❌',show:'✋',talk:'🏠',spell:'✍️',chance:'🃏',up:'🪜',down:'🛝'}[s.t];
+    const jm=s.t==='up'?`<span class="jmp">↑ ${s.to}</span>`:s.t==='down'?`<span class="jmp">↓ ${s.to}</span>`:'';
+    const em=s.e?' '+s.e.replace(/\s*\(.*\)/,'').replace(/ /g,''):'';
+    return `<div class="sq t-${s.t}" style="grid-row:${ROWS-r};grid-column:${c+1}"><span class="num">${k===0?'START':k===LAST?'FINISH':k}</span><span class="ico">${ic}${em} ${jm}</span><span class="toks" data-k="${k}"></span></div>`}).join('');placeTokens()}
+function placeTokens(){$$('.toks').forEach(t=>t.innerHTML='');players.forEach((p,i)=>{const t=$(`.toks[data-k="${p.pos}"]`);if(t)t.insertAdjacentHTML('beforeend',`<span class="tok${i===turn?' me':''}" title="${esc(p.n)}">${p.t}</span>`)});
+  if(players.length)$('#gTurn').innerHTML=`Turn: <b>${players[turn].t} ${esc(players[turn].n)}</b>`}
+function move(p,steps,cb){const dir=Math.sign(steps);let left=Math.abs(steps);const iv=setInterval(()=>{if(!left||(dir>0&&p.pos>=LAST)||(dir<0&&p.pos<=0)){clearInterval(iv);cb&&cb();return}p.pos+=dir;left--;placeTokens()},200)}
+$('#gRoll').onclick=()=>{if(busy||!players.length)return;busy=true;const F=['⚀','⚁','⚂','⚃','⚄','⚅'];let k=0;
+  const iv=setInterval(()=>{$('#dice').textContent=F[Math.floor(Math.random()*6)];if(++k>8){clearInterval(iv);const n=1+Math.floor(Math.random()*6);$('#dice').textContent=F[n-1];const p=players[turn];move(p,n,()=>land(p))}},70)};
+function openCard(html,color){$('#gcard').innerHTML=html;$('#gcard').style.setProperty('--c',color);$('#gm').classList.add('open')}
+function land(p){if(p.pos>=LAST){win(p);return}const s=SQ[p.pos];if(s.t==='start'){nextTurn();return}const c=TYPES[s.t];
+  let h=`<div class="gtype" style="background:${c.bg}">${c.l}</div><div class="ukx" style="margin-top:6px">${p.t} ${esc(p.n)}</div>`;
+  if(s.t==='chance'){chanceCard=CHANCE[Math.floor(Math.random()*CHANCE.length)];h+=`<p class="gq">${chanceCard.q}</p>`;
+    if(chanceCard.m)h+=`<button class="btn" data-g="cm">OK ${chanceCard.m>0?'🚀':'🐌'}</button>`;
+    else h+=`<div class="gans hidden">💡 ${chanceCard.a}</div><div class="row c"><button class="btn alt" data-g="show">💡 Example</button><button class="btn" data-g="ok">✅ Done!</button></div>`}
+  else if(s.t==='up'||s.t==='down')h+=`<p class="gq">${s.q}</p><button class="btn" data-g="jump">${s.t==='up'?'🪜 Climb!':'🛝 Slide!'}</button>`;
+  else{h+=`${s.e?`<div class="gemo">${s.e.replace(/\s*\(.*\)/,'')}</div>`:''}<p class="gq">${s.q}</p>`;
+    if(s.t==='show'||s.t==='talk')h+=`${s.a?`<div class="gans hidden">💡 ${s.a}</div>`:''}<div class="row c">${s.a?'<button class="btn alt" data-g="show">💡 Example</button>':''}<button class="btn" data-g="ok">✅ Done!</button></div>`;
+    else h+=`<div class="gans hidden">✅ ${s.a}</div><div class="row c"><button class="btn alt" data-g="show">👀 Answer</button><button class="btn" data-g="ok">👍 Correct!</button><button class="btn co" data-g="no">🔁 Not yet: back 1</button></div>`}
+  openCard(h,c.bd)}
+$('#gcard').addEventListener('click',e=>{
+  if(e.target.closest('[data-w]')){players.forEach(p=>p.pos=0);turn=0;busy=false;$('#gm').classList.remove('open');placeTokens();$('#dice').textContent='🎲';return}
+  const b=e.target.closest('[data-g]');if(!b)return;const g=b.dataset.g;const p=players[turn];const s=SQ[p.pos];
+  if(g==='show'){const a=$('#gcard .gans');if(a)a.classList.remove('hidden');const t=s.t==='chance'?chanceCard.a:s.a;if(t)speak(t.replace(/…/g,''));return}
+  $('#gm').classList.remove('open');
+  if(g==='ok'){reward();nextTurn()}
+  else if(g==='no')move(p,-1,nextTurn);
+  else if(g==='cm')move(p,chanceCard.m,()=>{if(p.pos>=LAST)win(p);else nextTurn()});
+  else if(g==='jump'){speak(s.t==='up'?'There are stairs!':"I'm sliding!");reward();move(p,s.to-p.pos,()=>{if(p.pos>=LAST)win(p);else nextTurn()})}});
+function nextTurn(){turn=(turn+1)%players.length;placeTokens();busy=false}
+function win(p){openCard(`<div class="gemo">🏆</div><h2 style="color:var(--coral2)">${p.t} ${esc(p.n)} wins!</h2><p class="uk">Перемога! Але виграли всі, хто сьогодні говорив англійською 😉</p><button class="btn" data-w="again">↺ Play again</button>`,'#F2C94C');reward(3)}
+
+/* ===== 13. Final ===== */
+const CANS=['I can say what there is in a room: There is… / There are…','I can say where things are: in, on, under, next to…','I can ask: Is there…? / Are there any…?','I can make my own word card.'];
+$('#lights').innerHTML='<h3 class="t">🪞 How do I feel?</h3>'+CANS.map(c=>`<div class="light"><span>${c}</span><span class="lb"><button>🔴</button><button>🟡</button><button>🟢</button></span></div>`).join('');
+function renderBadge(){const lv=keys>=80?['🦉','House Master']:keys>=40?['🐈','Clever Cat']:['🐭','Little Mouse'];
+  $('#badge').innerHTML=`<div class="e">${lv[0]}</div><b>${lv[1]}</b><div>🔑 ${keys} keys</div>`}
+function renderReadSum(){const d=rec.filter(x=>x!=null);$('#readSum').innerHTML=d.length?`📖 My best reading: <b>${Math.max(...d)}</b> words per minute`+(prevBest?` <span class="ukx">(Lesson 2: ${prevBest})</span>`:''):''}
+function exportText(){return "THERE'S A CAT UNDER MY BED — My Rule Card\n\n"+(ruleDone?RULE_TXT:'(not filled yet)')+'\n\nMy word cards:\n'+(myCards.map(c=>`${c.e} ${c.en} — ${c.uk}. ${c.ex}`).join('\n')||'—')+'\n\nMy List:\n'+([...myList].map(([a,b])=>a+' — '+b).join('\n')||'—')+'\n\nMy reading record (words per minute): '+rec.map((x,i)=>`Try ${i+1}: ${x??'—'}`).join(', ')+'\n\nKeys: '+keys}
+function showCopy(t){const a=$('#copyArea');a.value=t;a.classList.remove('hidden');a.focus();a.select();toast('Виділи й скопіюй текст')}
+$('#copyBtn').onclick=()=>{const t=exportText();try{navigator.clipboard.writeText(t).then(()=>toast('📋 Copied! / Скопійовано!'),()=>showCopy(t))}catch(e){showCopy(t)}};
+$('#dlBtn').onclick=()=>{try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([exportText()],{type:'text/plain'}));a.download='my-rule-card-there-is-there-are.txt';document.body.appendChild(a);a.click();a.remove()}catch(e){}toast('Якщо файл не завантажився — натисни Copy')};
+$$('.video').forEach(v=>v.querySelector('.vgo').onclick=()=>{const u=v.querySelector('.vurl').value.trim();const m=u.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/);
+  v.querySelector('.vbox').innerHTML=m?`<iframe src="https://www.youtube.com/embed/${m[1]}" allowfullscreen></iframe>`:'<p class="ukx">Встав посилання на YouTube.</p>'});
+
+/* teacher notes */
+const TN=[
+ ['2 хв','Can-do вголос. Чотири речення «на відчуття»: емодзі підказує одна річ чи багато. Не пояснюй — лише «Why?».','Fingers: учитель каже «a book / three books» — діти показують 1 палець чи всю долоню.'],
+ ['4 хв','Виведи Animal House на екран. 1) Look & listen: діти по черзі натискають віконця й вгадують значення до перекладу. 2) Listen & find: 5 раундів (Remote control дитині). 3) This is me!: кожен обирає тваринку, яка схожа на нього сьогодні, і місце в кімнаті — з\'являється речення «Today I\'m a sleepy koala. I\'m under the table!». Діти пишуть речення в чат за сигналом «3-2-1-Send!». 4) Guess who I am: «Are you a koala? Are you on the sofa?» — це вже місток до прийменників і теми уроку.','Animal mime: дитина показує тваринку і її настрій, інші вгадують: «Are you a hungry bear?»'],
+ ['6 хв','Повторення there is / there are. 5 кімнат під плашками (вітальня, спальня, кухня, ванна, сад). Дві команди по 3. Команда тисне ▶ Start і має 1 хвилину: називає номери плашок («Number 6, please!») і каже речення про те, що відкрилося. У «Teacher key» тиснеш речення, яке прозвучало, — команда отримує 🔑, речення закреслюється. Правильне речення, якого немає в ключі, — «+1 🔑». Потім хвилина іншої команди на ТІЙ САМІЙ картинці: треба відкривати нові плашки й шукати нові речі. Наступна картинка — інша команда починає. Ролі: caller, speaker, checker. Варіант Memory: відкрий усе, 20 секунд, 🙈 Cover all — називаємо з пам\'яті.','Memory: «🙈 Cover all» після повного відкриття — команди по черзі згадують, що де було.'],
+ ['2 хв','Тільки сортування за двома звуками th. Покажи артикуляцію в камеру: язик між зубами; 🐝 голос «дзижчить» (this, there), 💨 лише повітря (three, bath). Долоня перед ротом — відчуйте повітря.','Mirror: діти дивляться в дзеркало/камеру, чи видно язик на «th».'],
+ ['5 хв','Лексика узгоджена з Beehive 2, Unit 9: три набори — Living room (armchair, coffee table, curtains, vase, fireplace, rug, shelf, painting), Kitchen things (plate, glass, jug, knife, fork, spoon) і My room. Для weak A1 достатньо одного-двох наборів на уроці, решта — вдома. Картки-слова: перевертають, слухають, додають у My List. Стратегія дня — власна картка слова: кожна дитина обирає одне слово, яке хоче запам\'ятати (можна з гри на с. 1), пише переклад, обирає картинку й речення з There is / There are. Картки зберігаються й експортуються наприкінці.','Show & tell: кожен показує свою картку й читає речення — інші повторюють слово.'],
+ ['4 хв','Закріплення слів одразу після карток. Завдання 1 — Match: дитина натискає картинку (слово озвучується) і потрібне слово; пара фарбується одним кольором і номером. Набір той самий, що на с. 5 (Living room / Kitchen things / My room). Завдання 2 — Memory: 12 карток (6 пар «картинка + слово»). Онлайн грайте командами з Remote control: команда називає номер картки по порядку зліва направо, ти відкриваєш; хто знайшов пару, каже слово вголос і ходить ще раз. Сильнішим — додати речення: «There is a vase on the shelf.»','Kim\'s game: 20 секунд дивимося на 6 картинок, закриваємо — хто назве більше слів?'],
+ ['4 хв','Прийменники через міні-сцени з котом і коробкою. Переверни разом, покажи жести руками (on — долоня на долоні, under — під, next to — поруч, behind — за спиною). Потім підписи «Where is the mouse?».','Show me! «Put your pen ON your book / UNDER your book / BEHIND your back».'],
+ ['7 хв','Крок 1 — There is / There\'s (коралові), крок 2 — There are / There aren\'t (сині). Попроси дітей подивитися, що стоїть ПІСЛЯ: a bed / two windows. THINK → картка правил. 5–10 секунд тиші перед відповіддю. Порівняння з українською: «Є ліжко» → There is a bed.','Board race у чаті: учитель пише «a lamp / two lamps» — діти першими пишуть is або are.'],
+ ['3 хв','Сортування на is / are. Слова озвучуються разом з «There is… / There are…» — діти чують цілу фразу. Зверни увагу на «some books» — some теж означає «багато».','Odd one out: «a bed, a chair, two lamps, a sofa» — що зайве і чому?'],
+ ['4 хв','Ідея з Beehive 2 (Unit 9): True or False + «виправ мене». Діти дивляться на вітальню, обирають True / False; після правильного False з\'являється виправлення з There isn\'t… There\'s… — попроси дитину сказати його вголос. Потім у парах: один каже речення про картинку, інший відповідає «True!» або «False! There isn\'t…». Так заперечення звучить природно, а не як вправа.','Liar, liar!: учитель каже 3 речення про свою кімнату, одне — неправда. Діти вгадують, яке, і виправляють.'],
+ ['7 хв','Повільні читачі обирають ⭐. Спершу echo reading. Потім головне завдання — знайти 4 відмінності між текстом і картинкою (діти натискають на картинці). Далі слова з ee / ea (5) і питання з доказом. Стратегія: знайди в тексті ключове слово з питання.','Two voices: одна дитина читає речення, інша показує це місце на картинці.'],
+ ['4 хв','Скоромовка з th 3 рази. Замір темпу в парах reading buddies: спроба 1 — з тобою (echo), 2 — з buddy, 3 — сам. Сірий стовпчик — найкращий результат уроку 2 (той самий браузер). Порівнюємо дитину лише з нею самою. Якщо часу мало — одна спроба на уроці, дві вдома.','Phrase relay: діти по черзі читають по одній фразі.'],
+ ['5 хв','Контрольована практика: is / are, питання, заперечення, some / any, прийменники. Емодзі на початку речення — підказка. Помилки збирай для розбору наприкінці.','Chat race: перший, хто правильно напише речення в чат, отримує 🔑.'],
+ ['6 хв','Інформаційний розрив у breakout rooms (3 пари). A і B бачать ту саму кімнату, але 5 тваринок сховалися в різних місцях. Питання: «Is there a cat in the box?» / «Where is the dog?» Після 5 відмінностей — Show both і перевірка кліком на картинці B. Якщо немає окремих пристроїв — надішли картинки скріншотом у приватний чат.','Hide and seek at home: дитина ховає іграшку, інші вгадують «Is it under the bed?».'],
+ ['7 хв','Hide-and-seek House: 2–6 гравців або 2 команди. Клітинки: 🖼 речення, 📍 Where is…?, ❓ Is there / Are there any, ❌ заперечення, ✋ Show me! (з предметами вдома), 🏠 про свій дім, ✍️ правопис, 🃏 Chance. Оцінює група 👍/👎, експерти — судді.','Командний варіант: перед відповіддю команда радиться 20 секунд.'],
+ ['3 хв','Світлофор за can-do, значок за 🔑, результат читання. Exit ticket: Room tour — 2 речення про свою кімнату (можна показати в камеру). Розбери 2–3 зібрані помилки. Поясни домашнє: кімната мрії + 2 картки слів. Copy / Download — зберегти картку правил, картки слів і My List.','Наступне заняття почни з «кімнат мрії»: дитина описує, інші малюють за описом.']];
+function renderTeacher(){const t=TN[cur];$('#tnPage').innerHTML=`<h3>Сторінка ${cur+1}: ${pages[cur].dataset.title} <span class="time">⏱ ${t[0]}</span></h3><p>${t[1]}</p><p>🎲 <b>Гра / варіант:</b> ${t[2]}</p><p style="color:var(--muted);font-size:14px">Усього 16 сторінок ≈ 65 хв (якщо часу мало — замір темпу на с. 12 і практика на с. 13 — удома, Memory на с. 6 — за бажанням). Стрілки ← → гортають сторінки.</p>`}
+
+/* ===== 0. Animal House warm-up ===== */
+const AN=[['🦉','📚','a clever owl','розумна сова'],['🐨','💤','a sleepy koala','сонна коала'],['🐒','⚡','a cheeky monkey','пустотлива мавпочка'],['🐻','🍯','a hungry bear','голодний ведмідь'],
+ ['🦁','💪','a brave lion','хоробрий лев'],['🐰','🎉','an excited bunny','зайчик у захваті'],['🐢','🐌','a slow tortoise','повільна черепаха'],['🐱','🛋️','a lazy cat','лінивий кіт'],
+ ['🐶','☀️','a happy dog','щасливий пес'],['🦊','🔍','a curious fox','допитлива лисичка'],['🐧','🥶','a cold penguin','змерзлий пінгвін'],['🦔','🙈','a shy hedgehog','сором\'язливий їжачок']];
+$('#aHouse').innerHTML=AN.map((a,i)=>`<button class="awin" data-i="${i}"><span class="gl">${a[0]}<span class="pr">${a[1]}</span></span><span class="sill"></span><span class="nm">${a[2]}</span><span class="ukm">${a[3]}</span></button>`).join('');
+let aMode='look',aAns=-1,aPool=[],aMe=-1,aSpot=null;
+function aSet(m){aMode=m;$$('.mbtn').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+  $('#lookBar').classList.toggle('hidden',m!=='look');$('#findBar').classList.toggle('hidden',m!=='find');$('#chooseBar').classList.toggle('hidden',m!=='choose');if(m==='find')aStart();if(m==='choose')aRender()}
+$$('.mbtn').forEach(b=>b.onclick=()=>aSet(b.dataset.m));
+function aStart(){aPool=shuffle(AN.map((_,i)=>i)).slice(0,5);aNext()}
+function aNext(){if(!aPool.length){$('#aFindMsg').textContent='🎉 5 / 5! Great listening!';aAns=-1;return}aAns=aPool.pop();$('#aFindMsg').textContent=`Round ${5-aPool.length} / 5`;setTimeout(()=>speak(AN[aAns][2]),300)}
+$('#aAgain').onclick=()=>{if(aAns>=0)speak(AN[aAns][2])};$('#aRestart').onclick=aStart;
+const A_SPOTS=['sofa','under','table','box','shelf','window','rug','floor'];
+$('#aSpots').innerHTML='<b>Where are you? / Де ти?</b><br>'+A_SPOTS.map(k=>`<button class="spotbtn" data-k="${k}">${SPOTS[k][2]}</button>`).join('');
+function aRender(){const items=[...GAPROOM.items];if(aMe>=0&&aSpot){const s=SPOTS[aSpot];items.push({e:AN[aMe][0],x:s[0],y:s[1],s:9,z:aSpot==='box'?5:8})}$('#aRoom').innerHTML=sceneHTML(GAPROOM,{items});
+  if(aMe>=0)$('#aMine').innerHTML=`Today I'm <span class="hl">${AN[aMe][2]}</span> ${AN[aMe][0]}`+(aSpot?`<br>I'm <span class="hl">${SPOTS[aSpot][2]}</span>!`:'<br><span class="ukx">👇 Обери місце</span>')}
+$('#aSpots').addEventListener('click',e=>{const b=e.target.closest('.spotbtn');if(!b)return;if(aMe<0){toast('Спершу обери тваринку 🐾');return}aSpot=b.dataset.k;$$('.spotbtn').forEach(x=>x.classList.toggle('on',x===b));aRender();speak(`Today I'm ${AN[aMe][2]}. I'm ${SPOTS[aSpot][2]}!`);reward()});
+$('#aHouse').addEventListener('click',e=>{const w=e.target.closest('.awin');if(!w)return;const i=+w.dataset.i;
+  if(aMode==='look'){w.classList.add('open');speak(AN[i][2])}
+  else if(aMode==='find'){if(aAns<0)return;if(i===aAns){w.classList.add('hit');setTimeout(()=>w.classList.remove('hit'),900);reward();yay();aAns=-1;setTimeout(aNext,900)}else{shake(w);oops('Listen again! 🔊 Послухай ще раз')}}
+  else{aMe=i;$$('.awin').forEach(x=>x.classList.toggle('chosen',x===w));speak(`Today I'm ${AN[i][2]}.`);aRender();reward()}});
+aRender();
+
+go(0);refreshList();renderBadge();
+</script>
+</body>
+</html>
